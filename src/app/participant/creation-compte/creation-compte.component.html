@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créer un compte</title>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="form-section">
+      <h1>Créer un compte</h1>
+      <form action="#" method="POST">
+        <div class="form-group">
+          <label for="prenom">Prénom <span >*</span></label>
+          <input type="text" id="prenom" name="prenom" required>
+        </div>
+        <div class="form-group">
+          <label for="nom">Nom <span>*</span></label>
+          <input type="text" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
+          <label for="telephone">Téléphone <span>*</span></label>
+          <input type="tel" id="telephone" name="telephone" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email <span>*</span></label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe <span>*</span></label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="submit-button">Créer mon compte</button>
+      </form>
+      <p class="login-link">
+        Vous avez déjà un compte ? <a routerLink="/connexion">Se connecter</a>
+      </p>
+      <div class="separator">
+        <span>ou</span>
+      </div>
+      <button class="google-button">
+        <img src="assets/images/icons8google.png" alt="Google">
+        Se connecter avec Google
+      </button>
+    </div>
+    <div class="image-section">
+      <img src="assets/images/creation1.jpg" alt="Créer un compte">
+    </div>
+  </div>
+</body>
+</html>

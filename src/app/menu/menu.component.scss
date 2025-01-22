@@ -1,0 +1,60 @@
+/* Barre de navigation */
+.menu {
+    position: fixed; /* Fixe la barre de navigation en haut */
+    top: 0;
+    left: 0;
+    width: 98%; /* La barre prend toute la largeur de la page */
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #eaeaea;
+    z-index: 1000; /* Assure que la barre est au-dessus du contenu */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Ajoute une ombre subtile */
+  }
+  
+  /* Logo */
+  .menu img {
+    height: 50px;
+  }
+  
+  /* Liste de navigation */
+  .menu ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Liens */
+  .menu ul li {
+    margin-left: 20px;
+  }
+  
+  .menu ul li a {
+    text-decoration: none;
+    color: black; /* Couleur des liens non actifs */
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+  }
+  
+  /* Lien actif */
+  .menu ul li a.active {
+    color: #ff6600; /* Couleur du lien actif */
+    border-bottom: 2px solid #ff6600; /* Soulignement du lien actif */
+  }
+  
+  /* Effet au survol */
+  .menu ul li a:hover {
+    color: #ff6600;
+  }
+  
+  /* Contenu principal */
+  main {
+    margin-top: 70px; /* Espace sous la barre de navigation pour éviter un chevauchement */
+  }
+  
+ 
+  
