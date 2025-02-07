@@ -1,0 +1,42 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 60px;
+}
+.navbar { 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    margin-top: 5%;
+}
+.navbar-nav .nav-link { 
+    padding: 10px 15px; 
+    transition: 0.3s; 
+}
+.navbar-nav .nav-link.active, 
+.navbar-nav .nav-link:hover { 
+    color: #dc3545 !important; 
+    text-decoration: underline; 
+}
+.nav-item .dropdown-menu { 
+    min-width: 180px; 
+}
+.card { 
+    border-radius: 10px; 
+}
+.btn-outline-danger { 
+    border-width: 2px; 
+    font-weight: bold; 
+}
+.modal-content { 
+    border-radius: 10px; 
+}
+.modal-header { 
+    background-color: #dc3545; 
+    color: white; 
+}
+.modal-footer .btn-success { 
+    background-color: #28a745; 
+}
+.btn-danger, .btn-success {
+    font-size: 16px; 
+    font-weight: bold; 
+    margin-bottom: 5%;
+}

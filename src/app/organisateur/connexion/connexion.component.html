@@ -9,16 +9,22 @@
   <div class="login-container">
     <div class="form-section">
       <h1>Se connecter</h1>
-      <form action="#" method="POST">
+      <form [formGroup]="connexionForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email">Email *</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" id="email" formControlName="email" required>
+          <div *ngIf="connexionForm.get('email')?.invalid && connexionForm.get('email')?.touched" class="error-message">
+            Veuillez entrer une adresse email valide.
+          </div>
         </div>
         <div class="form-group">
           <label for="password">Mot de passe *</label>
-          <input type="password" id="password" name="password" required>
+          <input type="password" id="password" formControlName="motDePasse" required>
+          <div *ngIf="connexionForm.get('motDePasse')?.invalid && connexionForm.get('motDePasse')?.touched" class="error-message">
+            Le mot de passe est obligatoire.
+          </div>
         </div>
-        <button type="submit" class="submit-button">Se connecter</button>
+        <button type="submit" class="submit-button" [disabled]="connexionForm.invalid">Se connecter</button>
       </form>
       <div class="separator">
         <span>ou</span>

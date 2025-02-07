@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification OTP</title>
+    
+</head>
+<body>
+
+    <div class="otp-container">
+        <h2>Vérification OTP</h2>
+        <form [formGroup]="validationForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="email">Adresse Email</label>
+            <input type="email" id="email" formControlName="email" required placeholder="Entrez votre email">
+            <div *ngIf="validationForm.get('email')?.invalid && validationForm.get('email')?.touched" class="error-message">
+              Veuillez entrer une adresse email valide.
+            </div>
+          </div>
+      
+          <div class="form-group">
+            <label for="code">Code OTP</label>
+            <div class="otp-fields">
+              <input
+                *ngFor="let control of codeControls.controls; let i = index"
+                type="text"
+                class="otp-input"
+                maxlength="1"
+                [formControl]="$any(control)"
+                (keydown)="handleKey($event, i)"
+                [id]="'otp' + i"
+                [title]="'Chiffre ' + (i + 1) + ' du code OTP'"
+                [attr.aria-label]="'Chiffre ' + (i + 1) + ' du code OTP'"
+                placeholder="0"
+                required
+              />
+            </div>
+            <div *ngIf="validationForm.get('code')?.invalid && validationForm.get('code')?.touched" class="error-message">
+              Le code OTP doit contenir 6 chiffres.
+            </div>
+          </div>
+      
+          <button type="submit" class="submit-btn" [disabled]="validationForm.invalid">Vérifier</button>
+        </form>
+      </div>
+      
+</body>
+</html>

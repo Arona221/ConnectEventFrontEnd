@@ -34,7 +34,7 @@
   
   .menu ul li a {
     text-decoration: none;
-    color: black; /* Couleur des liens non actifs */
+    color: black; 
     font-weight: bold;
     font-size: 16px;
     transition: color 0.3s ease, border-bottom 0.3s ease;
@@ -42,8 +42,8 @@
   
   /* Lien actif */
   .menu ul li a.active {
-    color: #ff6600; /* Couleur du lien actif */
-    border-bottom: 2px solid #ff6600; /* Soulignement du lien actif */
+    color: #ff6600; 
+    border-bottom: 2px solid #ff6600; 
   }
   
   /* Effet au survol */
@@ -53,7 +53,7 @@
   
   /* Contenu principal */
   main {
-    margin-top: 70px; /* Espace sous la barre de navigation pour éviter un chevauchement */
+    margin-top: 70px; 
   }
   
  

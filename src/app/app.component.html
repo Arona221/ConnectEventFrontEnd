@@ -1,3 +1,7 @@
-<app-menu></app-menu>
-<router-outlet></router-outlet>
-<app-pied-de-page></app-pied-de-page>
+<div class="page-container">
+    <app-menu></app-menu> <!-- Votre barre de navigation -->
+    <div class="content-wrapper">
+      <router-outlet></router-outlet> <!-- Contenu dynamique -->
+    </div>
+    <app-pied-de-page></app-pied-de-page> <!-- Votre pied de page -->
+  </div>
