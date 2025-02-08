@@ -40,3 +40,13 @@ body {
     font-weight: bold; 
     margin-bottom: 5%;
 }
+.success-snackbar {
+    background-color: #4caf50; /* Vert */
+    color: white;
+  }
+
+  
+  .error-snackbar {
+    background-color: #f44336; /* Rouge */
+    color: white;
+  }

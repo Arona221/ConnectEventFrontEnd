@@ -8,22 +8,28 @@ import { importProvidersFrom } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { authInterceptorProvider } from './app/core/service/auth.interceptor'; // ✅ Assure-toi que le chemin est correct
+import { AuthService } from './app/core/service/AuthService';
 
 // Fonction pour récupérer le jeton du local storage
 export function tokenGetter() {
   return localStorage.getItem('authToken');
 }
 
-// Configuration de JwtHelperService
+// Configuration de JwtHelperService  
 const jwtHelper = new JwtHelperService();
+
+
+
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()), // 🔥 Utiliser les intercepteurs déclarés
+    provideHttpClient(withInterceptorsFromDi()), 
     provideAnimations(),
+    MatSnackBarModule,
     importProvidersFrom(MatSnackBarModule),
-    { provide: JwtHelperService, useValue: jwtHelper }, // Fournir JwtHelperService
-    authInterceptorProvider, // ✅ Correction ici !
+    { provide: JwtHelperService, useValue: jwtHelper }, 
+    authInterceptorProvider, 
+
   ],
 }).catch((err) => console.error(err));

@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/service/AuthService';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConnexionDTO } from '../../core/model/ConnexionDTO';
-import { ConnexionResponseDTO } from '../../core/model/ConnexionResponseDTO';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -31,26 +29,58 @@ export class ConnexionComponent {
 
   onSubmit() {
     if (this.connexionForm.valid) {
-      const dto: ConnexionDTO = {
+      const dto = {
         email: this.connexionForm.value.email,
         motDePasse: this.connexionForm.value.motDePasse,
       };
-
+  
       this.authService.connexion(dto).subscribe({
         next: (response) => {
           console.log('Connexion réussie', response);
-
-          // Stocker le jeton dans le local storage
-          localStorage.setItem('authToken', response.token.token);
-
-          // Afficher un message de succès
-          this.snackBar.open('Connexion réussie !', 'Fermer', {
-            duration: 5000,
-            panelClass: ['success-snackbar'],
-          });
-
-          // Rediriger vers la page d'accueil ou une autre page
-          this.router.navigate(['/acceuilOganisteur']);
+  
+          // Vérifier si le token est bien défini
+          if (response?.token) {
+            localStorage.setItem('authToken', response.token.token || '');
+            localStorage.setItem('nomUtilisateur', response.token.nom || 'Utilisateur');
+            localStorage.setItem('emailUtilisateur', response.token.email || '');
+  
+            // Vérifier si idUtilisateur existe avant de le stocker
+            if (response.token.idutilisateur !== undefined && response.token.idutilisateur !== null) {
+              localStorage.setItem('idUtilisateur', response.token.idutilisateur.toString());
+            } else {
+              console.error('idUtilisateur manquant dans la réponse');
+              this.snackBar.open('Erreur lors de la connexion. Veuillez réessayer.', 'Fermer', {
+                duration: 5000,
+                panelClass: ['error-snackbar'],
+              });
+              return; // Arrêter l'exécution si idUtilisateur est manquant
+            }
+  
+            // Rediriger en fonction du type d'utilisateur
+            switch (response.token.typeUtilisateur) {
+              case 'ORGANISATEUR':
+                this.router.navigate(['/acceuilOrganisateur']);
+                break;
+              case 'PARTICIPANT':
+                this.router.navigate(['/acceuilParticipant']);
+                break;
+              case 'EQUIPEMARKETING':
+                this.router.navigate(['/acceuilEquipe-marketing']);
+                break;
+              default:
+                console.error("Type d'utilisateur inconnu");
+                this.snackBar.open("Erreur lors de la connexion. Veuillez réessayer.", "Fermer", {
+                  duration: 5000,
+                  panelClass: ['error-snackbar'],
+                });
+            }
+          } else {
+            console.error('Réponse API invalide : token manquant');
+            this.snackBar.open('Erreur lors de la connexion. Veuillez réessayer.', 'Fermer', {
+              duration: 5000,
+              panelClass: ['error-snackbar'],
+            });
+          }
         },
         error: (err) => {
           console.error('Erreur lors de la connexion', err);
