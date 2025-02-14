@@ -1,0 +1,280 @@
+body {
+  background-color: #f8f9fa;
+  padding-top: 60px;
+}
+.navbar { 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-top: 5%;
+}
+.navbar-nav .nav-link { 
+  padding: 10px 15px; 
+  transition: 0.3s; 
+}
+.navbar-nav .nav-link.active, 
+.navbar-nav .nav-link:hover { 
+  color: #ff6600 !important; 
+  text-decoration: underline; 
+}
+.nav-item .dropdown-menu { 
+  min-width: 180px; 
+}
+
+
+/* Style général */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Bannière Hero avec Overlay */
+.hero-banner {
+  position: relative;
+  background: no-repeat center center/cover;
+  color: #fff;
+  padding: 100px 20px;
+  text-align: center;
+  margin-top: 10%;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.location-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.location-selector select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.btn-explore {
+  background: #ff6600;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Barre de recherche et filtres */
+.search-filters {
+  padding: 20px;
+  background: #f4f4f4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-bar {
+  display: flex;
+  flex: 1;
+  margin-right: 20px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  background: #ff6600;
+  border: none;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+
+}
+
+.filters select, .filters input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.btn-apply {
+  padding: 10px 20px;
+  background: #ff6600;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* Grille d'événements */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.event-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.event-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.event-details {
+  padding: 15px;
+}
+
+.event-details h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.event-details .date, .event-details .location, .event-details .price {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.event-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.btn-favorite, .btn-buy {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-favorite {
+  background: #ff6600;
+  color: #fff;
+}
+
+
+.btn-buy {
+  background: #2ed573;
+  color: #fff;
+}
+
+/* Pagination */
+.pagination {
+  text-align: center;
+  padding: 20px;
+}
+
+.pagination button {
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+
+.pagination span {
+  font-size: 1rem;
+  color: #555;
+}
+.menu-container {
+  width: 100%;
+  background: #fff;
+  padding: 10px 0;
+  border-bottom: 2px solid #f4f4f4;
+}
+
+.menu-tabs {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  flex: 1;
+  text-align: center;
+}
+
+.menu-item a {
+  text-decoration: none;
+  color: #555;
+  font-size: 1rem;
+  padding: 10px 15px;
+  display: block;
+  transition: background 0.3s, color 0.3s;
+  border-bottom: 2px solid transparent;
+}
+
+.menu-item a:hover {
+  color: #ff4757;
+  border-bottom: 2px solid #ff4757;
+}
+
+.menu-item.active a {
+  color: #ff4757;
+  border-bottom: 2px solid #ff4757;
+  font-weight: bold;
+}
+.section-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 20px 0;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .menu-tabs {
+      flex-wrap: wrap;
+  }
+
+  .menu-item {
+      flex: 1 1 50%; /* Deux onglets par ligne sur les petits écrans */
+  }
+
+  .menu-item a {
+      font-size: 0.9rem;
+      padding: 8px 10px;
+  }
+}

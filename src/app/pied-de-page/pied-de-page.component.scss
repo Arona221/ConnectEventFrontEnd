@@ -1,28 +1,84 @@
+/* Pied de page */
 .pied-de-page {
-    background-color: #333; /* Couleur de fond */
-    color: #f9f9f9; /* Couleur du texte */
-    text-align: center; /* Centrer le texte */
-    padding: 20px 10px; /* Espacement interne */
-    font-size: 14px; /* Taille du texte */
-    position: relative;
-    bottom: 0;
-    width: 100%; /* S'étendre sur toute la largeur */
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Effet d'ombre */
-  }
-  
-  .pied-de-page p {
-    margin: 0; /* Supprimer les marges du texte */
-    font-family: 'Arial', sans-serif; /* Police moderne */
-  }
-  
-  .pied-de-page a {
-    color: #ff6600; /* Couleur des liens */
-    text-decoration: none; /* Supprimer le soulignement */
-    font-weight: bold;
-    transition: color 0.3s ease; /* Transition douce pour les interactions */
-  }
-  
-  .pied-de-page a:hover {
-    color: #ff4500; /* Couleur au survol */
-  }
-  
+  background-color: #2c3e50; /* Couleur de fond plus sombre */
+  color: #f9f9f9; /* Couleur du texte */
+  padding: 40px 20px 20px; /* Espacement interne */
+  font-family: 'Roboto', sans-serif; /* Police moderne */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Effet d'ombre */
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #444; /* Séparateur */
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 20px;
+}
+
+.footer-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #ff6600; /* Couleur du titre */
+}
+
+.footer-section h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #ff6600; /* Couleur du titre */
+}
+
+.footer-section p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #ddd; /* Couleur du texte secondaire */
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  color: #f9f9f9; /* Couleur des liens */
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #ff6600; /* Couleur au survol */
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: #f9f9f9; /* Couleur des icônes */
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #ff6600; /* Couleur au survol */
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+ 
+}

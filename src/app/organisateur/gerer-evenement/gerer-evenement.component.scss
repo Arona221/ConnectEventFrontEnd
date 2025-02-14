@@ -1,0 +1,77 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 60px;
+}
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5%;
+}
+.navbar-nav .nav-link {
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+.navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    color: #ff6600 !important;
+    text-decoration: underline;
+}
+.nav-item .dropdown-menu {
+    min-width: 180px;
+}
+.table {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.table thead {
+    background-color: #ff6600;
+    color: white;
+}
+.table tbody tr {
+    transition: background-color 0.3s;
+}
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.btn-action {
+    margin: 0 5px;
+    transition: transform 0.2s;
+}
+.btn-action:hover {
+    transform: scale(1.1);
+}
+.btn-details {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+.btn-edit {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+.btn-delete {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.pagination .page-item.active .page-link {
+    background-color: #ff6600;
+    border-color: #ff6600;
+}
+.pagination .page-link {
+    color: #ff6600;
+}
+.pagination .page-link:hover {
+    background-color: #ff6600;
+    color: white;
+}
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}

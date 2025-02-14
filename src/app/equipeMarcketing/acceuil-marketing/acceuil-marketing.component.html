@@ -1,1 +1,122 @@
-<p>acceuil-marketing works!</p>
+<nav class="navbar">
+    <div class="logo">
+        <img src="assets/images/logoV2.jpg" alt="Logo">
+    </div>
+
+    <div class="menu-toggle" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Rechercher..." />
+        <button type="button" title="Rechercher"><i class="fas fa-search"></i></button>
+    </div>
+
+    <ul class="menu-items" [class.active]="isMenuOpen">
+        <li><i class="fas fa-home"></i> Accueil</li>
+        <li><i class="fas fa-bullhorn"></i> Mes campagnes</li>
+        <li><i class="fas fa-cogs"></i> Automatisation</li>
+        <li><i class="fas fa-chart-bar"></i> Rapports</li>
+        <!-- Profil utilisateur (Menu déroulant) -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                {{ nomUtilisateur }} <i class="fas fa-user"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div class="dashboard-container">
+    <div class="dashboard-container">
+        <!-- Bannière -->
+        <div class="banner">
+            <img src="assets/images/marketing.jpg" alt="Bannière Marketing">
+            <div class="banner-overlay">
+                <h1>Tableau de Bord Marketing</h1>
+                <p>Bienvenue, {{ nomUtilisateur }} ! Voici un aperçu de vos performances et campagnes.</p>
+            </div>
+        </div>
+    
+        <!-- Statistiques Rapides -->
+        <section class="quick-stats">
+            <div class="stat-card">
+                <i class="fas fa-bullhorn"></i>
+                <h3>Campagnes Actives</h3>
+                <p>12</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Taux de Conversion</h3>
+                <p>8.5%</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Nouveaux Clients</h3>
+                <p>245</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Revenus Générés</h3>
+                <p>2 Millions FCFA</p>
+            </div>
+        </section>
+    
+
+        <!-- Campagnes en Cours -->
+        <section class="ongoing-campaigns">
+            <h2>Campagnes en Cours</h2>
+            <div class="campaign-grid">
+                <div class="campaign-card">
+                    <h3>Campagne Printemps 2024</h3>
+                    <p><strong>Date de début :</strong> 01/03/2024</p>
+                    <p><strong>Budget :</strong> 500 milles FCFA</p>
+                    <p><strong>Statut :</strong> En cours</p>
+                    <div class="progress-bar">
+                        <div class="progress progress-60"></div>
+                    </div>
+                </div>
+                <div class="campaign-card">
+                    <h3>Promotion Été 2024</h3>
+                    <p><strong>Date de début :</strong> 15/06/2024</p>
+                    <p><strong>Budget :</strong> 750 milles FCFA</p>
+                    <p><strong>Statut :</strong> En attente</p>
+                    <div class="progress-bar">
+                        <div class="progress progress-30"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+         <!-- Actions Rapides -->
+    <section class="quick-actions">
+        <h2>Actions Rapides</h2>
+        <div class="actions-grid">
+            <button class="action-card">
+                <i class="fas fa-plus"></i>
+                <span>Créer une Campagne</span>
+            </button>
+            <button class="action-card">
+                <i class="fas fa-chart-pie"></i>
+                <span>Voir les Rapports</span>
+            </button>
+            <button class="action-card">
+                <i class="fas fa-envelope"></i>
+                <span>Envoyer un Email</span>
+            </button>
+            <button class="action-card">
+                <i class="fas fa-cog"></i>
+                <span>Paramètres</span>
+            </button>
+        </div>
+    </section>
+    
+        <!-- Graphiques et Rapports -->
+        <section class="reports">
+            <h2>Performances</h2>
+            <div class="chart-container">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </section>
+    </div>

@@ -5,11 +5,12 @@ export interface EvenementDTO {
   id_evenement: number;
   nom: string;
   date: Date;
+  heure: string;
   description: string;
   lieu: string;
   categorie: Categorie;
   status: Status;
   nombrePlaces: number | null;
-  image: string;
+  imageUrl?: string;
   billets: BilletDTO[];
 }

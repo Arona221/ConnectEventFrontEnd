@@ -59,10 +59,10 @@ export class ConnexionComponent {
             // Rediriger en fonction du type d'utilisateur
             switch (response.token.typeUtilisateur) {
               case 'ORGANISATEUR':
-                this.router.navigate(['/acceuilOrganisateur']);
+                this.router.navigate(['/acceuil-organisateur']);
                 break;
               case 'PARTICIPANT':
-                this.router.navigate(['/acceuilParticipant']);
+                this.router.navigate(['/participant']);
                 break;
               case 'EQUIPEMARKETING':
                 this.router.navigate(['/acceuilEquipe-marketing']);

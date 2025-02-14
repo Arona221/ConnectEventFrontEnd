@@ -1,7 +1,7 @@
 <div class="page-container">
-    <app-menu></app-menu> <!-- Votre barre de navigation -->
-    <div class="content-wrapper">
-      <router-outlet></router-outlet> <!-- Contenu dynamique -->
-    </div>
-    <app-pied-de-page></app-pied-de-page> <!-- Votre pied de page -->
+  <app-menu *ngIf="isMenuVisible"></app-menu> <!-- Affichage conditionnel du menu -->
+  <div class="content-wrapper">
+    <router-outlet></router-outlet> <!-- Contenu dynamique -->
   </div>
+  <app-pied-de-page></app-pied-de-page> <!-- Toujours affiché -->
+</div>

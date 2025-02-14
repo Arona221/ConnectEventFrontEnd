@@ -1,0 +1,66 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 60px;
+}
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5%;
+}
+.navbar-nav .nav-link {
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+.navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    color: #ff6600 !important;
+    text-decoration: underline;
+}
+.nav-item .dropdown-menu {
+    min-width: 180px;
+}
+/* Ajouts/modifications CSS */
+.image-container {
+    background: #f8f9fa;
+    border-radius: 0.5rem 0.5rem 0 0;
+    transition: transform 0.3s ease;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+    object-position: center center;
+}
+
+.gradient-overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%);
+}
+
+.placeholder-container {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px dashed #dee2e6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease;
+}
+
+.placeholder-container:hover {
+    background: rgba(245, 245, 245, 0.98);
+    border-color: #adb5bd;
+}
+
+/* Animation au chargement */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.img-fluid {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .image-container {
+        height: 300px !important;
+    }
+}

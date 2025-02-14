@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Navigation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <!-- Logo/Rôle -->
+            <a class="navbar-brand" routerLink="/paric">
+                <i class="fas fa-user"></i> Participant
+            </a>
+            
+            <!-- Bouton hamburger (Mobile) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu principal -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-tickets" routerLinkActive="active">
+                            <i class="fas fa-ticket-alt"></i> Mes tickets
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-favoris" routerLinkActive="active">
+                            <i class="fas fa-heart"></i> Mes favoris
+                        </a>
+                    </li>
+
+                    <!-- Notifications -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" title="Notifications">
+                            <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span>
+                        </a>
+                    </li>
+
+                     <!-- Profil utilisateur (Menu déroulant) -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                      {{ nomUtilisateur }} <i class="fas fa-user"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                      <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                  </ul>
+              </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+    
+    <section class="trouver-evenement">
+      <!-- Bannière Impressionnante avec Overlay -->
+      <div class="hero-banner" style="background-image: url('assets/images/hero.jpg');">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+              <h1>Meilleurs événements à  Dakar</h1>
+              <p>Vous cherchez des activités à Dakar ? Nous avons des événements pour tous les goûts et tous les budgets,reservez vos billets de concert, de théâtre, de cinéma, de sport, de loisirs et bien plus encore.</p>
+              <div class="location-selector">
+                <i class="fas fa-map-marker-alt fa-2x" style="color: blue;"></i>
+                  <select>
+
+                      <option value="dakar">Dakar</option>
+                      <option value="thies">Thiès</option>
+                      <option value="saint-louis">Saint-Louis</option>
+                  </select>
+                  <a href="#" class="btn-explore">Explorer maintenant</a>
+              </div>
+          </div>
+      </div>
+  
+      <!-- Barre de recherche et filtres -->
+      <div class="search-filters">
+          <div class="search-bar">
+              <input type="text" placeholder="Rechercher des événements...">
+              <button><i class="fas fa-search"></i></button>
+          </div>
+          <div class="filters">
+              <select>
+                  <option value="">Catégorie</option>
+                  <option value="musique">Musique</option>
+                  <option value="sport">Sport</option>
+                  <option value="art">Art</option>
+                  <option value="affaires">Affaires</option>
+                  <option value="loisirs">Loisirs</option>
+              </select>
+              <input type="date" placeholder="Date">
+              <input type="text" placeholder="Lieu">
+              <button class="btn-apply">Appliquer</button>
+          </div>
+      </div>
+  
+      <!-- Titre de la section -->
+      <h2 class="section-title">Événements à proximité de Dakar</h2>
+  
+      <!-- Menu d'onglets -->
+      <div class="menu-container">
+          <ul class="menu-tabs">
+              <li class="menu-item active"><a href="#">Tous</a></li>
+              <li class="menu-item"><a href="#">Pour vous</a></li>
+              <li class="menu-item"><a href="#">En ligne</a></li>
+              <li class="menu-item"><a href="#">Aujourd'hui</a></li>
+              <li class="menu-item"><a href="#">Ce week-end</a></li>
+              <li class="menu-item"><a href="#">Libre</a></li>
+          </ul>
+      </div>
+  
+      <!-- Grille d'événements -->
+      <div class="event-grid">
+          <!-- Carte d'événement 1 -->
+          <div class="event-card">
+              <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
+              <div class="event-details">
+                  <h3>Concert de Jazz</h3>
+                  <p class="date">Sam, 25 Nov 2023 - 19:00</p>
+                  <p class="location">Théâtre National, Dakar</p>
+                  <p class="price">À partir de 5000 Fr</p>
+                  <div class="event-actions">
+                      <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
+                      <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
+                  </div>
+              </div>
+          </div>
+  
+          <!-- Répétez la structure pour d'autres événements -->
+           <!-- Carte d'événement 1 -->
+          <div class="event-card">
+            <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
+            <div class="event-details">
+                <h3>Concert de Jazz</h3>
+                <p class="date">Sam, 25 Nov 2023 - 19:00</p>
+                <p class="location">Théâtre National, Dakar</p>
+                <p class="price">À partir de 5000 Fr</p>
+                <div class="event-actions">
+                    <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
+                    <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
+                </div>
+            </div>
+        </div>
+        <!-- Carte d'événement 1 -->
+        <div class="event-card">
+          <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
+          <div class="event-details">
+              <h3>Concert de Jazz</h3>
+              <p class="date">Sam, 25 Nov 2023 - 19:00</p>
+              <p class="location">Théâtre National, Dakar</p>
+              <p class="price">À partir de 5000 Fr</p>
+              <div class="event-actions">
+                  <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
+                  <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
+              </div>
+          </div>
+      </div>
+      <!-- Carte d'événement 1 -->
+      <div class="event-card">
+        <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
+        <div class="event-details">
+            <h3>Concert de Jazz</h3>
+            <p class="date">Sam, 25 Nov 2023 - 19:00</p>
+            <p class="location">Théâtre National, Dakar</p>
+            <p class="price">À partir de 5000 Fr</p>
+            <div class="event-actions">
+                <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
+                <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
+            </div>
+        </div>
+    </div>
+      </div>
+  
+      <!-- Pagination -->
+      <div class="pagination">
+          <button class="btn-prev"><i class="fas fa-chevron-left"></i> Précédent</button>
+          <span>Page 1 sur 5</span>
+          <button class="btn-next">Suivant <i class="fas fa-chevron-right"></i></button>
+      </div>
+  </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,60 +1,74 @@
-/* Barre de navigation */
 .menu {
-    position: fixed; /* Fixe la barre de navigation en haut */
-    top: 0;
-    left: 0;
-    width: 98%; /* La barre prend toute la largeur de la page */
-    background-color: #f9f9f9;
-    border-bottom: 2px solid #eaeaea;
-    z-index: 1000; /* Assure que la barre est au-dessus du contenu */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Ajoute une ombre subtile */
-  }
-  
-  /* Logo */
-  .menu img {
-    height: 50px;
-  }
-  
-  /* Liste de navigation */
-  .menu ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Liens */
-  .menu ul li {
-    margin-left: 20px;
-  }
-  
-  .menu ul li a {
-    text-decoration: none;
-    color: black; 
-    font-weight: bold;
-    font-size: 16px;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-  }
-  
-  /* Lien actif */
-  .menu ul li a.active {
-    color: #ff6600; 
-    border-bottom: 2px solid #ff6600; 
-  }
-  
-  /* Effet au survol */
-  .menu ul li a:hover {
-    color: #ff6600;
-  }
-  
-  /* Contenu principal */
-  main {
-    margin-top: 70px; 
-  }
-  
- 
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-bottom: 2px solid #eaeaea;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.menu img {
+  height: 40px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  padding: 5px;
+  outline: none;
+}
+
+.search-bar button {
+  background: #ff6600;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+}
+
+.search-bar button i {
+  font-size: 14px;
+}
+
+.menu ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.menu ul li {
+  margin-left: 20px;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.menu ul li a.active, .menu ul li a:hover {
+  color: #ff6600;
+  border-bottom: 2px solid #ff6600;
+}
+
+main {
+  margin-top: 70px;
+}

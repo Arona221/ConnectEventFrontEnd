@@ -1,20 +1,14 @@
 <nav class="menu">
-  <img src="assets/images/logoV2.jpg" alt="Logo">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><img src="assets/images/logoV2.jpg" alt="Logo"></a>
+  <div class="search-bar">
+    <input type="text" placeholder="Rechercher...">
+    <button><i class="fas fa-search"></i></button>
+  </div>
   <ul>
-    <li>
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
-    </li>
-    <li>
-      <a routerLink="/inscription-particapant" routerLinkActive="active">Trouver des événements</a>
-    </li>
-    <li>
-      <a routerLink="/inscription" routerLinkActive="active">Créer des événements</a>
-    </li>
-    <li>
-      <a routerLink="/connexion" routerLinkActive="active">Connexion</a>
-    </li>
-    <li>
-      <a routerLink="/navigation-org" routerLinkActive="active">Ouvrir un compte</a>
-    </li>
+    <li><a routerLink="/trouver-evenement" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Trouver des événements</a></li>
+    <li><a routerLink="/creer-evenement" routerLinkActive="active">Créer des événements</a></li>
+    <li><a routerLink="/connexion" routerLinkActive="active">Connexion</a></li>
+
+    <li><a routerLink="/inscription" routerLinkActive="active">Ouvrir un compte</a></li>
   </ul>
 </nav>

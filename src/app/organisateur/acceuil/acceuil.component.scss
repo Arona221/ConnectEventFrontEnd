@@ -1,0 +1,170 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 60px;
+}
+
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5%;
+}
+
+.navbar-nav .nav-link {
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+    color: #ff6600 !important;
+    text-decoration: underline;
+}
+
+.nav-item .dropdown-menu {
+    min-width: 180px;
+}
+
+/* Hero Section */
+.hero-section {
+    background: url('/assets/images/oraganisateur.png') no-repeat center center/cover;
+    padding: 150px 0;
+    color: white;
+    text-align: center;
+    position: relative;
+    margin-top: 60px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Assombrit légèrement l'image */
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    animation: slideInDown 1s ease-in-out;
+}
+
+.hero-section p {
+    font-size: 1.5rem;
+    animation: slideInUp 1s ease-in-out;
+}
+
+.hero-section .btn {
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+/* Couleurs personnalisées */
+.custom-orange {
+    color: #ff6600 !important;
+}
+
+.custom-orange-bg {
+    background-color: #ff6600 !important;
+    border-color: #ff6600 !important;
+    color: white !important;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.custom-orange-bg:hover {
+    background-color: #e65c00 !important;
+    transform: translateY(-3px);
+}
+
+.custom-orange-outline {
+    color: #ff6600 !important;
+    border-color: #ff6600 !important;
+}
+
+.custom-orange-outline:hover {
+    background-color: #ff6600 !important;
+    color: white !important;
+}
+
+/* Features Section */
+.features-section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.features-section .feature-item {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 30px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: #fff;
+}
+
+.features-section .feature-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.features-section .feature-item i {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #ff6600;
+}
+
+.features-section .feature-item h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.features-section .feature-item p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Call to Action Section */
+.cta-section {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.cta-section p {
+    font-size: 1.25rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

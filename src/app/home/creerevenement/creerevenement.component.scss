@@ -1,0 +1,310 @@
+/* Styles généraux */
+.creer-evenement {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+  }
+  
+  /* Bannière d'accueil */
+  .hero-banner {
+    background: url('/assets/images/creer-evenement-banner.jpg') no-repeat center center/cover;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: black;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+
+  }
+  
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  
+  .btn-primary {
+    background-color: #ff6600;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #e65c00;
+  }
+  
+  /* Pourquoi choisir notre plateforme ? */
+  .why-choose-us {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .why-choose-us h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .feature-card i {
+    font-size: 2rem;
+    color: #ff6600;
+    margin-bottom: 10px;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .feature-card p {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  /* Statistiques impressionnantes */
+  .stats-section {
+    text-align: center;
+    margin: 100px 0;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-card h3 {
+    font-size: 2.5rem;
+    color: #ff6600;
+    margin-bottom: 10px;
+  }
+  
+  .stat-card p {
+    font-size: 1rem;
+    color: #777;
+  }
+  /* Témoignages */
+  .testimonials {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .testimonials h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .testimonial-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .testimonial-card p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .testimonial-card .author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .testimonial-card .author img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .testimonial-card .author p {
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .testimonial-card .author p strong {
+    font-weight: bold;
+  }
+  
+  /* Appel à l'action */
+  .cta-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .cta-section h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .cta-section p {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+  
+    .hero-content p {
+      font-size: 1rem;
+    }
+  
+    .features-grid,
+    .stats-grid,
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+    }
+  }
+  /* Style de la carte de témoignage */
+    .testimonial-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        margin: auto;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border-left: 5px solid #ff6600;
+    }
+
+    /* Effet au survol */
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Citation */
+    .testimonial-card p {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #555;
+        margin-bottom: 15px;
+        position: relative;
+        padding: 0 15px;
+    }
+
+    /* Guillemets stylisés */
+    .testimonial-card .quote-text::before,
+    .testimonial-card .quote-text::after {
+        content: '"';
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ff6600;
+        position: absolute;
+    }
+
+    .testimonial-card p::before {
+        left: -10px;
+        top: -10px;
+    }
+
+    .testimonial-card p::after {
+        right: -10px;
+        bottom: -10px;
+    }
+
+    /* Conteneur de l’auteur */
+    .author {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 2px solid #ff6600;
+    }
+
+    /* Image utilisateur */
+    .author img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 3px solid #ff6600;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+
+    /* Effet au survol de l’image */
+    .author img:hover {
+        transform: scale(1.1);
+    }
+
+    /* Nom et rôle */
+    .author p {
+        font-size: 1rem;
+        color: #333;
+        text-align: left;
+    }
+
+    .author strong {
+        color: #ff6600;
+        font-size: 1.1rem;
+    }

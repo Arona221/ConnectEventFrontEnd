@@ -1,142 +1,161 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { EvenementDTO } from '../../core/model/EvenementDTO';
 import { Categorie } from '../../core/enumeration/Categorie';
-import { Status } from '../../core/enumeration/Status';
 import { EvenementService } from '../../core/service/evenement.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterLink} from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Status } from '../../core/enumeration/Status';
+
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [FormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterLinkActive],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
-  evenementDTO: EvenementDTO = {
-    nom: '',
-    date: new Date(),
-    description: '',
-    lieu: '',
-    categorie: Categorie.SPORTS,
-    status: Status.EN_ATTENTE,
-    nombrePlaces: null,
-    image: '',
-    billets: [],
-    id_evenement: 0,
-
-  };
-
+export class NavBarComponent implements OnInit {
+  evenementForm: FormGroup;
+  billetForm: FormGroup;
+  categories = Object.values(Categorie);
+  imagePreview: string | ArrayBuffer | null = null;
+  isLoading = false;
   nomUtilisateur: string | null = '';
+  notificationsCount = 1;
   idUtilisateur: number | null = null;
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private evenementService: EvenementService,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.evenementForm = this.fb.group({
+      nom: ['', [Validators.required, Validators.minLength(3)]],
+      date: ['', Validators.required],
+      heure: ['', Validators.required],
+      description: ['', Validators.required],
+      lieu: ['', Validators.required],
+      categorie: [Categorie.SPORTS, Validators.required],
+      nombrePlaces: [null, [Validators.required, Validators.min(1)]],
+      image: [null, Validators.required],
+      billets: this.fb.array([]),
+    });
+
+    this.billetForm = this.fb.group({
+      typeBillet: ['', Validators.required],
+      prix: [null, [Validators.required, Validators.min(0)]],
+      quantite: [null, [Validators.required, Validators.min(1)]],
+    });
+  }
 
   ngOnInit(): void {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
     const idUtilisateurStr = localStorage.getItem('idUtilisateur');
     this.idUtilisateur = idUtilisateurStr ? Number(idUtilisateurStr) : null;
-
-    if (!this.idUtilisateur || isNaN(this.idUtilisateur)) {
-      this.showErrorMessage('Utilisateur non valide ou non connecté.');
-    }
   }
 
+  get billets(): FormArray {
+    return this.evenementForm.get('billets') as FormArray;
+  }
 
-  onSubmit(): void {
-    if (!this.idUtilisateur) {
-      this.showErrorMessage('Utilisateur non connecté.');
+  addBillet(): void {
+    if (this.billetForm.invalid) {
+      this.markBilletFormAsTouched();
       return;
     }
-  
-    this.evenementService.createEvenement(this.evenementDTO, this.idUtilisateur).subscribe(
-      (response) => {
-        console.log('Réponse du serveur :', response); // Log de la réponse
-        if (response) {
-          this.showSuccessMessage('Événement créé avec succès.');
-          this.resetForm();
-        } else {
-          this.showErrorMessage("Erreur lors de la création de l'événement.");
-        }
-      },
-      (error) => {
-        console.error('Erreur du serveur :', error); // Log de l'erreur
-        this.showErrorMessage("Erreur lors de la création de l'événement.");
-      }
-    );
-  }
-  addBillet(): void {
-    const typeBillet = (document.querySelector('#typeBillet') as HTMLInputElement).value;
-    const prix = parseFloat((document.querySelector('#prixBillet') as HTMLInputElement).value);
-    const quantite = parseInt((document.querySelector('#quantiteBillet') as HTMLInputElement).value, 10);
-  
-    if (typeBillet && !isNaN(prix) && !isNaN(quantite)) {
-      this.evenementDTO.billets.push({
-        typeBillet: typeBillet,
-        prix: prix,
-        quantite: quantite,
-      });
-  
-      // Réinitialiser les champs du formulaire
-      (document.querySelector('#typeBillet') as HTMLInputElement).value = '';
-      (document.querySelector('#prixBillet') as HTMLInputElement).value = '';
-      (document.querySelector('#quantiteBillet') as HTMLInputElement).value = '';
-  
-      this.showSuccessMessage('Billet ajouté avec succès.');
-    } else {
-      this.showErrorMessage('Veuillez remplir tous les champs du billet.');
-    }
-  }
 
-  resetForm(): void {
-    this.evenementDTO = {
-      nom: '',
-      date: new Date(),
-      description: '',
-      lieu: '',
-      categorie: Categorie.SPORTS,
-      status: Status.EN_ATTENTE,
-      nombrePlaces: null,
-      image: '',
-      billets: [],
-      id_evenement: 0,
-
+    const newBillet = {
+      typeBillet: this.billetForm.value.typeBillet,
+      prix: Number(this.billetForm.value.prix),
+      quantite: Number(this.billetForm.value.quantite),
     };
+
+    this.billets.push(this.fb.group(newBillet));
+    this.billetForm.reset();
   }
 
-  showSuccessMessage(message: string): void {
-    this.snackBar.open(message, 'Fermer', {
-      duration: 5000,
-      panelClass: ['success-snackbar'],
+  private markBilletFormAsTouched(): void {
+    Object.values(this.billetForm.controls).forEach((control) => {
+      control.markAsTouched();
     });
   }
 
-  showErrorMessage(message: string): void {
-    this.snackBar.open(message, 'Fermer', {
-      duration: 5000,
-      panelClass: ['error-snackbar'],
-    });
+  removeBillet(index: number): void {
+    this.billets.removeAt(index);
   }
 
-  logout(): void {
-    localStorage.clear();
-    this.router.navigate(['/connexion']);
+  onSubmit(): void {
+    if (this.evenementForm.invalid || !this.idUtilisateur) return;
+  
+    this.isLoading = true;
+  
+    // Create EvenementDTO object
+    const evenementDTO: EvenementDTO = {
+      id_evenement: 0, // Will be assigned by the backend
+      nom: this.evenementForm.get('nom')?.value,
+      date: this.evenementForm.get('date')?.value,
+      description: this.evenementForm.get('description')?.value,
+      lieu: this.evenementForm.get('lieu')?.value,
+      categorie: this.evenementForm.get('categorie')?.value,
+      status: Status.EN_ATTENTE, // Set default status
+      nombrePlaces: this.evenementForm.get('nombrePlaces')?.value,
+      billets: this.billets.value,
+      imageUrl: '', // Will be handled by the backend
+      heure: this.evenementForm.get('heure')?.value
+    };
+  
+    // Create FormData and append parts
+    const formData = new FormData();
+    formData.append('evenement', new Blob([JSON.stringify(evenementDTO)], { type: 'application/json' }));
+  
+    const imageFile = this.evenementForm.get('image')?.value;
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+  
+    // Send request with idUtilisateur as a query parameter
+    this.evenementService.createEvenement(formData, this.idUtilisateur).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.snackBar.open('Événement créé avec succès !', 'Fermer', { duration: 5000 });
+        this.resetForm();
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.snackBar.open(`Erreur: ${error.message}`, 'Fermer', { duration: 5000 });
+      },
+    });
+  }
+  resetForm(): void {
+    this.evenementForm.reset({
+      categorie: Categorie.SPORTS,
+    });
+    this.billets.clear();
+    this.imagePreview = null;
   }
 
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
+      this.evenementForm.patchValue({ image: file });
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.evenementDTO.image = e.target.result;
+      reader.onload = () => {
+        this.imagePreview = reader.result;
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  getBilletControl(index: number, controlName: string): FormControl {
+    return this.billets.at(index).get(controlName) as FormControl;
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/connexion']);
   }
 }

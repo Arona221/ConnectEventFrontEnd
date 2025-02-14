@@ -6,129 +6,229 @@
     <title>Créer un événement</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><i class="fas fa-user-cog"></i> Organisateur</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Menu de navigation">
+            <a class="navbar-brand" routerLink="/acceuil-organisateur">
+                <i class="fas fa-user-cog"></i> Organisateur
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" routerLink="/ajouter-evenement" routerLinkActive="active"><i class="fas fa-plus-circle"></i> Ajouter un événement</a></li>
-                    <li class="nav-item"><a class="nav-link" routerLink="/gerer-evenements" routerLinkActive="active"><i class="fas fa-tools"></i> Gérer événements</a></li>
-                    <li class="nav-item"><a class="nav-link" routerLink="/reserver-ressource" routerLinkActive="active"><i class="fas fa-calendar-check"></i> Réserver ressource</a></li>
-                    <li class="nav-item"><a class="nav-link" routerLink="/statistiques" routerLinkActive="active"><i class="fas fa-chart-line"></i> Statistiques</a></li>
-                    <li class="nav-item"><a class="nav-link" routerLink="/notifications" routerLinkActive="active"><i class="fas fa-bell"></i> Notifications</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/ajouter-evenement" routerLinkActive="active">
+                            <i class="fas fa-plus-circle"></i> Ajouter un événement
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/gerer-evenements" routerLinkActive="active">
+                            <i class="fas fa-tools"></i> Gérer événements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/reserver-ressource" routerLinkActive="active">
+                            <i class="fas fa-calendar-check"></i> Réserver ressource
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/statistiques" routerLinkActive="active">
+                            <i class="fas fa-chart-line"></i> Statistiques
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/notifications" routerLinkActive="active">
+                            <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span> Notifications
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
                             {{ nomUtilisateur }} <i class="fas fa-user"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" routerLink="/profil">Gérer son profil</a></li>
-                            <li><a class="dropdown-item" href="#" (click)="logout()">Déconnexion</a></li>
+                            <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                            <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    
-    <!-- Contenu Principal -->
-    <div class="container mt-5 pt-5">
-        <!-- Ajouter une Image -->
-        <div class="card p-4 border-danger">
-            <h2 class="text-center">Ajouter Images</h2>
-            <div class="text-center">
-                <label for="upload" class="btn btn-outline-danger w-100 py-5">
-                    <i class="fas fa-image fa-3x"></i><br>Ajouter une image
+
+    <!-- Formulaire pour créer un événement -->
+    <form [formGroup]="evenementForm" (ngSubmit)="onSubmit()" class="container mt-5 pt-5">
+        <div class="card shadow-lg p-4">
+            <h2 class="text-center mb-4">
+                <i class="fas fa-calendar-plus me-2"></i>Créer un nouvel événement
+            </h2>
+
+            <!-- Section Image -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">
+                    <i class="fas fa-image me-2"></i>Image de couverture
                 </label>
-                <input type="file" id="upload" class="d-none" (change)="onFileChange($event)">
+                <div class="image-upload-container">
+                    <img [src]="imagePreview || 'assets/images/addimage1.png'" class="current-image-preview">
+                    <input type="file" class="form-control" (change)="onFileChange($event)" required>
+                </div>
+                <div *ngIf="evenementForm.get('image')?.invalid && evenementForm.get('image')?.touched" class="text-danger mt-2">
+                    <i class="fas fa-exclamation-circle me-2"></i>Une image est obligatoire.
+                </div>
+            </div>
+
+            <!-- Section Informations de base -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-heading me-2"></i>Nom de l'événement
+                    </label>
+                    <input type="text" class="form-control" formControlName="nom" placeholder="Nom de l'événement">
+                    <div *ngIf="evenementForm.get('nom')?.invalid && evenementForm.get('nom')?.touched" class="text-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>Le nom est requis (min 3 caractères).
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-tag me-2"></i>Catégorie
+                    </label>
+                    <select class="form-select" formControlName="categorie">
+                        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Section Date et Heure -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-calendar-day me-2"></i>Date
+                    </label>
+                    <input type="date" class="form-control" formControlName="date">
+                    <div *ngIf="evenementForm.get('date')?.invalid && evenementForm.get('date')?.touched" class="text-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>La date est obligatoire.
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-clock me-2"></i>Heure de début
+                    </label>
+                    <input type="time" class="form-control" formControlName="heure">
+                    <div *ngIf="evenementForm.get('heure')?.invalid && evenementForm.get('heure')?.touched" class="text-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>L'heure est obligatoire.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Lieu et Places -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-map-marker-alt me-2"></i>Lieu
+                    </label>
+                    <input type="text" class="form-control" formControlName="lieu" placeholder="Lieu">
+                    <div *ngIf="evenementForm.get('lieu')?.invalid && evenementForm.get('lieu')?.touched" class="text-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>Le lieu est obligatoire.
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-chair me-2"></i>Nombre de places
+                    </label>
+                    <input type="number" class="form-control" formControlName="nombrePlaces" placeholder="Nombre de places">
+                    <div *ngIf="evenementForm.get('nombrePlaces')?.invalid && evenementForm.get('nombrePlaces')?.touched" class="text-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>Doit être supérieur à 0.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Description -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">
+                    <i class="fas fa-align-left me-2"></i>Description
+                </label>
+                <textarea class="form-control" formControlName="description" rows="4" placeholder="Description de l'événement"></textarea>
+                <div *ngIf="evenementForm.get('description')?.invalid && evenementForm.get('description')?.touched" class="text-danger mt-2">
+                    <i class="fas fa-exclamation-circle me-2"></i>La description est obligatoire.
+                </div>
+            </div>
+
+            <!-- Section Ajouter un billet -->
+            <div class="mb-3 p-3 border rounded">
+                <h6><i class="fas fa-plus-circle me-2"></i>Nouveau billet</h6>
+                <div class="row g-2" [formGroup]="billetForm">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="typeBillet" placeholder="Type de billet">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" class="form-control" formControlName="prix" placeholder="Prix">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" class="form-control" formControlName="quantite" placeholder="Quantité">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-success w-100" (click)="addBillet()">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="billetForm.invalid" class="text-danger mt-2">
+                    <i class="fas fa-exclamation-circle me-2"></i>Tous les champs sont obligatoires.
+                </div>
+            </div>
+
+            <!-- Section Gestion des billets -->
+            <div class="mb-4">
+                <h5 class="fw-bold">
+                    <i class="fas fa-ticket-alt me-2"></i>Gestion des billets
+                </h5>
+                <div class="billets-edit">
+                    <div *ngFor="let billet of billets.controls; let i = index" class="billet-edit-item mb-3">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" [formControl]="getBilletControl(i, 'typeBillet')" placeholder="Type de billet">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" [formControl]="getBilletControl(i, 'prix')" placeholder="Prix">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" [formControl]="getBilletControl(i, 'quantite')" placeholder="Quantité">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger w-100" (click)="removeBillet(i)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boutons de soumission -->
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+                    <i class="fas fa-undo me-2"></i>Réinitialiser
+                </button>
+                <button type="submit" class="btn btn-primary" [disabled]="evenementForm.invalid || isLoading">
+                    <i class="fas fa-save me-2"></i>Enregistrer
+                </button>
+            </div>
+
+            <!-- Indicateur de chargement -->
+            <div *ngIf="isLoading" class="mt-3 text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement...</span>
+                </div>
+                <p class="mt-2">Création de l'événement en cours...</p>
             </div>
         </div>
-
-        <!-- Aperçu de l'Événement -->
-        <div class="card p-4 border-danger mt-4">
-            <h2 class="text-center">Aperçu de l'Événement</h2>
-            <label for="nom">Nom de l'événement</label>
-            <input id="nom" type="text" class="form-control" [(ngModel)]="evenementDTO.nom" 
-                   placeholder="Nom de l'événement" title="Nom de l'événement"><br>
-            <label for="resume">Résumé</label>
-            <input id="resume" type="text" class="form-control" [(ngModel)]="evenementDTO.description" 
-                   placeholder="Résumé" title="Résumé de l'événement"><br>
-            <label for="categorie">Catégorie</label>
-            <select 
-              id="categorie"
-              class="form-control" 
-              [(ngModel)]="evenementDTO.categorie"
-              aria-label="Sélectionner une catégorie"
-              title="Catégorie de l'événement">
-                <option value="SPORTS">SPORTS</option>
-                <option value="MUSIQUE">MUSIQUE</option>
-                <option value="FETES">FETES</option>
-                <option value="RENCONTRES">RENCONTRES</option>
-                <option value="AFFAIRES">AFFAIRES</option>
-                <option value="ART_DU_SPECTACLE">ART_DU_SPECTACLE</option>
-                <option value="LOISIRS">LOISIRS</option>
-            </select>
-        </div>
-
-        <!-- Date, Lieu et Billetterie -->
-        <div class="card p-4 border-danger mt-4">
-            <h2 class="text-center">Date, lieu et billetterie</h2>
-            <label for="date">Date</label>
-            <input id="date" type="date" class="form-control" [(ngModel)]="evenementDTO.date" 
-                   title="Date de l'événement"><br>
-            <label for="heure">Heure de début</label>
-            <input id="heure" type="time" class="form-control" 
-                   title="Heure de début de l'événement" 
-                   placeholder="HH:MM"><br>
-            <label for="lieu">Lieu</label>
-            <input id="lieu" type="text" class="form-control" [(ngModel)]="evenementDTO.lieu" 
-                   placeholder="Lieu" title="Lieu de l'événement"><br>
-            <label for="places">Nombre de places</label>
-            <input id="places" type="number" class="form-control" [(ngModel)]="evenementDTO.nombrePlaces" 
-                   placeholder="Nombre de places" title="Nombre de places disponibles"><br>
-            <button class="btn btn-outline-danger mt-3 w-100" data-bs-toggle="modal" data-bs-target="#billetModal" title="Ajouter des billets">
-                <i class="fas fa-ticket-alt"></i> Ajouter Billets
-            </button>
-        </div>
-
-        <!-- Bouton Créer un événement -->
-        <button class="btn btn-danger w-100 mt-4" (click)="onSubmit()" title="Créer l'événement">Créer un événement</button>
-    </div>
-
-   
-    <!-- Modal Ajouter Billet -->
-<div class="modal fade" id="billetModal" tabindex="-1" aria-labelledby="billetModalLabel" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Ajouter un Billet</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer" title="Fermer la fenêtre"></button>
-        </div>
-        <div class="modal-body">
-          <label>Type de billet</label>
-          <input id="typeBillet" type="text" class="form-control" placeholder="Type de billet"><br>
-          <label>Prix du billet</label>
-          <input id="prixBillet" type="number" class="form-control" placeholder="Prix du billet"><br>
-          <label>Quantité disponible</label>
-          <input id="quantiteBillet" type="number" class="form-control" placeholder="Quantité disponible"><br>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-danger mt-3 w-100" (click)="addBillet()" title="Ajouter un billet">
-            <i class="fas fa-ticket-alt"></i> Ajouter Billets
-          </button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" title="Fermer la fenêtre">Fermer</button>
-        </div>
-      </div>
-    </div>
-  </div>
-      
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </form>
 </body>
 </html>

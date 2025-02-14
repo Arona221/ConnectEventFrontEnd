@@ -1,0 +1,22 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 60px;
+  }
+  .navbar { 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    margin-top: 5%;
+  }
+  .navbar-nav .nav-link { 
+    padding: 10px 15px; 
+    transition: 0.3s; 
+  }
+  .navbar-nav .nav-link.active, 
+  .navbar-nav .nav-link:hover { 
+    color: #ff6600 !important; 
+    text-decoration: underline; 
+  }
+  .nav-item .dropdown-menu { 
+    min-width: 180px; 
+  }
+  
+  

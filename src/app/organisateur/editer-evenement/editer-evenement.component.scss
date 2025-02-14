@@ -1,0 +1,99 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 60px;
+}
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5%;
+}
+.navbar-nav .nav-link {
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+.navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    color: #ff6600 !important;
+    text-decoration: underline;
+}
+.nav-item .dropdown-menu {
+    min-width: 180px;
+}
+.card {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.image-upload-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.current-image-preview {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+.billets-edit {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+}
+.billet-edit-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+.billet-edit-item:last-child {
+    border-bottom: none;
+}
+.btn-primary {
+    background-color: #ff6600;
+    border-color: #ff6600;
+    transition: background-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: #e65c00;
+    border-color: #e65c00;
+}
+.btn-outline-secondary {
+    border-color: #ff6600;
+    color: #ff6600;
+    transition: background-color 0.3s;
+}
+.btn-outline-secondary:hover {
+    background-color: #ff6600;
+    color: white;
+}
+.text-danger {
+    font-size: 0.9em;
+    color: #dc3545 !important;
+}
+.fas {
+    margin-right: 0.5em;
+}
+.billet-add-section {
+    background-color: #f8f9fa;
+    transition: all 0.3s;
+}
+.billet-add-section:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+input::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
