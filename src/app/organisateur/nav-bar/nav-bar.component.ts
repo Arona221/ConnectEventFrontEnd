@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Status } from '../../core/enumeration/Status';
+import { NotificationService } from '../../core/service/notification.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -26,12 +28,14 @@ export class NavBarComponent implements OnInit {
   nomUtilisateur: string | null = '';
   notificationsCount = 1;
   idUtilisateur: number | null = null;
+  notificationCount$: Observable<number>;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private evenementService: EvenementService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private notificationService: NotificationService
   ) {
     this.evenementForm = this.fb.group({
       nom: ['', [Validators.required, Validators.minLength(3)]],
@@ -50,6 +54,8 @@ export class NavBarComponent implements OnInit {
       prix: [null, [Validators.required, Validators.min(0)]],
       quantite: [null, [Validators.required, Validators.min(1)]],
     });
+
+    this.notificationCount$ = this.notificationService.notificationsCount$;
   }
 
   ngOnInit(): void {

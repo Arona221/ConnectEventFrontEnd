@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
 </head>
-<body>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <!-- Logo/Rôle -->
-            <a class="navbar-brand" routerLink="/paric">
+            <a class="navbar-brand" routerLink="/participant">
                 <i class="fas fa-user"></i> Participant
             </a>
             
@@ -80,27 +80,29 @@
           </div>
       </div>
   
-      <!-- Barre de recherche et filtres -->
-      <div class="search-filters">
-          <div class="search-bar">
-              <input type="text" placeholder="Rechercher des événements...">
-              <button><i class="fas fa-search"></i></button>
-          </div>
-          <div class="filters">
-              <select>
-                  <option value="">Catégorie</option>
-                  <option value="musique">Musique</option>
-                  <option value="sport">Sport</option>
-                  <option value="art">Art</option>
-                  <option value="affaires">Affaires</option>
-                  <option value="loisirs">Loisirs</option>
-              </select>
-              <input type="date" placeholder="Date">
-              <input type="text" placeholder="Lieu">
-              <button class="btn-apply">Appliquer</button>
-          </div>
-      </div>
-  
+      <section class="events-section">
+        <!-- Filtres de recherche -->
+        <div class="search-filters container mt-4">
+          <form [formGroup]="searchForm">
+            <div class="row g-3">
+              <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Rechercher..." formControlName="search">
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" formControlName="categorie">
+                  <option value="">Toutes catégories</option>
+                  <option *ngFor="let cat of categories" [value]="cat">{{cat | titlecase}}</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <input type="date" class="form-control" formControlName="date">
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Lieu" formControlName="lieu">
+              </div>
+            </div>
+          </form>
+        </div>
       <!-- Titre de la section -->
       <h2 class="section-title">Événements à proximité de Dakar</h2>
   
@@ -116,77 +118,72 @@
           </ul>
       </div>
   
-      <!-- Grille d'événements -->
-      <div class="event-grid">
-          <!-- Carte d'événement 1 -->
-          <div class="event-card">
-              <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
-              <div class="event-details">
-                  <h3>Concert de Jazz</h3>
-                  <p class="date">Sam, 25 Nov 2023 - 19:00</p>
-                  <p class="location">Théâtre National, Dakar</p>
-                  <p class="price">À partir de 5000 Fr</p>
-                  <div class="event-actions">
-                      <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
-                      <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
-                  </div>
+       <!-- Liste des événements -->
+  <div class="container mt-5">
+    <div class="row g-4 event-list-container">
+
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6" *ngFor="let event of events">
+        <div class="card h-100 shadow-sm animate__animated animate__fadeIn">
+           <!-- Image de l'événement -->
+           <img [src]="getEventImageUrl(event)"
+           class="card-img-top event-image"
+           alt="{{ event.nom }}"
+           (error)="onImageError($event)">
+
+
+          
+          <div class="card-body">
+            <h5 class="card-title">{{event.nom}}</h5>
+            
+            <div class="event-meta">
+              <div class="meta-item">
+                <i class="fas fa-calendar-day"></i>
+                {{event.date | date:'dd MMM yyyy'}} • {{event.heure}}
               </div>
-          </div>
-  
-          <!-- Répétez la structure pour d'autres événements -->
-           <!-- Carte d'événement 1 -->
-          <div class="event-card">
-            <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
-            <div class="event-details">
-                <h3>Concert de Jazz</h3>
-                <p class="date">Sam, 25 Nov 2023 - 19:00</p>
-                <p class="location">Théâtre National, Dakar</p>
-                <p class="price">À partir de 5000 Fr</p>
-                <div class="event-actions">
-                    <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
-                    <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
-                </div>
+              <div class="meta-item">
+                <i class="fas fa-map-marker-alt"></i>
+                {{event.lieu}}
+              </div>
             </div>
-        </div>
-        <!-- Carte d'événement 1 -->
-        <div class="event-card">
-          <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
-          <div class="event-details">
-              <h3>Concert de Jazz</h3>
-              <p class="date">Sam, 25 Nov 2023 - 19:00</p>
-              <p class="location">Théâtre National, Dakar</p>
-              <p class="price">À partir de 5000 Fr</p>
-              <div class="event-actions">
-                  <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
-                  <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
+
+            <div class="ticket-info">
+              <span class="badge bg-primary">
+                {{event.categorie | titlecase}}
+              </span>
+              <div class="prices">
+                <span class="from">À partir de</span>
+                <span class="price">{{getMinPrice(event.billets) | currency:'XOF':'symbol':'1.0-0'}}</span>
               </div>
-          </div>
-      </div>
-      <!-- Carte d'événement 1 -->
-      <div class="event-card">
-        <img src="assets/images/trouver.jpg" alt="Concert de Jazz">
-        <div class="event-details">
-            <h3>Concert de Jazz</h3>
-            <p class="date">Sam, 25 Nov 2023 - 19:00</p>
-            <p class="location">Théâtre National, Dakar</p>
-            <p class="price">À partir de 5000 Fr</p>
+            </div>
+
             <div class="event-actions">
-                <button class="btn-favorite"><i class="fas fa-heart"></i> Favoris</button>
-                <button class="btn-buy"><i class="fas fa-ticket-alt"></i> Acheter</button>
+                <button class="btn btn-favorite" (click)="toggleFavorite(event.id_evenement)">
+                    <i class="fas fa-heart" [class.text-danger]="favoriteStatusMap[event.id_evenement]"></i>
+                 </button>
+              <button class="btn btn-primary" [routerLink]="['/achat', event.id_evenement]">
+                <i class="fas fa-ticket-alt"></i> Acheter
+              </button>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-      </div>
-  
-      <!-- Pagination -->
-      <div class="pagination">
-          <button class="btn-prev"><i class="fas fa-chevron-left"></i> Précédent</button>
-          <span>Page 1 sur 5</span>
-          <button class="btn-next">Suivant <i class="fas fa-chevron-right"></i></button>
-      </div>
-  </section>
+    </div>
+    <!-- Pagination -->
+       <app-pagination
+       class="mt-8"
+       *ngIf="totalPages > 1"
+       [currentPage]="currentPage"
+       [totalPages]="totalPages"
+      (pageChanged)="onPageChange($event)">
+       </app-pagination>
+
+ 
+ </div>
+</section>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+

@@ -4,6 +4,8 @@ import { EvenementService } from '../../core/service/evenement.service';
 import { EvenementDTO } from '../../core/model/EvenementDTO';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { NotificationService } from '../../core/service/notification.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-consulter',
@@ -17,12 +19,16 @@ export class ConsulterComponent implements OnInit {
   baseImageUrl = 'http://localhost:8081/api/ConnectEvent/uploads/'; // URL de base pour les images
   nomUtilisateur: string | null = '';
   notificationsCount = 1;
+  notificationCount$: Observable<number>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private evenementService: EvenementService
-  ) {}
+    private evenementService: EvenementService,
+    private notificationService: NotificationService
+  ) {
+    this.notificationCount$ = this.notificationService.notificationsCount$;
+  }
 
   ngOnInit(): void {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';

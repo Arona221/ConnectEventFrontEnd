@@ -15,6 +15,15 @@ import { EveenementComponent } from './participant/eveenement/eveenement.compone
 import { MesTicketsComponent } from './participant/mes-tickets/mes-tickets.component';
 import { ConsulterComponent } from './organisateur/consulter/consulter.component';
 import { EditerEvenementComponent } from './organisateur/editer-evenement/editer-evenement.component';
+import { AcheterComponent } from './participant/acheter/acheter.component';
+import { MesFavorisComponent } from './participant/mes-favoris/mes-favoris.component';
+import { TrouverRessourcesComponent } from './organisateur/trouver-ressources/trouver-ressources.component';
+import { MesReservationsComponent } from './organisateur/mes-reservations/mes-reservations.component';
+import { NotificationComponent } from './organisateur/notification/notification.component';
+
+
+
+
 export const routes: Routes = [ 
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'inscription', component: CreationCompteComponent },
@@ -30,8 +39,13 @@ export const routes: Routes = [
   { path: 'creer-evenement', component: CreerEvenementComponent },
   { path: 'participant', component: EveenementComponent },
   { path: 'mes-tickets', component: MesTicketsComponent },
-  { path: 'consulter/:id', component: ConsulterComponent},
-  { path: 'editer-evenement/:id', component: EditerEvenementComponent},
+  { path: 'consulter/:id', component: ConsulterComponent },
+  { path: 'editer-evenement/:id', component: EditerEvenementComponent },
+  { path: 'achat/:id', component: AcheterComponent },
+  { path:'mes-favoris',component:MesFavorisComponent},
+  { path:'trouver-ressources',component:TrouverRessourcesComponent},
+  { path:'mes-ressources',component:MesReservationsComponent},
+  { path:'notifications',component:NotificationComponent},
   { path: '**', redirectTo: '', pathMatch: 'full' },  
 
 

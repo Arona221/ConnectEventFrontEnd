@@ -1,0 +1,134 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 90px;
+  }
+  
+  .navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5%;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 10px 15px;
+    transition: 0.3s;
+  }
+  
+  .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    color: #ff6600 !important;
+    text-decoration: underline;
+  }
+  
+  .nav-item .dropdown-menu {
+    min-width: 180px;
+  }
+  .notification-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+  
+      h2 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: #2c3e50;
+      }
+  
+      .btn-clear {
+        background: none;
+        border: none;
+        color: #ff6600;
+        cursor: pointer;
+        transition: opacity 0.3s;
+  
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+  
+  .notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .notification-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  .notification-icon {
+    font-size: 1.5rem;
+    color: #ff6600;
+  }
+  
+  .notification-content {
+    flex: 1;
+    
+    .notification-message {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+    
+    .notification-date {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+    }
+  }
+  
+  .notification-delete {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s;
+  
+    &:hover {
+      color: #c0392b;
+    }
+  }
+  
+  .loading-spinner {
+    text-align: center;
+    padding: 2rem;
+    font-size: 2rem;
+    color: #ff6600;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+  
+    i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+  }

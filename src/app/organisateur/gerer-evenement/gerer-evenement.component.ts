@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Status } from '../../core/enumeration/Status'; // Importez l'enum Status
+import { NotificationService } from '../../core/service/notification.service'; // Import NotificationService
+import { Observable } from 'rxjs'; // Import Observable
 
 @Component({
   selector: 'app-gerer-evenement',
@@ -29,9 +31,11 @@ export class GererEvenementComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
   notifications: string[] = [];
+  notificationCount$: Observable<number>; // Declare the property
 
-  constructor(private router: Router, private evenementService: EvenementService) {
+  constructor(private router: Router, private evenementService: EvenementService, private notificationService: NotificationService) {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
+    this.notificationCount$ = this.notificationService.notificationsCount$; // Initialize it
   }
 
   ngOnInit(): void {

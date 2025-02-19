@@ -1,0 +1,17 @@
+.pagination {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+  
+    .page-item {
+      &.disabled .page-link {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+  
+      &.active .page-link {
+        color: white !important;
+      }
+    }
+  }

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Navigation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <!-- Logo/Rôle -->
+            <a class="navbar-brand" routerLink="/participant">
+                <i class="fas fa-user"></i> Participant
+            </a>
+            
+            <!-- Bouton hamburger (Mobile) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu principal -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-tickets" routerLinkActive="active">
+                            <i class="fas fa-ticket-alt"></i> Mes tickets
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-favoris" routerLinkActive="active">
+                            <i class="fas fa-heart"></i> Mes favoris
+                        </a>
+                    </li>
+
+                    <!-- Notifications -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" title="Notifications">
+                            <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span>
+                        </a>
+                    </li>
+
+                     <!-- Profil utilisateur (Menu déroulant) -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                      {{ nomUtilisateur }} <i class="fas fa-user"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                      <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                  </ul>
+              </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+     
+    <section class="favorites-page">
+        <!-- Bannière -->
+        <div class="hero-banner">
+          <div class="container">
+            <h1 class="hero-title">Mes Événements Favoris</h1>
+            <p class="hero-subtitle">Retrouvez ici tous vos événements préférés</p>
+          </div>
+        </div>
+      
+        <!-- Contrôles -->
+        <div class="container controls">
+          <div class="view-toggle">
+            <button class="btn btn-view" [class.active]="isGridView" (click)="toggleView()">
+              <i class="fas fa-th-large"></i> Grille
+            </button>
+            <button class="btn btn-view" [class.active]="!isGridView" (click)="toggleView()">
+              <i class="fas fa-list"></i> Liste
+            </button>
+          </div>
+        </div>
+      
+        <!-- État de chargement -->
+        <div *ngIf="isLoading" class="loading-state">
+          <div class="spinner"></div>
+          <p>Chargement de vos favoris...</p>
+        </div>
+      
+        <!-- Liste vide -->
+        <div *ngIf="!isLoading && events.length === 0" class="empty-state">
+          <i class="far fa-heart"></i>
+          <h3>Aucun événement favori</h3>
+          <p>Commencez à ajouter des événements à vos favoris !</p>
+        </div>
+      
+        <!-- Liste des favoris -->
+        <div class="container">
+          <div [class.grid-view]="isGridView" [class.list-view]="!isGridView">
+            <div 
+              *ngFor="let event of events"
+              @fadeSlide
+              class="event-card"
+              [class.list-item]="!isGridView"
+            >
+              <img 
+                [src]="getEventImageUrl(event)"
+                class="event-image"
+                alt="{{ event.nom }}"
+              >
+              
+              <div class="event-content">
+                <h3 class="event-title">{{ event.nom }}</h3>
+                
+                <div class="event-details">
+                  <p class="event-date">
+                    <i class="fas fa-calendar-day"></i>
+                    {{ event.date | date:'dd MMM yyyy' }} • {{ event.heure }}
+                  </p>
+                  <p class="event-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ event.lieu }}
+                  </p>
+                </div>
+      
+                <div class="event-actions">
+                  <button 
+                    class="btn btn-remove"
+                    (click)="confirmDelete(event.id_evenement)"
+                    matTooltip="Retirer des favoris"
+                  >
+                    <i class="fas fa-heart-broken"></i>
+                  </button>
+                  
+                  <button 
+                    class="btn btn-primary"
+                    [routerLink]="['/achat', event.id_evenement]"
+                  >
+                    Voir détails
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Pagination -->
+          <app-pagination
+            *ngIf="totalElements > pageSize"
+            [currentPage]="currentPage"
+             [totalPages]="totalPages"
+            (pageChanged)="onPageChange($event)"
+          ></app-pagination>
+        </div>
+      </section>

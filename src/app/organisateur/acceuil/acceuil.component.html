@@ -31,21 +31,43 @@
                             <i class="fas fa-tools"></i> Gérer événements
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/reserver-ressource" routerLinkActive="active">
-                            <i class="fas fa-calendar-check"></i> Réserver ressource
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" routerLinkActive="active">
+                            <i class="fas fa-calendar-check"></i> Ressources
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" routerLink="/trouver-ressources" routerLinkActive="active">
+                                    <i class="fas fa-search"></i> Trouver des ressources
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" routerLink="/mes-ressources" routerLinkActive="active">
+                                    <i class="fas fa-list"></i> Mes ressources réservées
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/statistiques" routerLinkActive="active">
                             <i class="fas fa-chart-line"></i> Statistiques
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/notifications" routerLinkActive="active">
-                            <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span> Notifications
+                        <a class="nav-link" routerLink="/messages" routerLinkActive="active">
+                            <i class="fas fa-paper-plane"></i> Messages
                         </a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/notifications" routerLinkActive="active">
+                          <i class="fas fa-bell"></i>
+                          <span class="badge bg-danger" *ngIf="notificationCount$ | async as count">
+                            {{ count }}
+                          </span>
+                        </a>
+                      </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
                             {{ nomUtilisateur }} <i class="fas fa-user"></i>

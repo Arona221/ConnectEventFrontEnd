@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les événements</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+       <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <!-- Logo/Rôle -->
+            <a class="navbar-brand" routerLink="/participant">
+                <i class="fas fa-user"></i> Participant
+            </a>
+            
+            <!-- Bouton hamburger (Mobile) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu principal -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-tickets" routerLinkActive="active">
+                            <i class="fas fa-ticket-alt"></i> Mes tickets
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-favoris" routerLinkActive="active">
+                            <i class="fas fa-heart"></i> Mes favoris
+                        </a>
+                    </li>
+
+                    <!-- Notifications -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" title="Notifications">
+                            <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span>
+                        </a>
+                    </li>
+
+                     <!-- Profil utilisateur (Menu déroulant) -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                      {{ nomUtilisateur }} <i class="fas fa-user"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                      <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                  </ul>
+              </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+            <!-- acheter.component.html -->
+<div class="container py-5 mt-5">
+    <!-- Loader pendant le chargement -->
+    <div *ngIf="isLoading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p class="mt-2">Chargement des détails de l'événement...</p>
+    </div>
+
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage && !isLoading" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+        <div class="mt-3">
+            <button class="btn btn-primary" routerLink="/participant">Retour à l'accueil</button>
+        </div>
+    </div>
+
+    <!-- Contenu principal - s'affiche uniquement si l'événement est chargé -->
+    <div *ngIf="!isLoading && !errorMessage && event">
+        <div class="row mb-4">
+            <div class="col">
+                <h1 class="display-5 fw-bold text-primary">{{event.nom}}</h1>
+                <div class="d-flex gap-3 text-muted">
+                    <div><i class="fas fa-calendar-day me-2"></i>{{event.date | date:'dd MMM yyyy'}} • {{event.heure}}</div>
+                    <div><i class="fas fa-map-marker-alt me-2"></i>{{event.lieu}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-lg hover-zoom">
+                    <img [src]="eventService.getImageUrl(event.imageUrl)" 
+                         class="card-img-top rounded-3" 
+                         alt="{{event.nom}}"
+                         onerror="this.src='assets/images/default-event.jpg'">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4 fw-bold">Billetterie</h3>
+                        
+                        <!-- Message si aucun billet n'est disponible -->
+                        <div *ngIf="billets.length === 0" class="alert alert-info">
+                            Aucun billet disponible pour cet événement.
+                        </div>
+                        
+                        <div class="mb-4" *ngFor="let billet of billets">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="mb-1">{{billet.typeBillet}}</h5>
+                                    <small class="text-muted">Disponible jusqu'au {{event.date | date:'dd MMM yyyy'}}</small>
+                                </div>
+                                <span class="h5 mb-0">{{billet.prix | currency:'XOF':'symbol':'1.0-0'}}</span>
+                            </div>
+                            
+                            <div class="d-flex align-items-center gap-3">
+                                <button class="btn btn-outline-primary rounded-circle p-2" 
+                                        (click)="updateQuantity(billet, -1)"
+                                        [disabled]="billet.quantite === 0">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" 
+                                       class="form-control text-center" 
+                                       style="max-width: 70px"
+                                       [(ngModel)]="billet.quantite"
+                                       min="0"
+                                       readonly>
+                                <button class="btn btn-outline-primary rounded-circle p-2" 
+                                        (click)="updateQuantity(billet, 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="border-top pt-4 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="h4 mb-0">Total:</span>
+                                <span class="h3 mb-0 fw-bold text-primary">{{total | currency:'XOF':'symbol':'1.0-0'}}</span>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-lg w-100 mt-4 shadow-sm"
+                                    [disabled]="total === 0"
+                                    (click)="proceedToPayment()">
+                                <i class="fas fa-lock me-2"></i>Procéder au paiement
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h4 class="mb-3">À propos de l'événement</h4>
+                        <p class="lead">{{event.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <!-- Logo/Rôle -->
+        <a class="navbar-brand" routerLink="/participant">
+            <i class="fas fa-user"></i> Participant
+        </a>
+        
+        <!-- Bouton hamburger (Mobile) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu principal -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/mes-tickets" routerLinkActive="active">
+                        <i class="fas fa-ticket-alt"></i> Mes tickets
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/mes-favoris" routerLinkActive="active">
+                        <i class="fas fa-heart"></i> Mes favoris
+                    </a>
+                </li>
+
+                <!-- Notifications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" title="Notifications">
+                        <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span>
+                    </a>
+                </li>
+
+                 <!-- Profil utilisateur (Menu déroulant) -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                        {{ nomUtilisateur }} <i class="fas fa-user"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                        <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+ </body>
+</html> 

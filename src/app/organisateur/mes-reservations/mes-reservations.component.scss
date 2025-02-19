@@ -1,0 +1,143 @@
+/* Styles globaux */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 60px;
+  }
+  
+  .navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5%;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 10px 15px;
+    transition: 0.3s;
+  }
+  
+  .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    color: #ff6600 !important;
+    text-decoration: underline;
+  }
+  
+  .nav-item .dropdown-menu {
+    min-width: 180px;
+  }
+  
+  /* Styles des cartes de réservation */
+  .reservation-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+  
+    .card-header {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-bottom: 2px solid;
+    }
+  
+    .status-badge {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.35rem 0.75rem;
+    }
+  
+    /* Couleurs des statuts */
+    &.EN_ATTENTE {
+      border-left: 4px solid #ffc107;
+      
+      .status-badge {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+    }
+  
+    &.CONFIRMER {
+      border-left: 4px solid #198754;
+      
+      .status-badge {
+        background-color: #d1e7dd;
+        color: #0f5132;
+      }
+    }
+  
+    &.ANNULLER {
+      border-left: 4px solid #dc3545;
+      
+      .status-badge {
+        background-color: #f8d7da;
+        color: #842029;
+      }
+    }
+  
+    &.PASSER {
+      border-left: 4px solid #6c757d;
+      
+      .status-badge {
+        background-color: #e2e3e5;
+        color: #41464b;
+      }
+    }
+  }
+  
+  /* Bouton personnalisé */
+  .btn-custom {
+    background-color: #ff6600;
+    border-color: #ff6600;
+    color: white;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: rotate(360deg);
+      background-color: #e65c00;
+      border-color: #e65c00;
+    }
+  }
+  
+  /* Styles pour l'affichage en grille */
+  .grid-view {
+    .reservation-card {
+      height: 100%;
+      
+      .card-footer {
+        margin-top: auto;
+      }
+    }
+  }
+  
+  /* Styles pour l'affichage en liste */
+  .list-view {
+    .reservation-card {
+      margin-bottom: 1rem;
+      
+      .card-body {
+        padding: 1.25rem;
+      }
+      
+      .card-footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+      }
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .reservation-card {
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .card-body {
+        flex-direction: column;
+      }
+    }
+  }
+  
+  
+  

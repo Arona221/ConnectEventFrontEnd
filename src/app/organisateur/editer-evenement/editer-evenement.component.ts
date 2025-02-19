@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { NotificationService } from '../../core/service/notification.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-editer-evenement',
@@ -28,13 +30,15 @@ export class EditerEvenementComponent implements OnInit {
   notificationsCount = 1;
   idEvenement: number | null = null;
   initialFormValue: any;
+  notificationCount$: Observable<number>;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private evenementService: EvenementService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private notificationService: NotificationService
   ) {
     this.evenementForm = this.fb.group({
       nom: ['', [Validators.required, Validators.minLength(3)]],
@@ -55,6 +59,7 @@ export class EditerEvenementComponent implements OnInit {
     });
 
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
+    this.notificationCount$ = this.notificationService.notificationsCount$;
   }
 
   ngOnInit(): void {

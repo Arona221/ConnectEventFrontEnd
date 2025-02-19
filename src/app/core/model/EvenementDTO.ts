@@ -12,5 +12,6 @@ export interface EvenementDTO {
   status: Status;
   nombrePlaces: number | null;
   imageUrl?: string;
+  imagePath?: string;
   billets: BilletDTO[];
 }
