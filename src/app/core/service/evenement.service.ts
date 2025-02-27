@@ -4,6 +4,8 @@ import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { EvenementDTO } from '../model/EvenementDTO';
 import { environment } from '../../../environments/environment';
 import { Page } from '../model/Page';
+import { FactureResponse } from '../model/FactureResponse';
+import { PaiementResponse } from '../model/PaiementResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -180,6 +182,11 @@ private favoritesUpdated = new Subject<void>();
 get favoritesUpdated$() {
   return this.favoritesUpdated.asObservable();
 }
- 
- 
+
+verifierPaiement(referenceTransaction: string): Observable<PaiementResponse> {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  return this.http.get<PaiementResponse>(`${this.apiUrl}/billets/verifier/${referenceTransaction}`, { headers });
+}
+
 }

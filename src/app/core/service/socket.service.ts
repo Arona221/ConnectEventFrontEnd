@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import SockJS from 'sockjs-client';
 import { Client, over } from 'stompjs';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -16,21 +15,7 @@ export class WebSocketService {
   // Fonction pour se connecter au WebSocket
   connect(): Observable<any> {
     return new Observable((observer) => {
-      console.log('Tentative de connexion à:', this.socketUrl);
       const socket = new SockJS(this.socketUrl);
-      
-      socket.onopen = () => {
-        console.log('SockJS connection opened');
-      };
-      
-      socket.onclose = (event) => {
-        console.log('SockJS connection closed:', event);
-      };
-      
-      socket.onerror = (error) => {
-        console.error('SockJS error:', error);
-      };
-      
       this.stompClient = over(socket);
 
       this.stompClient.connect({}, () => {

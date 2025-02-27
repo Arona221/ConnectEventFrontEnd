@@ -57,14 +57,141 @@
         </div>
     </nav>
 
-    <!-- Contenu Principal -->
-    <div class="container mt-5 pt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Bienvenue sur votre espace mes tickets</h2>
-            </div>
+    <div class="container mt-5">
+        <!-- Ajoutez ceci avant la liste des billets -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Mes Billets</h2>
+    <button class="btn btn-custom" (click)="isGridView = !isGridView">
+        <i class="fas" [class.fa-th]="isGridView" [class.fa-list]="!isGridView"></i>
+    </button>
+      
+  </div>
+      
+        <div *ngIf="loading" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
+      
+        <div *ngIf="!loading && billets.length === 0" class="alert alert-info">
+          Aucun billet trouvé.
+        </div>
+      
+        <div *ngIf="isGridView" class="row g-4">
+          <div *ngFor="let billet of billets" class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">{{ billet.eventNom }}</h5>
+                <span [class]="'badge ' + getStatusColor(billet.statut)">{{ billet.statut }}</span>
+              </div>
+              
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                  <a href="javascript:void(0)" (click)="getDirections(billet.eventLieu)" class="text-decoration-none">
+                    {{ billet.eventLieu }}
+                  </a>
+                </div>
+      
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <div class="text-muted small">Date</div>
+                    <div>{{ datePipe.transform(billet.eventDate, 'dd MMM yyyy ') }}</div>
+                  </div>
+                  <div class="col-6">
+                    <div class="text-muted small">Référence</div>
+                    <div class="text-truncate">{{ billet.referenceTransaction }}</div>
+                  </div>
+                </div>
+      
+                <div class="border-top pt-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <div class="text-muted small">Type de billet</div>
+                      <div>{{ billet.typeBillet }}</div>
+                    </div>
+                    <div class="text-end">
+                      <div class="text-muted small">Quantité</div>
+                      <div>{{ billet.quantite }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                <div class="h5 mb-0">{{ billet.montantTotal | currency:'XOF':'symbol':'1.0-0' }}</div>
+                <div>
+                  <button *ngIf="billet.statut === 'PAYE'" 
+                          (click)="downloadTicket(billet)"
+                          class="btn btn-outline-primary btn-sm me-2">
+                    <i class="fas fa-download me-1"></i>Télécharger
+                  </button>
+                  <button *ngIf="billet.statut === 'PAYE'" 
+                          (click)="annulerBillet(convertToNumber(billet.referenceTransaction))"
+                          class="btn btn-outline-danger btn-sm">
+                    Annuler
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Vue Liste -->
+<div *ngIf="!isGridView" class="row g-4">
+    <div *ngFor="let billet of billets" class="col-12">
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1 me-4">
+              <div class="d-flex align-items-center mb-2">
+                <h5 class="card-title mb-0 me-3">{{ billet.eventNom }}</h5>
+                <span [class]="'badge ' + getStatusColor(billet.statut)">{{ billet.statut }}</span>
+              </div>
+              
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                <a href="javascript:void(0)" (click)="getDirections(billet.eventLieu)" class="text-decoration-none">
+                  {{ billet.eventLieu }}
+                </a>
+              </div>
+  
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="text-muted small">Date</div>
+                  <div>{{ datePipe.transform(billet.eventDate, 'dd MMM yyyy ') }}</div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-muted small">Type de billet</div>
+                  <div>{{ billet.typeBillet }} × {{ billet.quantite }}</div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-muted small">Référence</div>
+                  <div class="text-truncate">{{ billet.referenceTransaction }}</div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="d-flex flex-column align-items-end">
+              <div class="h4 mb-3">{{ billet.montantTotal | currency:'XOF':'symbol':'1.0-0' }}</div>
+              <div class="btn-group">
+                <button *ngIf="billet.statut === 'PAYE'" 
+                        (click)="downloadTicket(billet)"
+                        class="btn btn-outline-primary btn-sm me-2">
+                  <i class="fas fa-download me-1"></i>
+                </button>
+                <button *ngIf="billet.statut === 'PAYE'" 
+                        (click)="annulerBillet(convertToNumber(billet.referenceTransaction))"
+                        class="btn btn-outline-danger btn-sm">
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
 
     <!-- Bootstrap JS -->

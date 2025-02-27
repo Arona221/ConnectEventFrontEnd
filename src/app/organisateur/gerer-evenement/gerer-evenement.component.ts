@@ -33,7 +33,11 @@ export class GererEvenementComponent implements OnInit {
   notifications: string[] = [];
   notificationCount$: Observable<number>; // Declare the property
 
-  constructor(private router: Router, private evenementService: EvenementService, private notificationService: NotificationService) {
+  constructor(
+    private router: Router,
+    private evenementService: EvenementService,
+    private notificationService: NotificationService
+   ) {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
     this.notificationCount$ = this.notificationService.notificationsCount$; // Initialize it
   }

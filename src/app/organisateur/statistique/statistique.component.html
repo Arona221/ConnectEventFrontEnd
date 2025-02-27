@@ -61,7 +61,6 @@
                           <i class="fas fa-paper-plane"></i> Messages
                       </a>
                   </li>
-                  
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/notifications" routerLinkActive="active">
                           <i class="fas fa-bell"></i>
@@ -81,48 +80,110 @@
                     </li>
                 </ul>
             </div>
+            
         </div>
     </nav>
-    <div class="notification-container">
-        <div class="notification-header">
-          <h2>
-            <i class="fas fa-bell"></i>
-            Notifications
-            <span class="badge bg-primary">{{ notifications.length }}</span>
-          </h2>
-          <button class="btn btn-clear" (click)="markAllAsRead()">
-            <i class="fas fa-check-double"></i> Marquer comme lues
+
+    <div class="container-fluid">
+        <div class="row g-4">
+          <!-- Cartes de synthèse -->
+          <div class="col-12">
+            <div class="row g-4">
+              <div class="col-md-3">
+                <div class="card metric-card bg-primary text-white">
+                  <div class="card-body">
+                    <h5 class="card-title">Revenu Total</h5>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-coins fa-2x me-3"></i>
+                      <span class="h2 mb-0">
+                        {{ totalRevenue | currency:'FCFA':'symbol':'1.0-0' }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-md-3">
+                <div class="card metric-card bg-success text-white">
+                  <div class="card-body">
+                    <h5 class="card-title">Billets Vendus</h5>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-ticket-alt fa-2x me-3"></i>
+                      <span class="h2 mb-0">{{ totalTickets }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Graphiques principaux -->
+          <div class="col-12">
+            <div class="card shadow-sm">
+              <div class="card-header bg-white">
+                <h5 class="mb-0">Performance des Événements</h5>
+              </div>
+              <div class="card-body">
+                <div class="chart-container">
+                    <ngx-charts-bar-vertical
+                    [results]="barChart.data"
+                    [xAxis]="barChart.showXAxis"
+                    [yAxis]="barChart.showYAxis"
+                    [gradient]="barChart.gradient"
+                    [xAxisLabel]="barChart.xAxisLabel"
+                    [yAxisLabel]="barChart.yAxisLabel"
+                    [scheme]="barChart.colorScheme"
+                    [animations]="barChart.animations"
+                    [showDataLabel]="barChart.showDataLabel"
+                    [roundDomains]="barChart.roundDomains"
+                    [showGridLines]="barChart.showGridLines">
+                  </ngx-charts-bar-vertical>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <div class="card shadow-sm h-100">
+            <div class="card-header bg-white">
+              <h5 class="mb-0">Transactions en Temps Réel</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="realtime-list-container" style="max-height: 400px; overflow-y: auto;">
+                <!-- Message par défaut si aucune transaction -->
+                <div *ngIf="realTimeSales.length === 0" class="text-center p-3">
+                  Aucune transaction en temps réel pour le moment.
+                </div>
+          
+                <!-- Liste des transactions -->
+                <ul class="list-group list-group-flush">
+                  <li *ngFor="let sale of realTimeSales; trackBy: trackBySaleId" 
+                      class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="w-75">
+                      <div class="d-flex justify-content-between">
+                        <small class="text-muted">{{ sale.timestamp | date:'HH:mm:ss' }}</small>
+                        <span class="badge bg-primary rounded-pill ms-2">
+                          {{ sale.quantity }} tickets
+                        </span>
+                      </div>
+                      <div class="mt-2">
+                        <strong class="text-truncate d-block">{{ sale.eventName }}</strong>
+                      </div>
+                    </div>
+                    <span class="badge bg-success rounded-pill fs-6">
+                      +{{ sale.amount | currency:'FCFA':'symbol':'1.0-0' }}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <!-- Boutons d'export -->
+        <div class="export-buttons">
+          <button (click)="exportPDF()" class="btn btn-danger">
+            <i class="fas fa-file-pdf"></i> Exporter en PDF
+          </button>
+          <button (click)="exportExcel()" class="btn btn-success">
+            <i class="fas fa-file-excel"></i> Exporter en Excel
           </button>
         </div>
-      
-        <div class="notification-list">
-          <div *ngIf="isLoading" class="loading-spinner">
-            <i class="fas fa-spinner fa-spin"></i>
-          </div>
-      
-          <div *ngFor="let notif of notifications" class="notification-item">
-            <div class="notification-icon">
-              <i class="fas fa-bell"></i>
-            </div>
-            
-            <div class="notification-content">
-              <div class="notification-message">{{ notif.message }}</div>
-              <div class="notification-event">
-                Événement #{{ notif.eventId }} 
-              </div>
-              <div class="notification-date">{{ notif.formattedDate }}</div>
-            </div>
-      
-            <button class="notification-delete" (click)="deleteNotification(notif.id)" title="Delete notification">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-      
-          <div *ngIf="!isLoading && notifications.length === 0" class="empty-state">
-            <i class="fas fa-inbox"></i>
-            <p>Aucune notification disponible</p>
-          </div>
-        </div>
       </div>
-
-

@@ -1,6 +1,6 @@
 body {
     background-color: #f8f9fa;
-    padding-top: 60px;
+    padding-top: 100px;
   }
   .navbar { 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
@@ -18,5 +18,106 @@ body {
   .nav-item .dropdown-menu { 
     min-width: 180px; 
   }
+  .card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 15px;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+  }
+  
+  .badge {
+    font-size: 0.85em;
+    padding: 0.5em 0.75em;
+  }
+  
+  .btn-outline-primary {
+    &:hover {
+      background-color: #0d6efd;
+      color: white;
+    }
+  }
+  
+  .text-muted {
+    color: #6c757d !important;
+    font-size: 0.85em;
+  }
+  
+  .h5 {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .card-title {
+    color: #34495e;
+    font-weight: 700;
+  }
+  // Vue Liste
+.list-view {
+  .card {
+    border-left: 4px solid;
+    
+    &[class*="bg-success"] { border-color: theme-color-level(success, -8); }
+    &[class*="bg-danger"] { border-color: theme-color-level(danger, -8); }
+    &[class*="bg-secondary"] { border-color: theme-color-level(secondary, -8); }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    .btn-group {
+      opacity: 0.9;
+      transition: opacity 0.2s;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .card {
+    .d-flex {
+      flex-direction: column;
+      
+      .flex-grow-1 {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      
+      .d-flex.flex-column {
+        width: 100%;
+        align-items: flex-start !important;
+        
+        .h4 {
+          margin-bottom: 1rem;
+        }
+        
+        .btn-group {
+          width: 100%;
+          
+          button {
+            width: 100%;
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+.btn-custom {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+}
+
+.btn-custom:hover {
+  background-color: #e65c00; /* Une teinte plus foncée au survol */
+}
+
   
   

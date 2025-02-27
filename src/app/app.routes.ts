@@ -20,6 +20,12 @@ import { MesFavorisComponent } from './participant/mes-favoris/mes-favoris.compo
 import { TrouverRessourcesComponent } from './organisateur/trouver-ressources/trouver-ressources.component';
 import { MesReservationsComponent } from './organisateur/mes-reservations/mes-reservations.component';
 import { NotificationComponent } from './organisateur/notification/notification.component';
+import { EnvoyermessageComponent } from './organisateur/envoyermessage/envoyermessage.component';
+import { PaymentConfirmComponent } from './participant/payment-confirm/payment-confirm.component';
+import { StatistiqueComponent } from './organisateur/statistique/statistique.component';
+
+
+
 
 
 
@@ -46,6 +52,10 @@ export const routes: Routes = [
   { path:'trouver-ressources',component:TrouverRessourcesComponent},
   { path:'mes-ressources',component:MesReservationsComponent},
   { path:'notifications',component:NotificationComponent},
+  { path:'messages',component:EnvoyermessageComponent},
+  {path: 'payment-confirm/:reference',  component: PaymentConfirmComponent } ,
+  {path: 'statistiques',  component: StatistiqueComponent } ,
+  
   { path: '**', redirectTo: '', pathMatch: 'full' },  
 
 
