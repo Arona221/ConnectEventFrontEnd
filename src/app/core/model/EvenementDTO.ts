@@ -14,4 +14,5 @@ export interface EvenementDTO {
   imageUrl?: string;
   imagePath?: string;
   billets: BilletDTO[];
+  ticketsVendus?: number;
 }

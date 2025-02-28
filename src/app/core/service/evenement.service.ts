@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, Subject, tap, throwError } from 'rxjs';
 import { EvenementDTO } from '../model/EvenementDTO';
 import { environment } from '../../../environments/environment';
 import { Page } from '../model/Page';
@@ -187,6 +187,13 @@ verifierPaiement(referenceTransaction: string): Observable<PaiementResponse> {
   const token = localStorage.getItem('authToken');
   const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
   return this.http.get<PaiementResponse>(`${this.apiUrl}/billets/verifier/${referenceTransaction}`, { headers });
+}
+getTotalTicketsDisponibles(eventId: number): Observable<number> {
+  return this.getEvenementById(eventId).pipe(
+    map(event => {
+      return event.billets.reduce((sum, billet) => sum + billet.quantite, 0);
+    })
+  );
 }
 
 }

@@ -13,7 +13,8 @@ export interface SalesMetrics {
 interface TicketSales {
   type: string; // Changer de ticketType à type
   quantity: number;
-  revenue: number; // Changer de montantTotal à revenue
+  revenue: number;
+   // Changer de montantTotal à revenue
 }
 
 export interface DailySalesData {

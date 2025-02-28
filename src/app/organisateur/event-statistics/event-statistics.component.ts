@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../../core/service/notification.service';
 import { StatistiqueService } from '../../core/service/statistique.service';
+import { EvenementService } from '../../core/service/evenement.service';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 
 interface TicketSales {
@@ -34,6 +35,8 @@ interface SalesMetrics {
 export class EventStatisticsComponent implements OnInit {
   notificationCount$: Observable<number>;
   nomUtilisateur: string | null = '';
+  totalTicketsDisponibles: number=0;
+
 
   @Input() eventId!: number;
   metrics: SalesMetrics | null = null; // Initialiser à null
@@ -52,7 +55,8 @@ export class EventStatisticsComponent implements OnInit {
   constructor(
     private notificationService: NotificationService,
     private statistiqueService: StatistiqueService,
-    @Inject(ActivatedRoute) private route: ActivatedRoute
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(EvenementService) private evenementService: EvenementService
   ) {
     this.notificationCount$ = this.notificationService.notificationsCount$;
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur');
@@ -62,6 +66,7 @@ export class EventStatisticsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.eventId = params['eventId'];
       this.loadEventMetrics();
+      this.loadTotalTicketsDisponibles();
     });
   }
 
@@ -112,6 +117,18 @@ export class EventStatisticsComponent implements OnInit {
       );
     }
   }
+
+  private loadTotalTicketsDisponibles() {
+    this.evenementService.getTotalTicketsDisponibles(this.eventId).subscribe({
+      next: (totalTicketsDisponibles) => {
+        this.totalTicketsDisponibles = totalTicketsDisponibles;
+      },
+      error: (err) => {
+        console.error('Erreur de chargement des tickets disponibles', err);
+      }
+    });
+  }
+
   logout(): void {
     localStorage.clear();
   }
