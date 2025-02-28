@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, forwardRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ExportService } from './export.service';
 import { environment } from '../../../environments/environment';
-import { SalesMetrics, ExportOptions } from '../model/statistique.model';
+import { SalesMetrics, ExportOptions, FactureResponse, PaiementResponse } from '../model/statistique.model';
+import { ExportService } from './export.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,17 @@ import { SalesMetrics, ExportOptions } from '../model/statistique.model';
 export class StatistiqueService {
   private apiUrl = `${environment.apiUrl}/analytics`;
 
-  constructor(private http: HttpClient, private exportService: ExportService) {}
+  constructor(
+    private http: HttpClient,
+    // Utiliser forwardRef pour briser la dépendance circulaire
+    @Inject(forwardRef(() => ExportService)) private exportService: ExportService
+  ) {}
 
+  /**
+   * Récupère les métriques de vente pour un organisateur spécifique.
+   * @param organisateurId - L'ID de l'organisateur.
+   * @returns Un observable des métriques de vente.
+   */
   getOrganizerMetrics(organisateurId: number): Observable<SalesMetrics[]> {
     return this.http.get<SalesMetrics[]>(`${this.apiUrl}/organisateur/${organisateurId}`).pipe(
       map((data) =>
@@ -26,33 +35,51 @@ export class StatistiqueService {
     );
   }
 
+  /**
+   * Récupère les détails des métriques pour un événement spécifique.
+   * @param eventId - L'ID de l'événement.
+   * @returns Un observable des métriques de l'événement.
+   */
   getEventMetrics(eventId: number): Observable<SalesMetrics> {
-    return this.http.get<SalesMetrics>(`${this.apiUrl}/event/${eventId}/details`).pipe(
+    return this.http.get<any>(`${this.apiUrl}/event/${eventId}/details`).pipe(
       map((data) => ({
         ...data,
         lastUpdated: new Date(data.lastUpdated),
+        ticketsByType: data.ticketsByType.map((ticket: any) => ({
+          type: ticket.type,
+          quantity: ticket.quantity,
+          revenue: ticket.revenue,
+        })),
       }))
     );
   }
 
+  // Méthodes supplémentaires...
+
+  /**
+   * Exporte les données statistiques dans un fichier PDF ou Excel
+   */
   exportData(data: SalesMetrics[], options: ExportOptions) {
-    const exportData = options.includeDailyData
-      ? data
-      : data.map((item) => ({
-          eventName: item.eventName,
-          totalRevenue: item.totalRevenue,
-          totalTicketsSold: item.totalTicketsSold,
-          lastUpdated: item.lastUpdated,
-        }));
+    const exportData = options.includeDailyData ? data : data.map(item => ({
+      ...item,
+      eventId: item.eventId,
+      eventName: item.eventName,
+      totalRevenue: item.totalRevenue,
+      totalTicketsSold: item.totalTicketsSold,
+      lastUpdated: item.lastUpdated,
+      ticketsByType: item.ticketsByType,
+      id: item.id,
+      organisateurId: item.organisateurId
+    }));
 
     if (options.format === 'pdf') {
-      this.exportService.exportToPDF(exportData, options.fileName);
+      exportData.forEach(event => 
+        this.exportService.exportEventToPDF(event, `${options.fileName}_${event.eventId}.pdf`)
+      );
     } else if (options.format === 'excel') {
-      this.exportService.exportToExcel(exportData, options.fileName);
+      exportData.forEach(event => 
+        this.exportService.exportEventToExcel(event, `${options.fileName}_${event.eventId}.xlsx`)
+      );
     }
-  }
-
-  updateDateRange(startDate: Date, endDate: Date): void {
-    console.log('Date range updated:', startDate, endDate);
   }
 }

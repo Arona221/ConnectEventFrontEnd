@@ -21,85 +21,6 @@ body {
 
 
 
-
-
-  .metric-card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  
-    &:hover {
-      transform: translateY(-5px);
-    }
-  
-    .card-body {
-      padding: 20px;
-      
-      
-    }
-  
-    .fa-2x {
-      font-size: 2.5rem;
-    }
-  }
-  
-  .chart-container {
-    height: 400px;
-    margin-top: 20px;
-  }
-  
-  .export-buttons {
-    margin-top: 20px;
-    text-align: right;
-  
-    .btn {
-      margin-left: 10px;
-    }
-  }
-  
-  .list-group-item {
-    border: none;
-    border-bottom: 1px solid #eee;
-    padding: 15px;
-  
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-.chart-container {
-    height: 400px;
-    width: 100%;
-  }
-
-
-  .realtime-list-container {
-    scrollbar-width: thin;
-    scrollbar-color: #888 transparent;
-  
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-  
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background-color: #888;
-      border-radius: 3px;
-    }
-  }
-  
-  .list-group-item {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-    &:hover {
-      transform: translateX(5px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-  }
-
-
   * {
     margin: 0;
     padding: 0;
@@ -136,45 +57,48 @@ body {
   gap: 10px;
 }
 
+.menu {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .menu-item {
-  padding: 10px 0;
-  cursor: pointer;
-  transition: color 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-  color: white /* Couleur du texte normal */
+    padding: 10px 0;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: white /* Couleur du texte normal */
 }
 
 .menu-item a {
-  text-decoration: none; /* Supprime le soulignement */
-  color: inherit; /* Utilise la couleur du parent */
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    text-decoration: none; /* Supprime le soulignement */
+    color: inherit; /* Utilise la couleur du parent */
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+/* Icônes */
 .menu-item i {
-  font-size: 18px;
+    font-size: 18px;
 }
 
+/* Effet au survol */
 .menu-item:hover {
-  color: #ff6600; /* Couleur orange au survol */
+    color: #ff6600; /* Couleur orange au survol */
 }
 
-.menu-item.active {
-  color: #ff6600; /* Couleur orange pour l'élément actif */
-  font-weight: bold;
+/* Style de l'élément actif */
+.menu-item a.active {
+    color: #ff6600 !important; /* Reste orange uniquement sur l'actif */
+    font-weight: bold;
 }
 
-
-.main-content {
-    flex: 1;
-    padding: 20px;
-    height: 100vh;
-    overflow-y: auto;
-}
 
 .header {
     display: flex;
@@ -332,5 +256,36 @@ body {
     margin-right: 5px;
     border-radius: 2px;
 }
+
+.metric-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-5px);
+    }
+  
+    .card-body {
+      padding: 20px;
+    }
+  
+    .fa-2x {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .table {
+    margin-top: 20px;
+  
+    th, td {
+      vertical-align: middle;
+    }
+  }
+  
+  ngx-charts-pie-chart {
+    display: block;
+    margin: 20px auto;
+  }
 
   

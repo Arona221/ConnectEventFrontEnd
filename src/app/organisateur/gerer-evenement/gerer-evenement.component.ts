@@ -37,7 +37,7 @@ export class GererEvenementComponent implements OnInit {
     private router: Router,
     private evenementService: EvenementService,
     private notificationService: NotificationService
-   ) {
+  ) {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
     this.notificationCount$ = this.notificationService.notificationsCount$; // Initialize it
   }

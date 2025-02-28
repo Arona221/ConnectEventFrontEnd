@@ -13,16 +13,12 @@ interface BarChartData {
   value: number;
 }
 
-interface TimelineChartData {
-  name: string;
-  value: number;
-}
 interface Sale {
-  id: number; // Identifiant unique pour le suivi des performances
-  timestamp: Date; // Date et heure de la transaction
-  quantity: number; // Nombre de tickets vendus
-  eventName: string; // Nom de l'événement
-  amount: number; // Montant de la transaction
+  id: number;
+  timestamp: Date;
+  quantity: number;
+  eventName: string;
+  amount: number;
 }
 
 @Component({
@@ -30,7 +26,7 @@ interface Sale {
   templateUrl: './statistique.component.html',
   styleUrls: ['./statistique.component.scss'],
   standalone: true,
-  imports: [CommonModule, NgxChartsModule, RouterLinkActive,RouterLink],
+  imports: [CommonModule, NgxChartsModule,RouterLink,RouterLinkActive],
   providers: [WebSocketService],
 })
 export class StatistiqueComponent implements OnInit, OnDestroy {
@@ -39,13 +35,12 @@ export class StatistiqueComponent implements OnInit, OnDestroy {
   nomUtilisateur: string | null = '';
   notificationCount$: Observable<number>;
   metrics: SalesMetrics[] = [];
-  // Tableau pour stocker les transactions en temps réel
   realTimeSales: Sale[] = [];
   private subscriptions = new Subscription();
   totalRevenue: number = 0;
   totalTickets: number = 0;
   private webSocketSubscription!: Subscription;
-  // Configuration révisée du graphique
+
   barChart = {
     data: [] as BarChartData[],
     showXAxis: true,
@@ -64,11 +59,6 @@ export class StatistiqueComponent implements OnInit, OnDestroy {
     roundDomains: true,
     showGridLines: true
   };
-  timelineChart = {
-    data: [] as { name: string; series: TimelineChartData[] }[],
-    autoScale: true,
-    curve: 'curveNatural',
-  };
 
   constructor(
     private notificationService: NotificationService,
@@ -85,29 +75,27 @@ export class StatistiqueComponent implements OnInit, OnDestroy {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur');
     this.loadData();
     
-     // Connexion au WebSocket et écoute des mises à jour
-     this.webSocketSubscription = this.webSocketService.connect().subscribe({
+    this.webSocketSubscription = this.webSocketService.connect().subscribe({
       next: (update: any) => {
-        // Ajoute la nouvelle transaction au début du tableau
-        this.realTimeSales = [this.mapToSale(update), ...this.realTimeSales].slice(0, 10); // Limite à 10 transactions
+        this.realTimeSales = [this.mapToSale(update), ...this.realTimeSales].slice(0, 10);
       },
       error: (err) => console.error('Erreur WebSocket :', err),
     });
   }
-   // Fonction pour mapper les données reçues du WebSocket vers l'interface Sale
-   private mapToSale(update: any): Sale {
+
+  private mapToSale(update: any): Sale {
     return {
-      id: update.eventId, // Utilisez l'ID de l'événement comme identifiant unique
-      timestamp: new Date(update.timestamp), // Convertit la chaîne en objet Date
+      id: update.eventId,
+      timestamp: new Date(update.timestamp),
       quantity: update.quantity,
       eventName: update.eventName,
       amount: update.amount,
     };
   }
-// Fonction pour optimiser les performances de *ngFor
-trackBySaleId(index: number, sale: Sale): number {
-  return sale.id;
-}
+
+  trackBySaleId(index: number, sale: Sale): number {
+    return sale.id;
+  }
 
   private loadData() {
     const userId = Number(localStorage.getItem('idUtilisateur'));
@@ -126,12 +114,13 @@ trackBySaleId(index: number, sale: Sale): number {
       })
     );
   }
+
   private forceChartRefresh() {
-    // Solution temporaire pour forcer la mise à jour
     const temp = [...this.barChart.data];
     this.barChart.data = [];
     setTimeout(() => this.barChart.data = temp, 100);
   }
+
   private calculateTotals() {
     this.totalRevenue = this.metrics.reduce((sum, m) => sum + (m.totalRevenue || 0), 0);
     this.totalTickets = this.metrics.reduce((sum, m) => sum + (m.totalTicketsSold || 0), 0);
@@ -141,18 +130,10 @@ trackBySaleId(index: number, sale: Sale): number {
   private prepareChartData() {
     console.log('Préparation des données:', this.metrics);
     this.barChart.data = this.metrics.map((m) => ({
-      name: m.eventName || 'Événement sans nom', // Fallback pour les noms manquants
-      value: m.totalRevenue || 0 // Fallback pour les valeurs nulles
+      name: m.eventName || 'Événement sans nom',
+      value: m.totalRevenue || 0
     }));
     console.log('Données du graphique:', this.barChart.data);
-  }
-
-  private calculateTotalRevenue() {
-    this.totalRevenue = this.metrics.reduce((sum, metric) => sum + metric.totalRevenue, 0);
-  }
-
-  private calculateTotalTickets() {
-    this.totalTickets = this.metrics.reduce((sum, metric) => sum + metric.totalTicketsSold, 0);
   }
 
   exportPDF() {

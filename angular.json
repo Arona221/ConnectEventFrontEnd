@@ -45,6 +45,10 @@
             "polyfills": [
               "zone.js"
             ],
+            "allowedCommonJsDependencies": [
+              "pdfmake",
+              "xlsx"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -127,12 +131,12 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/pdfmake/build/pdfmake.min.js",
-              "node_modules/pdfmake/build/vfs_fonts.js",
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/pdfmake/build/pdfmake.min.js",
+               "node_modules/pdfmake/build/vfs_fonts.js"
             ]
           }
         }

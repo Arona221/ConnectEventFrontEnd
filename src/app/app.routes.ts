@@ -23,6 +23,8 @@ import { NotificationComponent } from './organisateur/notification/notification.
 import { EnvoyermessageComponent } from './organisateur/envoyermessage/envoyermessage.component';
 import { PaymentConfirmComponent } from './participant/payment-confirm/payment-confirm.component';
 import { StatistiqueComponent } from './organisateur/statistique/statistique.component';
+import { EventStatisticsComponent } from './organisateur/event-statistics/event-statistics.component';
+import { EventListComponent } from './organisateur/event-list/event-list.component';
 
 
 
@@ -55,6 +57,8 @@ export const routes: Routes = [
   { path:'messages',component:EnvoyermessageComponent},
   {path: 'payment-confirm/:reference',  component: PaymentConfirmComponent } ,
   {path: 'statistiques',  component: StatistiqueComponent } ,
+  {path: 'statistiques-details/:eventId',  component: EventStatisticsComponent} ,
+  {path: 'statistiques-liste',  component: EventListComponent} ,
   
   { path: '**', redirectTo: '', pathMatch: 'full' },  
 

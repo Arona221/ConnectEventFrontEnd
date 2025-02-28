@@ -11,11 +11,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Status } from '../../core/enumeration/Status';
 import { NotificationService } from '../../core/service/notification.service';
 import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })

@@ -84,106 +84,151 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row g-4">
-          <!-- Cartes de synthèse -->
-          <div class="col-12">
-            <div class="row g-4">
-              <div class="col-md-3">
-                <div class="card metric-card bg-primary text-white">
-                  <div class="card-body">
-                    <h5 class="card-title">Revenu Total</h5>
-                    <div class="d-flex align-items-center">
-                      <i class="fas fa-coins fa-2x me-3"></i>
-                      <span class="h2 mb-0">
-                        {{ totalRevenue | currency:'FCFA':'symbol':'1.0-0' }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-      
-              <div class="col-md-3">
-                <div class="card metric-card bg-success text-white">
-                  <div class="card-body">
-                    <h5 class="card-title">Billets Vendus</h5>
-                    <div class="d-flex align-items-center">
-                      <i class="fas fa-ticket-alt fa-2x me-3"></i>
-                      <span class="h2 mb-0">{{ totalTickets }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Graphiques principaux -->
-          <div class="col-12">
-            <div class="card shadow-sm">
-              <div class="card-header bg-white">
-                <h5 class="mb-0">Performance des Événements</h5>
-              </div>
-              <div class="card-body">
-                <div class="chart-container">
-                    <ngx-charts-bar-vertical
-                    [results]="barChart.data"
-                    [xAxis]="barChart.showXAxis"
-                    [yAxis]="barChart.showYAxis"
-                    [gradient]="barChart.gradient"
-                    [xAxisLabel]="barChart.xAxisLabel"
-                    [yAxisLabel]="barChart.yAxisLabel"
-                    [scheme]="barChart.colorScheme"
-                    [animations]="barChart.animations"
-                    [showDataLabel]="barChart.showDataLabel"
-                    [roundDomains]="barChart.roundDomains"
-                    [showGridLines]="barChart.showGridLines">
-                  </ngx-charts-bar-vertical>
-                </div>
-              </div>
-            </div>
-          </div>
-      
-          <div class="card shadow-sm h-100">
-            <div class="card-header bg-white">
-              <h5 class="mb-0">Transactions en Temps Réel</h5>
-            </div>
-            <div class="card-body p-0">
-              <div class="realtime-list-container" style="max-height: 400px; overflow-y: auto;">
-                <!-- Message par défaut si aucune transaction -->
-                <div *ngIf="realTimeSales.length === 0" class="text-center p-3">
-                  Aucune transaction en temps réel pour le moment.
-                </div>
+    <div class="sidebar">
+      <div class="sidebar-header">
           
-                <!-- Liste des transactions -->
-                <ul class="list-group list-group-flush">
-                  <li *ngFor="let sale of realTimeSales; trackBy: trackBySaleId" 
-                      class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="w-75">
-                      <div class="d-flex justify-content-between">
-                        <small class="text-muted">{{ sale.timestamp | date:'HH:mm:ss' }}</small>
-                        <span class="badge bg-primary rounded-pill ms-2">
-                          {{ sale.quantity }} tickets
-                        </span>
-                      </div>
-                      <div class="mt-2">
-                        <strong class="text-truncate d-block">{{ sale.eventName }}</strong>
+          <p>Tableau de bord statistiques des evenements </p>
+      </div>
+      <div class="menu">
+        <div class="menu-item active">
+            <a routerLink="/statistiques" routerLinkActive="active">
+                <i class="fas fa-chart-line"></i> Vue d'ensemble
+            </a>
+        </div>
+        <div class="menu-item">
+            <a routerLink="/statistiques-liste" routerLinkActive="active">
+                <i class="fas fa-chart-bar"></i> Ventes par événement
+            </a>
+        </div>
+        <div class="menu-item">
+            <a routerLink="/clients" routerLinkActive="active">
+                <i class="fas fa-users"></i> Participants
+            </a>
+        </div>
+       
+        
+        <div class="menu-item">
+            <a routerLink="/rapports" routerLinkActive="active">
+                <i class="fas fa-file-alt"></i> Rapports
+            </a>
+        </div>
+        <div class="menu-item">
+            <a routerLink="/parametres" routerLinkActive="active">
+                <i class="fas fa-cog"></i> Paramètres
+            </a>
+        </div>
+    </div>
+    
+  </div>
+  
+  <div class="main-content">
+      <div class="header">
+         
+         
+      </div>
+      
+      <div class="container-fluid">
+          <div class="row g-4">
+            <!-- Cartes de synthèse -->
+            <div class="container-fluid">
+              <div class="row g-4">
+                <div class="col-12">
+                  <div class="row g-4">
+                    <div class="col-md-5">
+                      <div class="card metric-card bg-primary text-white">
+                        <div class="card-body">
+                          <h5 class="card-title">Revenu Total</h5>
+                          <div class="d-flex align-items-center">
+                            <i class="fas fa-coins fa-2x me-3"></i>
+                            <span class="h2 mb-0">
+                              {{ totalRevenue | currency:'FCFA':'symbol':'1.0-0' }}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <span class="badge bg-success rounded-pill fs-6">
-                      +{{ sale.amount | currency:'FCFA':'symbol':'1.0-0' }}
-                    </span>
-                  </li>
-                </ul>
+            
+                    <div class="col-md-5">
+                      <div class="card metric-card bg-success text-white">
+                        <div class="card-body">
+                          <h5 class="card-title">Billets Vendus</h5>
+                          <div class="d-flex align-items-center">
+                            <i class="fas fa-ticket-alt fa-2x me-3"></i>
+                            <span class="h2 mb-0">{{ totalTickets }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="col-12">
+                  <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                      <h5 class="mb-0">Performance des Événements</h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="chart-container">
+                        <ngx-charts-bar-vertical
+                          [results]="barChart.data"
+                          [xAxis]="barChart.showXAxis"
+                          [yAxis]="barChart.showYAxis"
+                          [gradient]="barChart.gradient"
+                          [xAxisLabel]="barChart.xAxisLabel"
+                          [yAxisLabel]="barChart.yAxisLabel"
+                          [scheme]="barChart.colorScheme"
+                          [animations]="barChart.animations"
+                          [showDataLabel]="barChart.showDataLabel"
+                          [roundDomains]="barChart.roundDomains"
+                          [showGridLines]="barChart.showGridLines">
+                        </ngx-charts-bar-vertical>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="card shadow-sm h-100">
+                  <div class="card-header bg-white">
+                    <h5 class="mb-0">Transactions en Temps Réel</h5>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="realtime-list-container" style="max-height: 400px; overflow-y: auto;">
+                      <div *ngIf="realTimeSales.length === 0" class="text-center p-3">
+                        Aucune transaction en temps réel pour le moment.
+                      </div>
+            
+                      <ul class="list-group list-group-flush">
+                        <li *ngFor="let sale of realTimeSales; trackBy: trackBySaleId" 
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                          <div class="w-75">
+                            <div class="d-flex justify-content-between">
+                              <small class="text-muted">{{ sale.timestamp | date:'HH:mm:ss' }}</small>
+                              <span class="badge bg-primary rounded-pill ms-2">
+                                {{ sale.quantity }} tickets
+                              </span>
+                            </div>
+                            <div class="mt-2">
+                              <strong class="text-truncate d-block">{{ sale.eventName }}</strong>
+                            </div>
+                          </div>
+                          <span class="badge bg-success rounded-pill fs-6">
+                            +{{ sale.amount | currency:'FCFA':'symbol':'1.0-0' }}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="export-buttons text-end mb-3">
+                  <button (click)="exportPDF()" class="btn btn-danger btn-lg rounded-pill shadow-sm px-4 me-2">
+                    <i class="fas fa-file-pdf me-2 fs-5"></i> Exporter en PDF
+                  </button>
+                  <button (click)="exportExcel()" class="btn btn-success btn-lg rounded-pill shadow-sm px-4">
+                    <i class="fas fa-file-excel me-2 fs-5"></i> Exporter en Excel
+                  </button>
+                </div>
+                
               </div>
             </div>
-          </div>
-        <!-- Boutons d'export -->
-        <div class="export-buttons">
-          <button (click)="exportPDF()" class="btn btn-danger">
-            <i class="fas fa-file-pdf"></i> Exporter en PDF
-          </button>
-          <button (click)="exportExcel()" class="btn btn-success">
-            <i class="fas fa-file-excel"></i> Exporter en Excel
-          </button>
-        </div>
-      </div>
+  </div>
