@@ -3,14 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { CommonModule, TitleCasePipe, CurrencyPipe } from '@angular/common';
-
-// Modules nécessaires
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Modules Angular Material
+// Angular Material Modules
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,11 +25,15 @@ import { EvenementService } from './core/service/evenement.service';
 // Importation correcte des routes
 import { routes } from './app.routes';
 
+// Import the AppComponent
+import { AppComponent } from './app.component';
+
 registerLocaleData(localeFr, 'fr-XOF');
 
 @NgModule({
   declarations: [
-    // Vos composants ici
+    AppComponent,
+    // Other components can be declared here
   ],
   imports: [
     BrowserModule,
@@ -39,18 +42,12 @@ registerLocaleData(localeFr, 'fr-XOF');
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
-    // Correction : Ajout des routes correctement configurées
     RouterModule.forRoot(routes),
-
-    // Modules Angular Material
     MatDialogModule,
     MatTooltipModule,
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
-
-    // Configuration de Toastr
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
@@ -63,6 +60,6 @@ registerLocaleData(localeFr, 'fr-XOF');
     TitleCasePipe,
     CurrencyPipe,
   ],
-  bootstrap: [AppComponent], // Assurez-vous que AppComponent est déclaré ici
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

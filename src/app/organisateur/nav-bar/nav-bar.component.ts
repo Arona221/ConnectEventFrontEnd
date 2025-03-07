@@ -100,18 +100,22 @@ export class NavBarComponent implements OnInit {
   
     this.isLoading = true;
   
-    // Create EvenementDTO object
+    // Formater la date au format "yyyy-MM-ddTHH:mm:ss"
+    const rawDate = this.evenementForm.get('date')?.value;
+    const formattedDate = `${rawDate}T00:00:00`; // Ajouter l'heure par défaut
+  
+    // Créer l'objet EvenementDTO
     const evenementDTO: EvenementDTO = {
-      id_evenement: 0, // Will be assigned by the backend
+      id_evenement: 0,
       nom: this.evenementForm.get('nom')?.value,
-      date: this.evenementForm.get('date')?.value,
+      date: formattedDate, // <--- Date formatée
       description: this.evenementForm.get('description')?.value,
       lieu: this.evenementForm.get('lieu')?.value,
       categorie: this.evenementForm.get('categorie')?.value,
-      status: Status.EN_ATTENTE, // Set default status
+      status: Status.EN_ATTENTE,
       nombrePlaces: this.evenementForm.get('nombrePlaces')?.value,
       billets: this.billets.value,
-      imageUrl: '', // Will be handled by the backend
+      imageUrl: '',
       heure: this.evenementForm.get('heure')?.value
     };
   

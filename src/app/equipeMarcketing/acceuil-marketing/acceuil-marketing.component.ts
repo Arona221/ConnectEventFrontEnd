@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-acceuil-marketing',
+  imports: [ RouterLinkActive,RouterLink],
   templateUrl: './acceuil-marketing.component.html',
   styleUrls: ['./acceuil-marketing.component.scss'],
 })

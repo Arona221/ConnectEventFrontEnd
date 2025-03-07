@@ -4,7 +4,7 @@ import { BilletDTO } from "./BilletDTO";
 export interface EvenementDTO {
   id_evenement: number;
   nom: string;
-  date: Date;
+  date: string;
   heure: string;
   description: string;
   lieu: string;

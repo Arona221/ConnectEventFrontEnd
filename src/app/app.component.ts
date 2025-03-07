@@ -25,8 +25,10 @@ export class AppComponent {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        const hideMenuRoutes = ['/acceuilEquipe-marketing', '/register', '/special-page']; // Routes sans menu
-        this.isMenuVisible = !hideMenuRoutes.includes(event.url);
+        const hideMenuRoutes = ['/acceuilEquipe-marketing', '/mes-campagnes', '/campagnes-create','/evenements-promouvoir']; 
+        const urlWithoutParams = event.url.split('?')[0]; // Supprime les paramètres
+        this.isMenuVisible = !hideMenuRoutes.includes(urlWithoutParams);
       });
+      
   }
 }

@@ -1,0 +1,104 @@
+<nav class="navbar">
+    <div class="logo">
+        <img src="assets/images/logoV2.jpg" alt="Logo">
+    </div>
+
+    <div class="menu-toggle" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <ul class="menu-items" [class.active]="isMenuOpen">
+        <li> 
+            <a routerLink="/acceuilEquipe-marketing" routerLinkActive="active">
+                <i class="fas fa-home"></i> Accueil
+            </a>
+        </li>
+        <li> 
+          <a routerLink="/mes-campagnes" routerLinkActive="active">
+              <i class="fas fa-bullhorn"></i> Événements à Promouvoir
+          </a>
+      </li>
+      
+      <li> 
+          <a routerLink="/evenements-promouvoir" routerLinkActive="active">
+              <i class="fas fa-calendar-check"></i> Mes Campagnes
+          </a>
+      </li>
+        <li> 
+            <a routerLink="/automatisation" routerLinkActive="active">
+                <i class="fas fa-cogs"></i> Automatisation
+            </a>
+        </li>
+        <li> 
+            <a routerLink="/rapports" routerLinkActive="active">
+                <i class="fas fa-chart-bar"></i> Rapports
+            </a>
+        </li>
+        <!-- Profil utilisateur -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                {{ nomUtilisateur }} <i class="fas fa-user"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="filters">
+    <input [(ngModel)]="filters.categorie" placeholder="Filtrer par catégorie" />
+    <input [(ngModel)]="filters.lieu" placeholder="Filtrer par lieu" />
+    <input [(ngModel)]="filters.date" placeholder="Filtrer par date" />
+    <button (click)="applyFilters()">Appliquer les filtres</button>
+  </div>
+  
+  <div class="sort-controls">
+    <label>Trier par :</label>
+    <select title="Trier par" [(ngModel)]="pagination.sortBy" (change)="onSortChange(pagination.sortBy, pagination.sortDirection)">
+      <option value="date">Date</option>
+      <option value="nom">Nom</option>
+      <option value="lieu">Lieu</option>
+    </select>
+    <select title="Direction de tri" [(ngModel)]="pagination.sortDirection" (change)="onSortChange(pagination.sortBy, pagination.sortDirection)">
+      <option value="asc">Croissant</option>
+      <option value="desc">Décroissant</option>
+    </select>
+  </div>
+  
+  <div class="event-list">
+    <div *ngFor="let event of events" class="event-card">
+      <h3>{{ event.nom }}</h3>
+      <p>{{ event.description }}</p>
+      <p><strong>Date :</strong> {{ event.date | date }}</p>
+      <p><strong>Lieu :</strong> {{ event.lieu }}</p>
+      <p><strong>Catégorie :</strong> {{ event.categorie }}</p>
+       <!-- Afficher les types de billets et leurs prix -->
+    <div class="billets-section">
+        <h4>Types de billets :</h4>
+        <ul>
+          <li *ngFor="let billet of event.billets">
+            <strong>{{ billet.typeBillet }}</strong> - {{ billet.prix | currency:'FCFA':'symbol':'1.0-0' }}
+          </li>
+        </ul>
+      </div>
+      <button (click)="promouvoirEvent(event.id_evenement)" class="promotion-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="10 8 16 12 10 16 10 8" fill="#ff6600"></polygon>
+        </svg>
+        <span>Promouvoir</span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="pagination">
+    <button
+      *ngFor="let page of getPages()"
+      (click)="onPageChange(page)"
+      [class.active]="page === pagination.page"
+    >
+      {{ page + 1 }}
+    </button>
+  </div>

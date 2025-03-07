@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import SockJS from 'sockjs-client';
 import { Client, over } from 'stompjs';
 import { environment } from '../../../environments/environment';
@@ -10,6 +10,8 @@ import { environment } from '../../../environments/environment';
 export class WebSocketService {
   private stompClient!: Client;
   private socketUrl = 'http://localhost:8081/ws'; 
+  private socket: WebSocket;
+  private messagesSubject = new Subject<any>(); // Adjust type as necessary
 
   constructor() {}
 
@@ -50,5 +52,23 @@ export class WebSocketService {
         }
       };
     });
+  }
+
+  connect(userId: string): void {
+    // Logic to connect to WebSocket server
+    this.socket = new WebSocket(`ws://your-websocket-url?userId=${userId}`);
+
+    this.socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      this.messagesSubject.next(message);
+    };
+
+    this.socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+  }
+
+  getMessages() {
+    return this.messagesSubject.asObservable(); // Return observable for messages
   }
 }

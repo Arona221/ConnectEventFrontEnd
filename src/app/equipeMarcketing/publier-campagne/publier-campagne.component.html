@@ -1,0 +1,168 @@
+<nav class="navbar">
+    <div class="logo">
+        <img src="assets/images/logoV2.jpg" alt="Logo">
+    </div>
+
+    <div class="menu-toggle" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <ul class="menu-items" [class.active]="isMenuOpen">
+        <li> 
+            <a routerLink="/acceuilEquipe-marketing" routerLinkActive="active">
+                <i class="fas fa-home"></i> Accueil
+            </a>
+        </li>
+        <li> 
+          <a routerLink="/mes-campagnes" routerLinkActive="active">
+              <i class="fas fa-bullhorn"></i> Événements à Promouvoir
+          </a>
+      </li>
+      
+      <li> 
+          <a routerLink="/evenements-promouvoir" routerLinkActive="active">
+              <i class="fas fa-calendar-check"></i> Mes Campagnes
+          </a>
+      </li>
+        <li> 
+            <a routerLink="/automatisation" routerLinkActive="active">
+                <i class="fas fa-cogs"></i> Automatisation
+            </a>
+        </li>
+        <li> 
+            <a routerLink="/rapports" routerLinkActive="active">
+                <i class="fas fa-chart-bar"></i> Rapports
+            </a>
+        </li>
+        <!-- Profil utilisateur -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                {{ nomUtilisateur }} <i class="fas fa-user"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<!-- mes-campagnes.component.html -->
+<div class="campaign-container">
+    <h1>Mes Campagnes Marketing</h1>
+  
+    <!-- Contrôles d'affichage -->
+    <div class="view-controls">
+      <button (click)="toggleView('grid')" [class.active]="viewMode === 'grid'">
+        <i class="fas fa-th-large"></i> Grille
+      </button>
+      <button (click)="toggleView('list')" [class.active]="viewMode === 'list'">
+        <i class="fas fa-list"></i> Liste
+      </button>
+    </div>
+  
+    <!-- Loader principal -->
+    <div *ngIf="isLoading" class="loader-container">
+      <div class="spinner"></div>
+    </div>
+  
+    <!-- Message de succès -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+      <span class="close-btn" (click)="successMessage = ''">&times;</span>
+    </div>
+  
+    <!-- Affichage en grille -->
+    <div *ngIf="!isLoading && viewMode === 'grid'" class="campaign-grid">
+      <div *ngFor="let campagne of campagnes" class="campaign-card">
+        <div class="campaign-header">
+          <h3>{{ campagne.nom }}</h3>
+          <span [class]="'statut-' + campagne.statut.toLowerCase()">
+            {{ campagne.statut }}
+          </span>
+        </div>
+  
+        <div class="campaign-details">
+          <div class="detail-item">
+            <i class="fas fa-coins" matTooltip="Budget total de la campagne"></i>
+            <span>{{ campagne.budget | currency:'XOF':'symbol':'1.0-0' }}</span>
+          </div>
+  
+          <div class="date-range">
+            <div class="date-item">
+              <i class="fas fa-play-circle"></i>
+              {{ campagne.dateDebut | date: 'dd/MM/yyyy HH:mm' }}
+            </div>
+            <div class="date-item">
+              <i class="fas fa-flag-checkered"></i>
+              {{ campagne.dateFin | date: 'dd/MM/yyyy HH:mm' }}
+            </div>
+          </div>
+  
+          <div class="detail-item">
+            <i class="fas fa-envelope"></i>
+            {{ campagne.expediteurEmail }}
+          </div>
+        </div>
+  
+        <div class="campaign-actions">
+          <button *ngIf="campagne.statut === 'Planifier'" 
+                  class="btn-publier"
+                  [disabled]="isActionLoading"
+                  (click)="publierCampagne(campagne.id)">
+            <span *ngIf="!isActionLoading">
+              <i class="fas fa-paper-plane"></i> Publier
+            </span>
+            <span *ngIf="isActionLoading" class="action-loader"></span>
+          </button>
+  
+          <button *ngIf="campagne.statut === 'Terminee'" 
+                  class="btn-supprimer"
+                  (click)="supprimerCampagne(campagne.id)">
+            <i class="fas fa-trash-alt"></i> Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Affichage en liste -->
+    <div *ngIf="!isLoading && viewMode === 'list'" class="campaign-list">
+      <div *ngFor="let campagne of campagnes" class="campaign-list-item">
+        <div class="list-header">
+          <h3>{{ campagne.nom }}</h3>
+          <span [class]="'statut-' + campagne.statut.toLowerCase()">
+            {{ campagne.statut }}
+          </span>
+        </div>
+        <div class="list-details">
+          <div class="detail-item">
+            <i class="fas fa-coins"></i>
+            <span>{{ campagne.budget | currency:'XOF':'symbol':'1.0-0' }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-envelope"></i>
+            {{ campagne.expediteurEmail }}
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-calendar"></i>
+            {{ campagne.dateDebut | date: 'dd/MM/yyyy' }} - {{ campagne.dateFin | date: 'dd/MM/yyyy' }}
+          </div>
+        </div>
+        <div class="list-actions">
+          <button *ngIf="campagne.statut === 'Planifier'" 
+                  class="btn-publier"
+                  [disabled]="isActionLoading"
+                  (click)="publierCampagne(campagne.id)">
+            <span *ngIf="!isActionLoading">
+              <i class="fas fa-paper-plane"></i> Publier
+            </span>
+            <span *ngIf="isActionLoading" class="action-loader"></span>
+          </button>
+  
+          <button *ngIf="campagne.statut === 'Terminee'" 
+                  class="btn-supprimer"
+                  (click)="supprimerCampagne(campagne.id)">
+            <i class="fas fa-trash-alt"></i> Supprimer
+          </button>
+        </div>
+      </div>
+    </div>

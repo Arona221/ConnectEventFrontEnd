@@ -25,6 +25,9 @@ import { PaymentConfirmComponent } from './participant/payment-confirm/payment-c
 import { StatistiqueComponent } from './organisateur/statistique/statistique.component';
 import { EventStatisticsComponent } from './organisateur/event-statistics/event-statistics.component';
 import { EventListComponent } from './organisateur/event-list/event-list.component';
+import { MesCampagneComponent } from './equipeMarcketing/mes-campagne/mes-campagne.component';
+import { CreateCampagneComponent } from './equipeMarcketing/create-campagne/create-campagne.component';
+import { PublierCampagneComponent } from './equipeMarcketing/publier-campagne/publier-campagne.component';
 
 
 
@@ -59,6 +62,10 @@ export const routes: Routes = [
   {path: 'statistiques',  component: StatistiqueComponent } ,
   {path: 'statistiques-details/:eventId',  component: EventStatisticsComponent} ,
   {path: 'statistiques-liste',  component: EventListComponent} ,
+  {path: 'mes-campagnes',  component: MesCampagneComponent} ,
+  {path: 'campagnes-create',  component: CreateCampagneComponent} ,
+  {path: 'evenements-promouvoir',  component: PublierCampagneComponent} ,
+
   
   { path: '**', redirectTo: '', pathMatch: 'full' },  
 
