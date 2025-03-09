@@ -64,7 +64,12 @@
             <div class="stat-card">
                 <i class="fas fa-bullhorn"></i>
                 <h3>Campagnes Actives</h3>
-                <p>12</p>
+                <p *ngIf="activeCampagnesCount !== undefined; else loading">
+                    {{ activeCampagnesCount }}
+                </p>
+                <ng-template #loading>
+                    <div class="spinner-border spinner-border-sm text-primary"></div>
+                </ng-template>
             </div>
             <div class="stat-card">
                 <i class="fas fa-chart-line"></i>
@@ -84,52 +89,84 @@
         </section>
     
 
-        <!-- Campagnes en Cours -->
-        <section class="ongoing-campaigns">
-            <h2>Campagnes en Cours</h2>
-            <div class="campaign-grid">
-                <div class="campaign-card">
-                    <h3>Campagne Printemps 2024</h3>
-                    <p><strong>Date de début :</strong> 01/03/2024</p>
-                    <p><strong>Budget :</strong> 500 milles FCFA</p>
-                    <p><strong>Statut :</strong> En cours</p>
-                    <div class="progress-bar">
-                        <div class="progress progress-60"></div>
-                    </div>
-                </div>
-                <div class="campaign-card">
-                    <h3>Promotion Été 2024</h3>
-                    <p><strong>Date de début :</strong> 15/06/2024</p>
-                    <p><strong>Budget :</strong> 750 milles FCFA</p>
-                    <p><strong>Statut :</strong> En attente</p>
-                    <div class="progress-bar">
-                        <div class="progress progress-30"></div>
-                    </div>
-                </div>
+        <!-- Campagnes groupées par statut -->
+<!-- Modifier la section des campagnes -->
+<section class="status-columns">
+    <div *ngFor="let status of ['En_cours', 'Planifier', 'Terminee']" class="status-column">
+      <div class="status-header">
+        <h2>Campagnes {{ getStatusLabel(status) }}</h2>
+        <div class="status-counter">{{ getCampaignCount(status) }}</div>
+      </div>
+      
+      <div class="campaign-container" *ngIf="allCampagnes[status]?.length; else noCampaigns">
+        <div class="campaign-carousel">
+        <!-- Boutons de navigation -->
+         <button class="nav-btn prev-btn" 
+          *ngIf="(allCampagnes[status]?.length || 0) > 1" 
+         (click)="prevCampaign(status)" 
+         title="Campagne précédente">
+        <i class="fas fa-chevron-left"></i>
+         </button>
+          
+          <!-- Carte de campagne avec animation -->
+          <div class="campaign-card" *ngIf="displayedCampagnes[status]" [@fadeAnimation]>
+            <h3>{{ displayedCampagnes[status].nom }}</h3>
+            
+            <div class="campaign-meta">
+              <div class="meta-item">
+                <i class="fas fa-calendar-day"></i>
+                {{ displayedCampagnes[status].dateDebut | date: 'dd/MM/yyyy' }}
+              </div>
+              
+              <div class="meta-item">
+                <i class="fas fa-wallet"></i>
+                {{ displayedCampagnes[status].budget | currency:'XOF':'symbol':'1.0-0' }}
+              </div>
             </div>
-        </section>
-         <!-- Actions Rapides -->
-    <section class="quick-actions">
-        <h2>Actions Rapides</h2>
-        <div class="actions-grid">
-            <button class="action-card">
-                <i class="fas fa-plus"></i>
-                <span>Créer une Campagne</span>
-            </button>
-            <button class="action-card">
-                <i class="fas fa-chart-pie"></i>
-                <span>Voir les Rapports</span>
-            </button>
-            <button class="action-card">
-                <i class="fas fa-envelope"></i>
-                <span>Envoyer un Email</span>
-            </button>
-            <button class="action-card">
-                <i class="fas fa-cog"></i>
-                <span>Paramètres</span>
-            </button>
+  
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress" [style.width.%]="calculateProgress(displayedCampagnes[status])"></div>
+              </div>
+              <span class="progress-text">{{ calculateProgress(displayedCampagnes[status]) }}%</span>
+            </div>
+  
+            <div class="campaign-status">
+              <span [class]="'status-badge ' + displayedCampagnes[status].statut.toLowerCase()">
+                {{ getStatusLabel(displayedCampagnes[status].statut) }}
+              </span>
+            </div>
+            
+           
+            <!-- Indicateurs de pagination -->
+                <div class="pagination-dots" *ngIf="(allCampagnes[status]?.length || 0) > 1">
+                  <span 
+                *ngFor="let campaign of (allCampagnes[status] || []); let i = index" 
+                   class="dot" 
+                  [class.active]="i === currentIndexes[status]">
+                 </span>
+                   </div>
+          </div>
+          
+          <!-- Bouton suivant -->
+           <!-- Bouton suivant -->
+          <button class="nav-btn next-btn" 
+          *ngIf="(allCampagnes[status]?.length || 0) > 1" 
+          (click)="nextCampaign(status)" 
+          title="Campagne suivante">
+          <i class="fas fa-chevron-right"></i>
+        </button>
         </div>
-    </section>
+      </div>
+  
+      <ng-template #noCampaigns>
+        <div class="no-campaigns-in-column">
+          <i class="fas fa-box-open"></i>
+          Aucune campagne {{ getStatusLabel(status) }}
+        </div>
+      </ng-template>
+    </div>
+  </section>
     
         <!-- Graphiques et Rapports -->
         <section class="reports">

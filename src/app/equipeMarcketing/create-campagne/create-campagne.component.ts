@@ -24,6 +24,7 @@ export class CreateCampagneComponent implements OnInit {
   isMenuOpen = false;
   nomUtilisateur: string | null = '';
   evenementDetails: EvenementDTO | null = null;
+  allCampagnes: { [key: string]: any[] } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -133,7 +134,7 @@ export class CreateCampagneComponent implements OnInit {
           // 3. Envoyer la Campagne
           this.marketingService.createCampagne(campaignData).subscribe({
             next: () => {
-              this.router.navigate(['/mes-campagnes']);
+              this.router.navigate(['/evenements-promouvoir']);
               this.isLoading = false;
             },
             error: (err) => {
@@ -177,5 +178,8 @@ export class CreateCampagneComponent implements OnInit {
         this.errorMessage = 'Impossible de charger les détails de l\'événement';
       }
     });
+  }
+  getCampaignCount(status: string): number {
+    return (this.allCampagnes[status] || []).length;
   }
 }

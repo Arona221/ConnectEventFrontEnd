@@ -28,6 +28,7 @@ import { EventListComponent } from './organisateur/event-list/event-list.compone
 import { MesCampagneComponent } from './equipeMarcketing/mes-campagne/mes-campagne.component';
 import { CreateCampagneComponent } from './equipeMarcketing/create-campagne/create-campagne.component';
 import { PublierCampagneComponent } from './equipeMarcketing/publier-campagne/publier-campagne.component';
+import { ParticipantComponent } from './organisateur/participant/participant.component';
 
 
 
@@ -65,6 +66,7 @@ export const routes: Routes = [
   {path: 'mes-campagnes',  component: MesCampagneComponent} ,
   {path: 'campagnes-create',  component: CreateCampagneComponent} ,
   {path: 'evenements-promouvoir',  component: PublierCampagneComponent} ,
+  {path: 'participant-events',  component: ParticipantComponent} ,
 
   
   { path: '**', redirectTo: '', pathMatch: 'full' },  

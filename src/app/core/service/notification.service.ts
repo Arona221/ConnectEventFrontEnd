@@ -83,7 +83,8 @@ export class NotificationService {
    getOrganisateurEvents(organisateurId: number): Observable<any[]> {
     return this.http.get<Page<any>>(`${this.apiUrl2}/${organisateurId}`)
       .pipe(
-        map(response => response.content) // Extraire le tableau
+        tap(response => console.log('Réponse complète du backend:', response)),
+        map(response => response.content)
       );
   }
   
@@ -118,23 +119,25 @@ export class NotificationService {
       });
     }
   }
-  private fetchOrganisateurEvents(organisateurId: number): Observable<any[]> {
-    return this.http.get<any>(`${this.apiUrl2}/${organisateurId}`).pipe(
-      map(response => {
-        if (!response?.content) {
-          throw new Error('Format de réponse inattendu');
-        }
-        return response.content.map((event: Notification) => ({
-          ...event,
-          id: Number(event.id)
-        }));
-      }),
-      catchError(error => {
-        console.error('Erreur de récupération des événements:', error);
-        return of([]);
-      })
-    );
-  }
+  // notification.service.ts
+
+private fetchOrganisateurEvents(organisateurId: number): Observable<any[]> {
+  return this.http.get<any>(`${this.apiUrl2}/${organisateurId}`).pipe(
+    map(response => {
+      if (!response?.content) {
+        throw new Error('Format de réponse inattendu');
+      }
+      return response.content.map((event: any) => ({
+        ...event,
+        id: event.id_evenement // Correction ici
+      }));
+    }),
+    catchError(error => {
+      console.error('Erreur de récupération des événements:', error);
+      return of([]);
+    })
+  );
+}
   // Méthodes d'envoi de notifications
   sendEmail(organisateurId: number, evenementId: number, notification: NotificationDTO): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

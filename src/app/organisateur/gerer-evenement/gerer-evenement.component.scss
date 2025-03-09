@@ -1,124 +1,155 @@
-
+/* Styles généraux */
 body {
-    background-color: #f8f9fa;
+    background-color: #f8fafc;
+    min-height: 100vh;
     font-family: 'Roboto', sans-serif;
-    padding-top: 60px;
+    padding-top: 110px;
 }
+
 .navbar {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 5%;
 }
+
 .navbar-nav .nav-link {
     padding: 10px 15px;
     transition: 0.3s;
 }
+
 .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
     color: #ff6600 !important;
     text-decoration: underline;
 }
+
 .nav-item .dropdown-menu {
     min-width: 180px;
 }
-.table {
-    margin-top: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+/* Calendrier fixe */
+.calendar-sticky {
+    position: sticky;
+    top: 110px; /* Ajustez en fonction de la hauteur de la navbar */
+    height: calc(100vh - 130px); /* Hauteur réduite avec espace en haut */
+    overflow-y: auto; /* Défilement si nécessaire */
 }
-.table thead {
-    background-color: #ff6600;
-    color: white;
+
+/* Conteneur de la liste des événements */
+.col-md-8.col-lg-9 {
+    height: calc(100vh - 130px); /* Hauteur ajustée */
+    overflow-y: auto; /* Défilement vertical */
 }
-.table tbody tr {
-    transition: background-color 0.3s;
-}
-.table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-.btn-action {
-    margin: 0 5px;
-    transition: transform 0.2s;
-}
-.btn-action:hover {
-    transform: scale(1.1);
-}
-.btn-details {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-}
-.btn-edit {
-    background-color: #ffc107;
-    border-color: #ffc107;
-}
-.btn-delete {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-.pagination .page-item.active .page-link {
-    background-color: #ff6600;
-    border-color: #ff6600;
-}
-.pagination .page-link {
-    color: white;
-}
-.pagination .page-link:hover {
-    background-color: #ff6600;
-    color: white;
-}
-.alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
-}
-.alert-danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
-}
-.container {
-    max-width: 1200px;
-    padding: 2rem;
-  }
-  
-  .card {
-    border-radius: 1rem;
-    overflow: hidden;
-  }
-  
-  .card-header {
-    padding: 1.5rem;
-    font-size: 1.25rem;
-  }
-  
-  .form-select, .form-control {
-    border-radius: 0.5rem;
-    padding: 1rem;
-    border: 2px solid #dee2e6;
-    transition: all 0.3s ease;
-  
-    &:focus {
-      border-color: #0d6efd;
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+
+/* Calendrier compact */
+.fc-compact {
+    font-size: 0.85rem;
+    width: 100%;
+    height: 100%;
+
+    .fc-toolbar-title {
+        font-size: 1rem;
+        font-weight: 600;
     }
-  }
-  
-  .btn {
-    border-radius: 0.5rem;
-    padding: 1rem 2rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-  
-    &:disabled {
-      opacity: 0.7;
+
+    .fc-header-toolbar {
+        margin-bottom: 0.5rem !important;
+        padding: 0 0.5rem;
+        flex-wrap: wrap;
     }
-  
-    i {
-      font-size: 1.25rem;
+
+    .fc-view-harness {
+        min-height: auto !important;
+        height: auto !important;
     }
-  }
-  
-  .spinner-border {
-    width: 3rem;
-    height: 3rem;
-  }
- 
+
+    .fc-scrollgrid-liquid {
+        height: auto !important;
+    }
+
+    .fc-daygrid-body {
+        width: 100% !important;
+    }
+
+    .fc-day {
+        height: 25px !important;
+    }
+
+    .fc-daygrid-day-frame {
+        min-height: auto !important;
+        height: auto !important;
+        max-height: 30px !important;
+    }
+
+    .fc-daygrid-day-number {
+        padding: 0 !important;
+        margin: 2px;
+        font-size: 0.8rem;
+    }
+
+    .fc-event {
+        margin: 1px 0 !important;
+        padding: 1px 2px !important;
+        font-size: 0.75rem !important;
+        border-radius: 2px !important;
+    }
+
+    .fc-more-link {
+        font-size: 0.75rem;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .fc th, .fc td {
+        border: 1px solid #ddd !important;
+    }
+
+    .fc-day-today {
+        background-color: rgba(255, 102, 0, 0.1) !important;
+    }
+}
+
+/* Couleurs pour les statuts d'événements */
+.event-approuve {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+}
+
+.event-en-attente {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.event-annule {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.event-terminer {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .fc-compact {
+        .fc-toolbar-title {
+            font-size: 0.9rem;
+        }
+
+        .fc-col-header-cell {
+            font-size: 0.8rem;
+        }
+
+        .fc-daygrid-day-number {
+            font-size: 0.75rem;
+        }
+    }
+
+    .card-header {
+        flex-direction: column;
+    }
+}
+
+/* Couleur d'arrière-plan pour l'en-tête du calendrier */
+.bg-orange {
+    background-color: #ff6600;
+}

@@ -122,9 +122,9 @@
               <!-- Sélection d'événement -->
               <div class="mb-4 position-relative">
                 <label class="form-label">Événement</label>
-                  <select class="form-select" formControlName="selectedEventId">
+                <select class="form-select" formControlName="selectedEventId">
   <option value="" disabled selected>Sélectionnez un événement</option>
-  <option *ngFor="let event of events$ | async" [value]="event.id">
+  <option *ngFor="let event of events$ | async" [value]="event.id_evenement">
     {{ event.nom }}
   </option>
 </select>
@@ -347,21 +347,19 @@
     }
 
     sendNotification(channel: 'email' | 'sms' | 'whatsapp'): void {
-      console.log('État du formulaire:', this.notificationForm.value);
-      console.log('Validité du formulaire:', this.notificationForm.valid);
-    
-      if (this.notificationForm.invalid) {
-        this.notificationService.showError('Veuillez remplir tous les champs requis.');
-        return;
-      }
-    
       const formValue = this.notificationForm.value;
+      
+      console.log('Valeur brute du formulaire:', formValue);
+      console.log('Type de selectedEventId:', typeof formValue.selectedEventId);
     
-      if (!formValue.selectedEventId || isNaN(Number(formValue.selectedEventId))) {
-        this.notificationService.showError('Veuillez sélectionner un événement valide.');
+      const evenementId = Number(formValue.selectedEventId);
+      
+      if (isNaN(evenementId)) {
+        console.error('ID Événement invalide - Valeur brute:', formValue.selectedEventId);
+        this.showError('Veuillez sélectionner un événement valide');
         return;
       }
-      const evenementId = Number(formValue.selectedEventId);
+      
       const organisateurId = Number(localStorage.getItem('idUtilisateur'));
       console.log("Événement sélectionné :", this.notificationForm.value.selectedEventId)
      

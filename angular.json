@@ -47,7 +47,10 @@
             ],
             "allowedCommonJsDependencies": [
               "pdfmake",
-              "xlsx"
+              "xlsx",
+              "@fullcalendar/core",
+              "@fullcalendar/daygrid",
+              "@fullcalendar/bootstrap5"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",

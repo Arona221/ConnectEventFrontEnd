@@ -318,3 +318,417 @@ body {
 .banner-overlay p {
     font-size: 1.2rem;
 }
+.stat-card {
+    transition: transform 0.3s;
+    
+    p {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #ff6600;
+    }
+    
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+/* Styles pour le défilement intelligent */
+.campaign-scroll-container {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #ff6600 #f0f0f0;
+  
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: #ff6600;
+      border-radius: 4px;
+    }
+  }
+  
+  .campaign-grid {
+    display: inline-flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    min-width: 100%;
+  }
+  
+  .campaign-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+  
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+  
+  .progress-container {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress {
+    height: 100%;
+    background: #ff6600;
+    transition: width 0.5s ease;
+  }
+  
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  
+    &.en_cours {
+      background: rgba(76, 175, 80, 0.1);
+      color: #4CAF50;
+    }
+  
+    &.planifiee {
+      background: rgba(255, 152, 0, 0.1);
+      color: #FF9800;
+    }
+  
+    &.terminee {
+      background: rgba(244, 67, 54, 0.1);
+      color: #F44336;
+    }
+  }
+  
+  .no-campaigns {
+    text-align: center;
+    padding: 4rem;
+    color: #666;
+  
+    i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+  }
+  /* Styles pour les colonnes de statut */
+.status-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .status-column {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  /* En-tête de colonne avec compteur */
+  .status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #ff6600;
+  
+    h2 {
+      font-size: 1.25rem;
+      color: #2c3e50;
+      margin: 0;
+      font-weight: 600;
+    }
+    
+    .status-counter {
+      background: #ff6600;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Conteneur du carrousel */
+  .campaign-container {
+    min-height: 250px;
+  }
+  
+  .campaign-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Style des boutons de navigation */
+  .nav-btn {
+    position: absolute;
+    background: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  
+    &:hover {
+      background: #f8f8f8;
+      transform: scale(1.1);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  
+    &.prev-btn {
+      left: -10px;
+    }
+  
+    &.next-btn {
+      right: -10px;
+    }
+  
+    i {
+      color: #ff6600;
+      font-size: 0.8rem;
+    }
+  }
+  
+  /* Carte de campagne améliorée */
+  .campaign-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+  
+    h3 {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .campaign-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      
+      .meta-item {
+        display: flex;
+        align-items: center;
+        color: #666;
+        font-size: 0.9rem;
+        
+        i {
+          color: #ff6600;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  
+    .campaign-status {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  
+  /* Points de pagination */
+  .pagination-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    gap: 6px;
+    
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #ddd;
+      transition: all 0.3s ease;
+      
+      &.active {
+        background-color: #ff6600;
+        transform: scale(1.2);
+      }
+    }
+  }
+  
+  /* Amélioration de la barre de progression */
+  .progress-container {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .progress {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6600 0%, #ff983d 100%);
+    border-radius: 10px;
+    position: relative;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.1) 25%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.1) 75%
+      );
+      background-size: 200% 100%;
+      animation: progressShimmer 2s infinite linear;
+    }
+  }
+  
+  @keyframes progressShimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+  
+  .progress-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #ff6600;
+    min-width: 45px;
+    text-align: right;
+  }
+  
+  /* Styles pour les badges de statut */
+  .status-badge {
+    padding: 0.4rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+  
+    &.en_cours {
+      background: rgba(76, 175, 80, 0.1);
+      color: #4CAF50;
+      
+      &::before {
+        background-color: #4CAF50;
+      }
+    }
+  
+    &.planifier {
+      background: rgba(255, 152, 0, 0.1);
+      color: #FF9800;
+      
+      &::before {
+        background-color: #FF9800;
+      }
+    }
+  
+    &.terminee {
+      background: rgba(33, 150, 243, 0.1);
+      color: #2196F3;
+      
+      &::before {
+        background-color: #2196F3;
+      }
+    }
+  }
+  
+  /* Message pour absence de campagnes */
+  .no-campaigns-in-column {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #666;
+    background: #f9f9f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+  }
+  
+  /* Animations spécifiques */
+  @keyframes cardEnter {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
