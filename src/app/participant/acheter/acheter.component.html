@@ -29,12 +29,13 @@
                             <i class="fas fa-heart"></i> Mes favoris
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" title="Notifications">
+                     <!-- Notifications -->
+                     <li class="nav-item">
+                        <a class="nav-link" routerLink="/sendNotification" routerLinkActive="active" >
                             <i class="fas fa-bell"></i> 
                             <span class="badge bg-danger">{{ notificationsCount }}</span>
                         </a>
-                    </li>
+                      </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
                             {{ nomUtilisateur }} <i class="fas fa-user"></i>

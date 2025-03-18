@@ -216,4 +216,20 @@ private fetchOrganisateurEvents(organisateurId: number): Observable<any[]> {
       return throwError(() => new Error(errorMessage));
     };
   }
+
+
+  getNotifications(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl1}/user/${userId}`);
+  }
+  
+  
+  public notificationCount$ = this.notificationCount.asObservable();
+
+  markAsRead(id: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl1}/mark-read/${id}`, {});
+  }
+
+   updateUnreadCount(count: number): void {
+    this.notificationCount.next(count);
+  }
 }

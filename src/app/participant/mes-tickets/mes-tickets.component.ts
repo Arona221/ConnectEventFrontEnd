@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { RouterLink } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
@@ -10,8 +10,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BilletParticipant} from '../../core/model/participant.model';
+import { BilletParticipant } from '../../core/model/participant.model';
 import { ParticipantService } from '../../core/service/participant.service';
+import { NotificationService } from '../../core/service/notification.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-mes-tickets',
@@ -29,19 +31,22 @@ import { ParticipantService } from '../../core/service/participant.service';
   styleUrl: './mes-tickets.component.scss',
   providers: [DatePipe]
 })
-export class MesTicketsComponent implements OnInit {
-  notificationsCount = 1;
+export class MesTicketsComponent implements OnInit, OnDestroy {
   nomUtilisateur: string | null = '';
   billets: BilletParticipant[] = [];
   loading = true;
   participantId: number;
   isGridView = true;
+  private countSubscription!: Subscription;
+  notificationsCount: number = 0;
+  notifications: { read: boolean }[] = [];
 
   constructor(
     private router: Router,
     public participantService: ParticipantService,
     public datePipe: DatePipe,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private notificationService: NotificationService
   ) {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
     this.participantId = Number(localStorage.getItem('idUtilisateur'));
@@ -49,6 +54,34 @@ export class MesTicketsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadBillets();
+    this.countSubscription = this.notificationService.notificationCount$
+      .subscribe(count => {
+        this.notificationsCount = count;
+      });
+
+      this.loadNotifications();
+
+    this.countSubscription = this.notificationService.notificationCount$
+    .subscribe(count => {
+      // Mettre à jour le badge de la navbar
+      this.notificationsCount = count;
+    });
+  }
+  private loadNotifications(): void {
+    const userId = parseInt(localStorage.getItem('idUtilisateur') || '0', 10);
+    this.notificationService.getNotifications(userId).subscribe({
+      next: (data) => {
+        this.notifications = data;
+        this.updateUnreadCount();
+      },
+      error: (err) => console.error('Error loading notifications:', err)
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.countSubscription) {
+      this.countSubscription.unsubscribe();
+    }
   }
 
   loadBillets(): void {
@@ -122,6 +155,11 @@ export class MesTicketsComponent implements OnInit {
       case 'PASSÉ': return 'bg-secondary';
       default: return 'bg-warning';
     }
+  }
+  
+  private updateUnreadCount(): void {
+    const count = this.notifications.filter(n => !n.read).length;
+    this.notificationService.updateUnreadCount(count);
   }
 
 

@@ -47,14 +47,16 @@ export class AcceuilMarketingComponent implements OnInit, OnDestroy {
   displayedCampagnes: { [key: string]: any } = {
     'En_cours': null,
     'Planifier': null,
-    'Terminee': null
+    'Terminee': null,
+    'Programmer': null
   };
   
   // Index actuels pour chaque statut
   currentIndexes: { [key: string]: number } = {
     'En_cours': 0,
     'Planifier': 0,
-    'Terminee': 0
+    'Terminee': 0,
+    'Programmer':0,
   };
   
   // Pour la rotation
@@ -168,7 +170,8 @@ export class AcceuilMarketingComponent implements OnInit, OnDestroy {
     const labels: { [key: string]: string } = {
       'En_cours': 'En cours',
       'Planifier': 'Planifiée',
-      'Terminee': 'Terminée'
+      'Terminee': 'Terminée',
+      'Programmer':'Programmer'
     };
     return labels[status] || status;
   }

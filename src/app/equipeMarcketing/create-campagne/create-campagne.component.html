@@ -1,258 +1,505 @@
+<!-- Navbar with enhanced styling -->
 <nav class="navbar">
-    <div class="logo">
-      <img src="assets/images/logoV2.jpg" alt="Logo">
+  <div class="logo">
+    <img src="assets/images/logoV2.jpg" alt="Logo">
+  </div>
+  
+  <div class="menu-toggle" (click)="toggleMenu()">
+    <i class="fas fa-bars"></i>
+  </div>
+  
+  <ul class="menu-items" [class.active]="isMenuOpen">
+    <li>
+      <a routerLink="/acceuilEquipe-marketing" routerLinkActive="active">
+        <i class="fas fa-home"></i> Accueil
+      </a>
+    </li>
+    <li>
+      <a routerLink="/mes-campagnes" routerLinkActive="active">
+        <i class="fas fa-bullhorn"></i> Événements à Promouvoir
+      </a>
+    </li>
+    <li>
+      <a routerLink="/evenements-promouvoir" routerLinkActive="active">
+        <i class="fas fa-calendar-check"></i> Mes Campagnes
+      </a>
+    </li>
+    <li>
+      <a routerLink="/automatisation" routerLinkActive="active">
+        <i class="fas fa-cogs"></i> Automatisation
+      </a>
+    </li>
+    <li>
+      <a routerLink="/rapports" routerLinkActive="active">
+        <i class="fas fa-chart-bar"></i> Rapports
+      </a>
+    </li>
+    <!-- User profile dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+        <i class="fas fa-user-circle"></i> {{ nomUtilisateur }}
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+        <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<div class="campaign-container">
+  <h1 class="mb-4">Nouvelle Campagne Promotionnelle</h1>
+
+  <div class="event-info-card mb-5">
+    <h3>Événement à promouvoir</h3>
+    <div *ngIf="evenementDetails">
+      <h4 class="mb-2">{{ evenementDetails.nom }}</h4>
+      <p class="mb-1">
+        <i class="fas fa-calendar-day"></i> 
+        {{ evenementDetails.date | date: 'dd/MM/yyyy HH:mm' }}
+      </p>
+      <p class="mb-1">
+        <i class="fas fa-map-marker-alt"></i> 
+        {{ evenementDetails.lieu }}
+      </p>
+    </div>
+    <div *ngIf="!evenementDetails" class="loading-event">
+      Chargement des détails de l'événement...
+    </div>
+  </div>
+
+  <!-- Bouton pour générer le message -->
+  <div class="mb-5">
+    <button 
+      class="btn btn-primary"
+      (click)="generateMessage()"
+      [disabled]="isLoadingMessage">
+      <span *ngIf="!isLoadingMessage">Générer le message</span>
+      <span *ngIf="isLoadingMessage" class="spinner-border spinner-border-sm"></span>
+    </button>
+  </div>
+
+  <!-- Afficher le message généré -->
+  <div class="message-preview mb-5" *ngIf="generatedMessage">
+    <h3>Message généré</h3>
+    <div [innerHTML]="generatedMessage.template"></div>
+  </div>
+
+  <!-- Formulaire de création de campagne -->
+  <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" class="campaign-form">
+    <!-- Nom de la campagne -->
+    <div class="form-group">
+      <label for="nom">Nom de la campagne *</label>
+      <input 
+        type="text" 
+        id="nom" 
+        formControlName="nom" 
+        class="form-control"
+        [ngClass]="{ 'is-invalid': campaignForm.get('nom')?.errors && campaignForm.get('nom')?.touched }">
+      <div *ngIf="campaignForm.get('nom')?.errors" class="invalid-feedback">
+        Le nom est requis (max 100 caractères)
+      </div>
     </div>
   
-    <div class="menu-toggle" (click)="toggleMenu()">
-      <i class="fas fa-bars"></i>
+    <!-- Budget -->
+    <div class="form-group">
+      <label for="budget">Budget (FCFA) *</label>
+      <input 
+        type="number" 
+        id="budget" 
+        formControlName="budget" 
+        class="form-control"
+        [ngClass]="{ 'is-invalid': campaignForm.get('budget')?.errors && campaignForm.get('budget')?.touched }">
+      <div *ngIf="campaignForm.get('budget')?.errors" class="invalid-feedback">
+        Le budget minimum est de 100 FCFA
+      </div>
     </div>
   
-    <ul class="menu-items" [class.active]="isMenuOpen">
-      <li> 
-        <a routerLink="/acceuilEquipe-marketing" routerLinkActive="active">
-          <i class="fas fa-home"></i> Accueil
-        </a>
-      </li>
-      <li> 
-        <a routerLink="/mes-campagnes" routerLinkActive="active">
-          <i class="fas fa-bullhorn"></i> Événements à Promouvoir
-        </a>
-      </li>
-      <li> 
-        <a routerLink="/evenements-promouvoir" routerLinkActive="active">
-          <i class="fas fa-calendar-check"></i> Mes Campagnes
-        </a>
-      </li>
-      <li> 
-        <a routerLink="/automatisation" routerLinkActive="active">
-          <i class="fas fa-cogs"></i> Automatisation
-        </a>
-      </li>
-      <li> 
-        <a routerLink="/rapports" routerLinkActive="active">
-          <i class="fas fa-chart-bar"></i> Rapports
-        </a>
-      </li>
-      <!-- Profil utilisateur -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
-          {{ nomUtilisateur }} <i class="fas fa-user"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
-          <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+    <!-- Email expéditeur -->
+    <div class="form-group">
+      <label for="expediteurEmail">Email de l'expéditeur *</label>
+      <input 
+        type="email" 
+        id="expediteurEmail" 
+        formControlName="expediteurEmail" 
+        class="form-control"
+        [ngClass]="{ 'is-invalid': campaignForm.get('expediteurEmail')?.errors && campaignForm.get('expediteurEmail')?.touched }">
+      <div *ngIf="campaignForm.get('expediteurEmail')?.errors" class="invalid-feedback">
+        Un email valide est requis
+      </div>
+    </div>
   
-  <div class="campaign-container">
-    <h1 class="mb-4">Nouvelle Campagne Promotionnelle</h1>
-  
-    <div class="event-info-card mb-5">
-        <h3>Événement à promouvoir</h3>
-        <div *ngIf="evenementDetails">
-          <h4 class="mb-2">{{ evenementDetails.nom }}</h4>
-          <p class="mb-1">
-            <i class="fas fa-calendar-day"></i> 
-            {{ evenementDetails.date | date: 'dd/MM/yyyy HH:mm' }}
-          </p>
-          <p class="mb-1">
-            <i class="fas fa-map-marker-alt"></i> 
-            {{ evenementDetails.lieu }}
-          </p>
-        </div>
-        <div *ngIf="!evenementDetails" class="loading-event">
-          Chargement des détails de l'événement...
+    <!-- Dates -->
+    <div class="date-range">
+      <div class="form-group">
+        <label for="dateDebut">Date de début *</label>
+        <input 
+          type="date" 
+          id="dateDebut" 
+          formControlName="dateDebut" 
+          class="form-control"
+          [ngClass]="{ 'is-invalid': campaignForm.get('dateDebut')?.errors && campaignForm.get('dateDebut')?.touched }">
+        <div *ngIf="campaignForm.get('dateDebut')?.errors" class="invalid-feedback">
+          La date de début est requise
         </div>
       </div>
-  
-    <!-- Bouton pour générer le message -->
-    <div class="mb-5">
-      <button 
-        class="btn btn-primary"
-        (click)="generateMessage()"
-        [disabled]="isLoadingMessage">
-        <span *ngIf="!isLoadingMessage">Générer le message</span>
-        <span *ngIf="isLoadingMessage" class="spinner-border spinner-border-sm"></span>
-      </button>
-    </div>
-  
-    <!-- Afficher le message généré -->
-    <div class="message-preview mb-5" *ngIf="generatedMessage">
-      <h3>Message généré</h3>
-      <div [innerHTML]="generatedMessage.template"></div>
-    </div>
-  
-    <!-- Formulaire de création de campagne -->
-    <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" class="campaign-form">
-      <!-- Nom de la campagne -->
+      
       <div class="form-group">
-        <label for="nom">Nom de la campagne *</label>
+        <label for="dateFin">Date de fin *</label>
+        <input 
+          type="date" 
+          id="dateFin" 
+          formControlName="dateFin" 
+          class="form-control"
+          [ngClass]="{ 'is-invalid': campaignForm.get('dateFin')?.errors && campaignForm.get('dateFin')?.touched }">
+        <div *ngIf="campaignForm.get('dateFin')?.errors" class="invalid-feedback">
+          La date de fin est requise
+        </div>
+      </div>
+    </div>
+  
+    <!-- Critères de segmentation -->
+    <div class="form-group">
+      <label>Critères de segmentation *</label>
+      <div class="segment-form">
         <input 
           type="text" 
-          id="nom" 
-          formControlName="nom" 
-          class="form-control"
-          [ngClass]="{ 'is-invalid': campaignForm.get('nom')?.errors && campaignForm.get('nom')?.touched }">
-        <div *ngIf="campaignForm.get('nom')?.errors" class="invalid-feedback">
-          Le nom est requis (max 100 caractères)
+          formControlName="critere1" 
+          placeholder="Critère 1 (ex: age > 25)" 
+          class="form-control mb-2"
+          [ngClass]="{ 'is-invalid': campaignForm.get('critere1')?.errors && campaignForm.get('critere1')?.touched }">
+        <div *ngIf="campaignForm.get('critere1')?.errors" class="invalid-feedback">
+          Le critère 1 est requis
         </div>
-      </div>
-    
-      <!-- Budget -->
-      <div class="form-group">
-        <label for="budget">Budget (FCFA) *</label>
         <input 
-          type="number" 
-          id="budget" 
-          formControlName="budget" 
-          class="form-control"
-          [ngClass]="{ 'is-invalid': campaignForm.get('budget')?.errors && campaignForm.get('budget')?.touched }">
-        <div *ngIf="campaignForm.get('budget')?.errors" class="invalid-feedback">
-          Le budget minimum est de 100 FCFA
+          type="text" 
+          formControlName="critere2" 
+          placeholder="Critère 2 (ex: localisation = Dakar)" 
+          class="form-control mb-2"
+          [ngClass]="{ 'is-invalid': campaignForm.get('critere2')?.errors && campaignForm.get('critere2')?.touched }">
+        <div *ngIf="campaignForm.get('critere2')?.errors" class="invalid-feedback">
+          Le critère 2 est requis
         </div>
       </div>
-    
-      <!-- Email expéditeur -->
-      <div class="form-group">
-        <label for="expediteurEmail">Email de l'expéditeur *</label>
+    </div>
+
+    <!-- Section Contacts -->
+    <div class="form-group">
+      <label>Contacts (via fichier CSV) *</label>
+      <div class="file-upload-container">
+        <div class="custom-file-upload">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <span>Glissez-déposez votre fichier CSV ici</span>
+          <p>ou cliquez pour parcourir</p>
+        </div>
         <input 
-          type="email" 
-          id="expediteurEmail" 
-          formControlName="expediteurEmail" 
-          class="form-control"
-          [ngClass]="{ 'is-invalid': campaignForm.get('expediteurEmail')?.errors && campaignForm.get('expediteurEmail')?.touched }">
-        <div *ngIf="campaignForm.get('expediteurEmail')?.errors" class="invalid-feedback">
-          Un email valide est requis
-        </div>
-      </div>
-    
-      <!-- Dates -->
-      <div class="date-range">
-        <div class="form-group">
-          <label for="dateDebut">Date de début *</label>
-          <input 
-            type="date" 
-            id="dateDebut" 
-            formControlName="dateDebut" 
-            class="form-control"
-            [ngClass]="{ 'is-invalid': campaignForm.get('dateDebut')?.errors && campaignForm.get('dateDebut')?.touched }">
-          <div *ngIf="campaignForm.get('dateDebut')?.errors" class="invalid-feedback">
-            La date de début est requise
-          </div>
+          type="file" 
+          accept=".csv" 
+          id="fileUpload" 
+          (change)="onFileSelected($event)" 
+          class="form-control" 
+          [ngClass]="{ 'is-invalid': csvError || (campaignForm.get('contacts')?.invalid && campaignForm.get('contacts')?.touched) }">
+        
+        <!-- Message d'info -->
+        <div class="form-text">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Le fichier CSV doit contenir les colonnes : email, prenom, nom (UTF-8)
         </div>
         
-        <div class="form-group">
-          <label for="dateFin">Date de fin *</label>
-          <input 
-            type="date" 
-            id="dateFin" 
-            formControlName="dateFin" 
-            class="form-control"
-            [ngClass]="{ 'is-invalid': campaignForm.get('dateFin')?.errors && campaignForm.get('dateFin')?.touched }">
-          <div *ngIf="campaignForm.get('dateFin')?.errors" class="invalid-feedback">
-            La date de fin est requise
-          </div>
+        <!-- Message d'erreur -->
+        <div *ngIf="csvError" class="invalid-feedback">
+          {{ csvError }}
         </div>
-      </div>
-    
-      <!-- Critères de segmentation -->
-      <div class="form-group">
-        <label>Critères de segmentation *</label>
-        <div class="segment-form">
-          <input 
-            type="text" 
-            formControlName="critere1" 
-            placeholder="Critère 1 (ex: age > 25)" 
-            class="form-control mb-2"
-            [ngClass]="{ 'is-invalid': campaignForm.get('critere1')?.errors && campaignForm.get('critere1')?.touched }">
-          <div *ngIf="campaignForm.get('critere1')?.errors" class="invalid-feedback">
-            Le critère 1 est requis
-          </div>
-          <input 
-            type="text" 
-            formControlName="critere2" 
-            placeholder="Critère 2 (ex: localisation = Dakar)" 
-            class="form-control mb-2"
-            [ngClass]="{ 'is-invalid': campaignForm.get('critere2')?.errors && campaignForm.get('critere2')?.touched }">
-          <div *ngIf="campaignForm.get('critere2')?.errors" class="invalid-feedback">
-            Le critère 2 est requis
-          </div>
-        </div>
-      </div>
-    
-      <!-- Contacts -->
-      <div class="form-group">
-        <label>Contacts *</label>
-        <div formArrayName="contacts">
-          <div *ngFor="let contact of contactsFormArray.controls; let i = index" [formGroupName]="i" class="contact-form">
-            <input 
-              type="email" 
-              formControlName="email" 
-              placeholder="Email du contact" 
-              class="form-control mb-2"
-              [ngClass]="{ 'is-invalid': contact.get('email')?.errors && contact.get('email')?.touched }">
-            <div *ngIf="contact.get('email')?.errors" class="invalid-feedback">
-              L'email est requis et doit être valide
-            </div>
-            <input 
-              type="text" 
-              formControlName="prenom" 
-              placeholder="Prénom du contact" 
-              class="form-control mb-2"
-              [ngClass]="{ 'is-invalid': contact.get('prenom')?.errors && contact.get('prenom')?.touched }">
-            <div *ngIf="contact.get('prenom')?.errors" class="invalid-feedback">
-              Le prénom est requis
-            </div>
-            <input 
-              type="text" 
-              formControlName="nom" 
-              placeholder="Nom du contact" 
-              class="form-control mb-2"
-              [ngClass]="{ 'is-invalid': contact.get('nom')?.errors && contact.get('nom')?.touched }">
-            <div *ngIf="contact.get('nom')?.errors" class="invalid-feedback">
-              Le nom est requis
-            </div>
-          </div>
-        </div>
-        <button 
-          type="button" 
-          class="btn btn-secondary btn-sm" 
-          (click)="addContact()">
-          Ajouter un contact
-        </button>
-      </div>
-    
-      <!-- Bouton de soumission -->
-      <div class="form-actions">
-        <button 
-          type="submit" 
-          class="btn btn-primary"
-          [disabled]="!campaignForm.valid || isLoading || !generatedMessage">
-          <span *ngIf="!isLoading">Créer la campagne</span>
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
-        </button>
         
-        <button 
-          type="button" 
-          class="btn btn-outline-secondary"
-          (click)="navigateToMesCampagnes()">
-          Annuler
-        </button>
+        <!-- État du fichier sélectionné -->
+        <div class="file-selected" *ngIf="selectedFileName" style="display: flex;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>{{ selectedFileName }}</span>
+          <button type="button" (click)="removeFile()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
       </div>
+      
+      <!-- Aperçu des contacts -->
+      <div class="contact-preview mt-3" *ngIf="contactsPreview.length > 0">
+        <h5>Aperçu des contacts <span class="badge-count">{{ contactsPreview.length }}</span></h5>
+        <div class="table-responsive">
+          <table class="table table-sm table-striped">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let contact of contactsPreview">
+                <td>{{ contact.email }}</td>
+                <td>{{ contact.prenom }}</td>
+                <td>{{ contact.nom }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton de soumission -->
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="!campaignForm.valid || isLoading || !generatedMessage">
+        <span *ngIf="!isLoading">Créer la campagne</span>
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
+      </button>
+      
+      <button 
+        type="button" 
+        class="btn btn-outline-secondary"
+        (click)="navigateToMesCampagnes()">
+        Annuler
+      </button>
+    </div>
+
+    <!-- Messages d'erreur -->
+    <div *ngIf="campaignForm.errors?.['invalidDates']" class="alert alert-danger mt-3">
+      La date de fin doit être postérieure à la date de début
+    </div>
     
-      <!-- Messages d'erreur -->
-      <div *ngIf="campaignForm.errors?.['invalidDates']" class="alert alert-danger mt-3">
-        La date de fin doit être postérieure à la date de début
-      </div>
-      
-      <div *ngIf="!generatedMessage && campaignForm.valid" class="alert alert-warning mt-3">
-        Veuillez générer un message avant de créer la campagne
-      </div>
-      
-      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-        {{ errorMessage }}
-      </div>
-    </form>
-  </div>
+    <div *ngIf="!generatedMessage && campaignForm.valid" class="alert alert-warning mt-3">
+      Veuillez générer un message avant de créer la campagne
+    </div>
+    
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>
+
+<style>
+  :root {
+    --primary: #4a6cf7;
+    --primary-hover: #3955d1;
+    --light-blue: #eef2ff;
+    --red: #dc3545;
+    --dark: #333;
+    --text-gray: #6c757d;
+    --border: #dee2e6;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    color: var(--dark);
+    line-height: 1.5;
+    background-color: #f8f9fa;
+    padding: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .file-upload-container {
+    position: relative;
+    margin-bottom: 15px;
+  }
+
+  .custom-file-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 30px 15px;
+    background-color: var(--light-blue);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .custom-file-upload:hover {
+    border-color: var(--primary);
+    background-color: #f0f5ff;
+  }
+
+  .custom-file-upload svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+    color: var(--primary);
+  }
+
+  .custom-file-upload span {
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .custom-file-upload p {
+    font-size: 14px;
+    color: var(--text-gray);
+    margin: 5px 0 0;
+  }
+
+  input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .form-text {
+    display: flex;
+    align-items: center;
+    color: var(--text-gray);
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .form-text svg {
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+
+  .invalid-feedback {
+    display: block;
+    color: var(--red);
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .contact-preview {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+  }
+
+  .contact-preview h5 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+  }
+
+  .contact-preview h5::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 18px;
+    background-color: var(--primary);
+    margin-right: 10px;
+    border-radius: 3px;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  table th {
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table tr:last-child td {
+    border-bottom: none;
+  }
+
+  table tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  .file-selected {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #e9f5ff;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .file-selected svg {
+    margin-right: 8px;
+    color: var(--primary);
+  }
+
+  .file-selected button {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--red);
+    cursor: pointer;
+    padding: 3px;
+  }
+
+  .badge-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: white;
+    font-size: 13px;
+    border-radius: 20px;
+    padding: 3px 8px;
+    margin-left: 8px;
+  }
+
+  /* Animation d'apparition */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .contact-preview {
+    animation: fadeIn 0.3s ease-out;
+  }
+</style>

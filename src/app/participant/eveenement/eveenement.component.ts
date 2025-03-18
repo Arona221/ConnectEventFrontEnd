@@ -8,10 +8,11 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import { EvenementDTO } from '../../core/model/EvenementDTO';
 import { Categorie } from '../../core/enumeration/Categorie';
 import { EvenementService } from '../../core/service/evenement.service';
+import { NotificationService } from '../../core/service/notification.service';
 import { ToastrService } from 'ngx-toastr';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -46,14 +47,17 @@ export class EveenementComponent implements OnInit{
   isLoading = true;
   searchForm: FormGroup;
   categories = Object.values(Categorie);
-  notificationsCount = 1;
+  private countSubscription!: Subscription;
+  notificationsCount: number = 0;
+  notifications: { read: boolean }[] = [];
   nomUtilisateur: string | null = '';
   public environment = environment;
   favoriteStatusMap: { [key: number]: boolean } = {};
 
   constructor(private router: Router, private eventService: EvenementService,
     private toastr: ToastrService,  
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private notificationService: NotificationService) {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
     this.searchForm = this.fb.group({
       search: [''],
@@ -65,6 +69,14 @@ export class EveenementComponent implements OnInit{
   ngOnInit(): void {
     this.loadEvents();
     this.setupSearch();
+
+    this.loadNotifications();
+
+    this.countSubscription = this.notificationService.notificationCount$
+    .subscribe(count => {
+      // Mettre à jour le badge de la navbar
+      this.notificationsCount = count;
+    });
   }
   setupSearch(): void {
     this.searchForm.valueChanges
@@ -81,7 +93,7 @@ export class EveenementComponent implements OnInit{
   loadEvents(): void {
     this.isLoading = true;
     const formValue = this.searchForm.value;
-
+  
     this.eventService.getApprovedEvents(
       this.currentPage,
       this.pageSize,
@@ -91,8 +103,17 @@ export class EveenementComponent implements OnInit{
       formValue.lieu
     ).subscribe({
       next: (page) => {
-        this.events = page.content;
-        this.totalElements = page.totalElements;
+        // Filtrer les événements dont la date n'est pas dépassée
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Début de la journée actuelle
+        
+        this.events = page.content.filter(event => {
+          const eventDate = new Date(event.date);
+          return eventDate >= today;
+        });
+        
+        // Si vous filtrez côté client, il faut ajuster la pagination
+        this.totalElements = this.events.length;
         this.totalPages = Math.ceil(this.totalElements / this.pageSize);
         
         // Charger le statut des favoris pour chaque événement
@@ -114,8 +135,6 @@ export class EveenementComponent implements OnInit{
       }
     });
   }
-
-
   logout() {
     localStorage.clear();
     this.router.navigate(['/connexion']);
@@ -165,7 +184,20 @@ export class EveenementComponent implements OnInit{
   
     return 'assets/images/addimage.png'; // Image par défaut si `imageUrl` est absent
   }
-  
+  private loadNotifications(): void {
+    const userId = parseInt(localStorage.getItem('idUtilisateur') || '0', 10);
+    this.notificationService.getNotifications(userId).subscribe({
+      next: (data) => {
+        this.notifications = data;
+        this.updateUnreadCount();
+      },
+      error: (err) => console.error('Error loading notifications:', err)
+    });
+  }
+  private updateUnreadCount(): void {
+    const count = this.notifications.filter(n => !n.read).length;
+    this.notificationService.updateUnreadCount(count);
+  }
   
 
   onImageError(event: any): void {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/service/AuthService';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
@@ -8,7 +8,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-connexion',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf,RouterLink],
   templateUrl: './connexion.component.html',
   styleUrls: ['./connexion.component.scss'],
 })
@@ -24,6 +24,7 @@ export class ConnexionComponent {
     this.connexionForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       motDePasse: ['', [Validators.required]],
+      seRappeler: [false],
     });
   }
 

@@ -1,338 +1,585 @@
+/* Navbar */
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: black;
-    padding: 15px 20px;
-    border-bottom: 2px solid #ff6600;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1a1a2e;
+  padding: 15px 30px;
+  border-bottom: 3px solid #ff6600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 /* Logo */
 .logo img {
-    height: 40px;
+  height: 45px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
-/* Barre de menu */
+/* Menu items container */
 .menu-items {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 0;
+  margin: 0;
 }
 
-/* Style des liens */
+/* Navigation links */
 .menu-items a {
-    text-decoration: none;
-    color: white; /* Par défaut, blanc */
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 5px;
-    transition: color 0.3s ease, background 0.3s ease;
+  text-decoration: none;
+  color: #f5f5f5;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Lien actif */
+/* Active link state */
 .menu-items a.active {
-    color: #ff6600;
+  color: #ff6600;
+  background-color: rgba(255, 102, 0, 0.1);
 }
 
-/* Effet hover */
+/* Hover effect */
 .menu-items a:hover {
-    color: #ff6600;
+  color: #ff6600;
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
 }
 
-/* Profil utilisateur */
+/* User profile */
 .nav-item.dropdown .nav-link {
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  color: #f5f5f5;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Effet hover du profil */
+/* Profile dropdown hover */
 .nav-item.dropdown .nav-link:hover {
-    color: #ff6600;
+  color: #ff6600;
 }
 
-/* Bouton menu mobile */
+/* Dropdown menu */
+.dropdown-menu {
+  background-color: #1f1f35;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  min-width: 180px;
+}
+
+.dropdown-item {
+  color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 102, 0, 0.1);
+  color: #ff6600;
+}
+
+/* Mobile menu toggle button */
 .menu-toggle {
-    display: none;
-    cursor: pointer;
-    color: white;
-    font-size: 24px;
+  display: none;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .menu-items {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      background: #1a1a2e;
+      border: 1px solid #ff6600;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      width: 220px;
+      align-items: flex-start;
+  }
+  
+  .menu-items.active {
+      display: flex;
+  }
+  
+  .menu-toggle {
+      display: flex;
+  }
+  
+  .menu-items a {
+      width: 100%;
+  }
+}
+
+/* Planification Container Styles */
+.planification-container {
+  max-width: 900px;
+  margin: 2.5rem auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.planification-container h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #ff6600;
+}
+
+/* Styles communs aux deux vues */
+.campaign-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.campaign-container h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  position: relative;
+}
+
+.campaign-container h1:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 100px;
+  height: 3px;
+  background: #ff6600;
+  transform: translateX(-50%);
+}
+
+/* Contrôles d'affichage */
+.view-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  justify-content: flex-end;
+}
+
+.view-controls button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: #f0f0f0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #555;
+}
+
+.view-controls button.active {
+  background: #ff6600;
+  color: white;
+  box-shadow: 0 2px 5px rgba(255, 102, 0, 0.3);
+}
+
+.view-controls button:hover:not(.active) {
+  background: #ffece0;
+  color: #ff6600;
+}
+
+/* Éléments communs */
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.campaign-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+/* Status badges - nouveau style intégré */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.en_cours {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.status-badge.planifiee {
+  background: rgba(255, 102, 0, 0.1);
+  color: #ff6600;
+  border: 1px solid rgba(255, 102, 0, 0.2);
+}
+
+.status-badge.terminee {
+  background: rgba(244, 67, 54, 0.1);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.2);
+}
+
+/* Anciens styles de statut conservés pour compatibilité */
+.statut-badge {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statut-planifier {
+  background: rgba(255, 102, 0, 0.1);
+  color: #ff6600;
+  border: 1px solid rgba(255, 102, 0, 0.2);
+}
+
+.statut-publiee {
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.statut-termine {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.detail-item i {
+  margin-right: 0.8rem;
+  width: 20px;
+  color: #ff6600;
+}
+
+.date-range {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.date-range .date-item {
+  flex: 1;
+  padding: 0.8rem;
+  background: #fff5f0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  border: 1px solid #ffdbcc;
+}
+
+.date-range .date-item i {
+  color: #ff6600;
+  margin-right: 0.5rem;
+}
+
+.campaign-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.campaign-actions button {
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.campaign-actions button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.campaign-actions button i {
+  font-size: 0.9rem;
+}
+
+.campaign-actions .btn-publier {
+  background: #ff6600;
+  color: white;
+}
+
+.campaign-actions .btn-publier:hover:not([disabled]) {
+  background: #e55c00;
+  box-shadow: 0 2px 5px rgba(255, 102, 0, 0.3);
+}
+
+.campaign-actions .btn-supprimer {
+  background: #e74c3c;
+  color: white;
+}
+
+.campaign-actions .btn-supprimer:hover:not([disabled]) {
+  background: #c0392b;
+  box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+}
+
+/* Vue Grille */
+.campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.campaign-grid .campaign-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-top: 3px solid #ff6600;
+}
+
+.campaign-grid .campaign-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(255, 102, 0, 0.2);
+}
+
+/* Vue Liste */
+.campaign-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.campaign-list button {
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.campaign-list button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.campaign-list button i {
+  font-size: 0.9rem;
+}
+
+.campaign-list .btn-publier {
+  background: #ff6600;
+  color: white;
+}
+
+.campaign-list .btn-publier:hover:not([disabled]) {
+  background: #e55c00;
+  box-shadow: 0 2px 5px rgba(255, 102, 0, 0.3);
+}
+
+.campaign-list .btn-supprimer {
+  background: #e74c3c;
+  color: white;
+}
+
+.campaign-list .btn-supprimer:hover:not([disabled]) {
+  background: #c0392b;
+  box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+}
+
+.campaign-list .campaign-list-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  border-left: 3px solid #ff6600;
+  transition: all 0.3s ease;
+}
+
+.campaign-list .campaign-list-item:hover {
+  box-shadow: 0 8px 15px rgba(255, 102, 0, 0.15);
+}
+
+.campaign-list .campaign-list-item .list-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: #fff5f0;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: #ff6600;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #666;
+}
+
+/* Alert styling */
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+  border-left: 4px solid #28a745;
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+}
+
+.alert-content i {
+  margin-right: 0.75rem;
+  color: #28a745;
+}
+
+.close-btn {
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Loaders */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 102, 0, 0.2);
+  border-top: 4px solid #ff6600;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.action-loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .menu-items {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        background: black;
-        border: 1px solid #ff6600;
-        border-radius: 10px;
-        padding: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 200px;
-    }
-
-    .menu-items.active {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-}
-/* Styles communs aux deux vues */
-.campaign-container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    
-    h1 {
-      color: #2c3e50;
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 2.5rem;
-    }
+  .campaign-list .campaign-list-item {
+    grid-template-columns: 1fr;
   }
   
-  /* Contrôles d'affichage */
+  .campaign-list .campaign-list-item .list-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .campaign-list .campaign-list-item .list-actions {
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+
   .view-controls {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    justify-content: flex-end;
-  
-    button {
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      background: #f0f0f0;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-  
-      &.active {
-        background: #ff6600;
-        color: white;
-      }
-  
-      &:hover:not(.active) {
-        background: #e0e0e0;
-      }
-    }
+    justify-content: center;
   }
   
-  /* Éléments communs */
-  .campaign-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  
-    h3 {
-      margin: 0;
-      color: #34495e;
-      font-size: 1.2rem;
-      max-width: 70%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  .campaign-container h1 {
+    font-size: 1.8rem;
   }
-  
-  .statut-badge {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-weight: 600;
-    white-space: nowrap;
-  
-    &.statut-planifier { background: #f39c12; color: white; }
-    &.statut-publiee { background: #2ecc71; color: white; }
-    &.statut-termine { background: #e74c3c; color: white; }
-  }
-  
-  .detail-item {
-    display: flex;
-    align-items: center;
-    margin: 0.5rem 0;
-    color: #7f8c8d;
-  
-    i {
-      margin-right: 0.8rem;
-      width: 20px;
-      color: #3498db;
-    }
-  }
-  
-  .date-range {
-    display: flex;
-    gap: 0.5rem;
-    margin: 1rem 0;
-  
-    .date-item {
-      flex: 1;
-      padding: 0.8rem;
-      background: #f8f9fa;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-  }
-  
-  .campaign-actions {
-    margin-top: 1.5rem;
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-  
-    button {
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-  
-      &[disabled] {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-  
-      i {
-        font-size: 0.9rem;
-      }
-  
-      &.btn-publier {
-        background: #27ae60;
-        color: white;
-  
-        &:hover:not([disabled]) {
-          background: #219a52;
-        }
-      }
-  
-      &.btn-supprimer {
-        background: #c0392b;
-        color: white;
-  
-        &:hover:not([disabled]) {
-          background: #a93226;
-        }
-      }
-    }
-  }
-  
-  /* Vue Grille */
-  .campaign-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  
-    .campaign-card {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-  
-      &:hover {
-        transform: translateY(-5px);
-      }
-    }
-  }
-  
-  /* Vue Liste */
-  .campaign-list {
-    display: grid;
-    gap: 1rem;
-    button {
-        border: none;
-        padding: 0.6rem 1.2rem;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    
-        &[disabled] {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-    
-        i {
-          font-size: 0.9rem;
-        }
-    
-        &.btn-publier {
-          background: #27ae60;
-          color: white;
-    
-          &:hover:not([disabled]) {
-            background: #219a52;
-          }
-        }
-    
-        &.btn-supprimer {
-          background: #c0392b;
-          color: white;
-    
-          &:hover:not([disabled]) {
-            background: #a93226;
-          }
-        }
-      }
-    .campaign-list-item {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 1rem;
-  
-      .list-details {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-      }
-    }
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .campaign-list .campaign-list-item {
-      grid-template-columns: 1fr;
-      
-      .list-details {
-        grid-template-columns: 1fr;
-      }
-      
-      .campaign-actions {
-        justify-content: flex-start;
-      }
-    }
-  
-    .view-controls {
-      justify-content: center;
-    }
-  }
-  
-  /* Loaders et messages (conservés car essentiels) */
-  .loader-container { /* ... styles existants ... */ }
-  .action-loader { /* ... styles existants ... */ }
-  .success-snackbar { /* ... styles existants ... */ }
+}

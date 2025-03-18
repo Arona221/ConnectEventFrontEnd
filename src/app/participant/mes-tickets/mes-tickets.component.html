@@ -35,12 +35,13 @@
                         </a>
                     </li>
 
-                    <!-- Notifications -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" title="Notifications">
-                            <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span>
-                        </a>
-                    </li>
+                     <!-- Notifications -->
+                     <li class="nav-item">
+                      <a class="nav-link" routerLink="/sendNotification" routerLinkActive="active" >
+                          <i class="fas fa-bell"></i> 
+                          <span class="badge bg-danger">{{ notificationsCount }}</span>
+                      </a>
+                  </li>
 
                     <!-- Profil utilisateur (Menu déroulant) -->
                 <li class="nav-item dropdown">
@@ -57,7 +58,7 @@
         </div>
     </nav>
 
-    <div class="container mt-5">
+    <div class="container ">
         <!-- Ajoutez ceci avant la liste des billets -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">Mes Billets</h2>

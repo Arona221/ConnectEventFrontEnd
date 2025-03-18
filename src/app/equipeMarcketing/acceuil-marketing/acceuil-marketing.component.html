@@ -1,52 +1,51 @@
+<!-- Navbar with enhanced styling -->
 <nav class="navbar">
     <div class="logo">
-        <img src="assets/images/logoV2.jpg" alt="Logo">
+      <img src="assets/images/logoV2.jpg" alt="Logo">
     </div>
-
+    
     <div class="menu-toggle" (click)="toggleMenu()">
-        <i class="fas fa-bars"></i>
+      <i class="fas fa-bars"></i>
     </div>
-
+    
     <ul class="menu-items" [class.active]="isMenuOpen">
-        <li> 
-            <a routerLink="/acceuilEquipe-marketing" routerLinkActive="active">
-                <i class="fas fa-home"></i> Accueil
-            </a>
-        </li>
-        <li> 
-            <a routerLink="/mes-campagnes" routerLinkActive="active">
-                <i class="fas fa-bullhorn"></i> Événements à Promouvoir
-            </a>
-        </li>
-        
-        <li> 
-            <a routerLink="/evenements-promouvoir" routerLinkActive="active">
-                <i class="fas fa-calendar-check"></i> Mes Campagnes
-            </a>
-        </li>
-        
-        <li> 
-            <a routerLink="/automatisation" routerLinkActive="active">
-                <i class="fas fa-cogs"></i> Automatisation
-            </a>
-        </li>
-        <li> 
-            <a routerLink="/rapports" routerLinkActive="active">
-                <i class="fas fa-chart-bar"></i> Rapports
-            </a>
-        </li>
-        <!-- Profil utilisateur -->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
-                {{ nomUtilisateur }} <i class="fas fa-user"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
-                <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-            </ul>
-        </li>
+      <li>
+        <a routerLink="/acceuilEquipe-marketing" routerLinkActive="active">
+          <i class="fas fa-home"></i> Accueil
+        </a>
+      </li>
+      <li>
+        <a routerLink="/mes-campagnes" routerLinkActive="active">
+          <i class="fas fa-bullhorn"></i> Événements à Promouvoir
+        </a>
+      </li>
+      <li>
+        <a routerLink="/evenements-promouvoir" routerLinkActive="active">
+          <i class="fas fa-calendar-check"></i> Mes Campagnes
+        </a>
+      </li>
+      <li>
+        <a routerLink="/automatisation" routerLinkActive="active">
+          <i class="fas fa-cogs"></i> Automatisation
+        </a>
+      </li>
+      <li>
+        <a routerLink="/rapports" routerLinkActive="active">
+          <i class="fas fa-chart-bar"></i> Rapports
+        </a>
+      </li>
+      <!-- User profile dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+          <i class="fas fa-user-circle"></i> {{ nomUtilisateur }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+          <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+        </ul>
+      </li>
     </ul>
-</nav>
+  </nav>
 
 <div class="dashboard-container">
     <div class="dashboard-container">
@@ -92,7 +91,7 @@
         <!-- Campagnes groupées par statut -->
 <!-- Modifier la section des campagnes -->
 <section class="status-columns">
-    <div *ngFor="let status of ['En_cours', 'Planifier', 'Terminee']" class="status-column">
+    <div *ngFor="let status of ['En_cours', 'Planifier', 'Programmer']" class="status-column">
       <div class="status-header">
         <h2>Campagnes {{ getStatusLabel(status) }}</h2>
         <div class="status-counter">{{ getCampaignCount(status) }}</div>

@@ -29,6 +29,10 @@ import { MesCampagneComponent } from './equipeMarcketing/mes-campagne/mes-campag
 import { CreateCampagneComponent } from './equipeMarcketing/create-campagne/create-campagne.component';
 import { PublierCampagneComponent } from './equipeMarcketing/publier-campagne/publier-campagne.component';
 import { ParticipantComponent } from './organisateur/participant/participant.component';
+import { AutomatisationComponent } from './equipeMarcketing/automatisation/automatisation.component';
+import { SendNotificationComponent } from './participant/send-notification/send-notification.component';
+import { MotDePasseOublierComponent } from './organisateur/mot-de-passe-oublier/mot-de-passe-oublier.component';
+import { ReinitialiserComponent } from './organisateur/reinitialiser/reinitialiser.component';
 
 
 
@@ -67,7 +71,10 @@ export const routes: Routes = [
   {path: 'campagnes-create',  component: CreateCampagneComponent} ,
   {path: 'evenements-promouvoir',  component: PublierCampagneComponent} ,
   {path: 'participant-events',  component: ParticipantComponent} ,
-
+  {path: 'automatisation',  component: AutomatisationComponent} ,
+  {path: 'sendNotification',  component: SendNotificationComponent} ,
+  {path: 'motDePasseOublier',  component: MotDePasseOublierComponent} ,
+  {path: 'reInitialiser',  component: ReinitialiserComponent} ,
   
   { path: '**', redirectTo: '', pathMatch: 'full' },  
 

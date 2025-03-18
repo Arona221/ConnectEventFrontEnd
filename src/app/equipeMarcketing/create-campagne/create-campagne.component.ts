@@ -7,6 +7,12 @@ import { SegmentAudienceUpdate } from '../../core/model/segment-audience-update.
 import { CommonModule } from '@angular/common';
 import { EvenementDTO } from '../../core/model/EvenementDTO';
 
+interface Contact {
+  email: string;
+  prenom: string;
+  nom: string;
+}
+
 @Component({
   selector: 'app-create-campagne',
   templateUrl: './create-campagne.component.html',
@@ -25,6 +31,9 @@ export class CreateCampagneComponent implements OnInit {
   nomUtilisateur: string | null = '';
   evenementDetails: EvenementDTO | null = null;
   allCampagnes: { [key: string]: any[] } = {};
+  csvError: string | null = null;
+  contactsPreview: Contact[] = [];
+  selectedFileName: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -76,14 +85,84 @@ export class CreateCampagneComponent implements OnInit {
   }
 
   // Ajouter un contact
-  addContact(): void {
-    const contactGroup = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      prenom: ['', Validators.required],
-      nom: ['', Validators.required]
-    });
-    this.contactsFormArray.push(contactGroup);
+ // Remplacez la méthode addContact() par :
+onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+  this.csvError = null;
+  this.contactsPreview = [];
+  this.contactsFormArray.clear();
+
+  if (!file) return;
+
+  this.selectedFileName = file.name;
+
+  if (file.type !== 'text/csv' && !file.name.endsWith('.csv')) {
+    this.csvError = 'Le fichier doit être au format CSV';
+    return;
   }
+
+  const reader = new FileReader();
+  reader.onload = (e) => this.parseCSV(reader.result);
+  reader.readAsText(file, 'UTF-8');
+}
+
+private parseCSV(data: string | ArrayBuffer | null): void {
+  const csvData = data as string;
+  const lines = csvData.split('\n').filter(line => line.trim() !== '');
+  
+  if (lines.length < 2) {
+    this.csvError = 'Le fichier CSV est vide ou mal formaté';
+    return;
+  }
+
+  // Vérification des en-têtes
+  const headers = lines[0].split(';').map(h => h.trim().toLowerCase());
+  const requiredHeaders = ['email', 'prenom', 'nom'];
+  if (!requiredHeaders.every(h => headers.includes(h))) {
+    this.csvError = `En-têtes requis non trouvés. Les colonnes doivent être : ${requiredHeaders.join(', ')}`;
+    return;
+  }
+
+  // Traitement des lignes
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(';');
+    if (values.length !== headers.length) continue;
+
+    const contact = {
+      email: values[headers.indexOf('email')].trim(),
+      prenom: values[headers.indexOf('prenom')].trim(),
+      nom: values[headers.indexOf('nom')].trim()
+    };
+
+    // Validation de l'email
+    if (!this.isValidEmail(contact.email)) {
+      this.csvError = `Ligne ${i + 1} : Email invalide - ${contact.email}`;
+      this.contactsFormArray.clear();
+      this.contactsPreview = [];
+      return;
+    }
+
+    this.addContactToForm(contact);
+    this.contactsPreview.push(contact);
+  }
+
+  if (this.contactsFormArray.length === 0) {
+    this.csvError = 'Aucun contact valide trouvé dans le fichier';
+  }
+}
+
+private isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+private addContactToForm(contact: Contact): void {
+  const contactGroup = this.fb.group({
+    email: [contact.email, [Validators.required, Validators.email]],
+    prenom: [contact.prenom, Validators.required],
+    nom: [contact.nom, Validators.required]
+  });
+  this.contactsFormArray.push(contactGroup);
+}
 
   // Getter pour le FormArray des contacts
   get contactsFormArray(): FormArray {
@@ -123,11 +202,11 @@ export class CreateCampagneComponent implements OnInit {
             budget: this.campaignForm.value.budget,
             dateDebut: this.campaignForm.value.dateDebut + 'T00:00:00',
             dateFin: this.campaignForm.value.dateFin + 'T23:59:59',
-            expediteurEmail: this.campaignForm.value.expediteurEmail, // Ajout de l'email de l'expéditeur
-            statut: 'Planifier', // Définition explicite du statut par défaut
+            expediteurEmail: this.campaignForm.value.expediteurEmail,
+            statut: 'Planifier',
             evenement: { id_evenement: this.eventId },
             message: { idMessage: this.generatedMessage.idMessage },
-            segment: { id_segment: savedSegment.id_segment } // ◄ Structure plate
+            segment: { id_segment: savedSegment.id_segment }
           };
           console.log('Données Campagne:', campaignData); 
 
@@ -181,5 +260,13 @@ export class CreateCampagneComponent implements OnInit {
   }
   getCampaignCount(status: string): number {
     return (this.allCampagnes[status] || []).length;
+  }
+
+  removeFile(): void {
+    this.selectedFileName = null;
+    this.contactsPreview = [];
+    this.contactsFormArray.clear();
+    const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 }

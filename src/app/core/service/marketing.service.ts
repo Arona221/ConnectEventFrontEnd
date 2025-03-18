@@ -7,6 +7,11 @@ import { MessageMarketingUpdate } from '../model/message-marketing-update.model'
 import { SegmentAudienceUpdate } from '../model/segment-audience-update.model';
 import { CampagneMarketingUpdate } from '../model/campagne-marketing-update.model';
 
+interface PlanificationRequest {
+  date: Date;
+  heure: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -77,6 +82,25 @@ publierCampagne(id: number): Observable<any> {
 
 supprimerCampagne(id: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}/campagnes/${id}`);
+}
+
+planifierCampagne(id: number, request: PlanificationRequest): Observable<any> {
+  return this.http.post(`${this.apiUrl}/campagnes/${id}/planifier`, request);
+}
+
+getCampagnesPlanifiees(): Observable<CampagneMarketingUpdate[]> {
+  return this.http.get<CampagneMarketingUpdate[]>(`${this.apiUrl}/campagnes/planifiees`);
+}
+
+getTimeUntilPublication(date: Date, heure: string): number {
+  const publicationDate = new Date(date);
+  const [hours, minutes] = heure.split(':');
+  publicationDate.setHours(Number(hours), Number(minutes));
+  return publicationDate.getTime() - new Date().getTime();
+}
+// marketing.service.ts
+getCampagnesByStatut(statut: string): Observable<CampagneMarketingUpdate[]> {
+  return this.http.get<CampagneMarketingUpdate[]>(`${this.apiUrl}/campagnes/statut/${statut}`);
 }
 
 }

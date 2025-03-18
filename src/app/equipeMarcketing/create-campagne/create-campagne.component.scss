@@ -1,96 +1,150 @@
 /* Navbar */
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: black;
-    padding: 15px 20px;
-    border-bottom: 2px solid #ff6600;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1a1a2e;
+  padding: 15px 30px;
+  border-bottom: 3px solid #ff6600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 /* Logo */
 .logo img {
-    height: 40px;
+  height: 45px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
-/* Barre de menu */
+/* Menu items container */
 .menu-items {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 0;
+  margin: 0;
 }
 
-/* Style des liens */
+/* Navigation links */
 .menu-items a {
-    text-decoration: none;
-    color: white; /* Par défaut, blanc */
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 5px;
-    transition: color 0.3s ease, background 0.3s ease;
+  text-decoration: none;
+  color: #f5f5f5;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Lien actif */
+/* Active link state */
 .menu-items a.active {
-    color: #ff6600;
+  color: #ff6600;
+  background-color: rgba(255, 102, 0, 0.1);
 }
 
-/* Effet hover */
+/* Hover effect */
 .menu-items a:hover {
-    color: #ff6600;
+  color: #ff6600;
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
 }
 
-/* Profil utilisateur */
+/* User profile */
 .nav-item.dropdown .nav-link {
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  color: #f5f5f5;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Effet hover du profil */
+/* Profile dropdown hover */
 .nav-item.dropdown .nav-link:hover {
-    color: #ff6600;
+  color: #ff6600;
 }
 
-/* Bouton menu mobile */
+/* Dropdown menu */
+.dropdown-menu {
+  background-color: #1f1f35;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  min-width: 180px;
+}
+
+.dropdown-item {
+  color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 102, 0, 0.1);
+  color: #ff6600;
+}
+
+/* Mobile menu toggle button */
 .menu-toggle {
-    display: none;
-    cursor: pointer;
-    color: white;
-    font-size: 24px;
+  display: none;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
 }
 
-/* Responsive */
+.menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .menu-items {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        background: black;
-        border: 1px solid #ff6600;
-        border-radius: 10px;
-        padding: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 200px;
-    }
-
-    .menu-items.active {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
+  .menu-items {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      background: #1a1a2e;
+      border: 1px solid #ff6600;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      width: 220px;
+      align-items: flex-start;
+  }
+  
+  .menu-items.active {
+      display: flex;
+  }
+  
+  .menu-toggle {
+      display: flex;
+  }
+  
+  .menu-items a {
+      width: 100%;
+  }
 }
+
 // create-campagne.component.scss
 .campaign-container {
     max-width: 800px;
@@ -172,4 +226,16 @@
   .loading-event {
     color: #6c757d;
     font-style: italic;
+  }
+  .contact-preview {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .table-sm td, .table-sm th {
+    padding: 0.3rem;
+    font-size: 0.9em;
   }

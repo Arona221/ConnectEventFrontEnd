@@ -1,3 +1,6 @@
+/* connexion.component.scss */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,145 +8,275 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  color: #333;
-  background-color: #f8f8f8;
+  font-family: 'Inter', sans-serif;
+  background-color: #fff5f0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding-top: 100px;
+  min-height: 100vh;
+  padding: 2rem;
 }
 
 .login-container {
   display: flex;
-  width: 80%;
+  width: 100%;
   max-width: 1200px;
-  background-color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  background: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  border: 1px solid #ffe5d6;
+  margin-top: 3%;
 }
 
 .form-section {
   flex: 1;
-  padding: 40px;
-}
+  padding: 4rem 3rem;
+  max-width: 480px;
 
-h1 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff6600;
-  margin-bottom: 20px;
+  .header {
+    margin-bottom: 2.5rem;
+    
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ff6600;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+  }
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    font-size: 0.875rem;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.875rem;
+    border: 1px solid #ffd1b3;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #ff6600;
+      box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+    }
+  }
 }
 
-label {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #333;
-}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem 0;
 
-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ff6600;
-  border-radius: 5px;
-}
+  .remember-me {
+    display: flex;
+    align-items: center;
+    color: #6b7280;
+    font-size: 0.875rem;
+    cursor: pointer;
 
-input:focus {
-  outline: none;
-  border-color: #333;
+    input {
+      opacity: 0;
+      position: absolute;
+
+      &:checked + .checkmark {
+        background-color: #ff6600;
+        border-color: #ff6600;
+
+        &::after {
+          display: block;
+        }
+      }
+    }
+
+    .checkmark {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      margin-right: 0.75rem;
+      position: relative;
+      transition: all 0.3s ease;
+
+      &::after {
+        content: '';
+        position: absolute;
+        display: none;
+        left: 5px;
+        top: 2px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  .forgot-password {
+    color: #ff6600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+      color: #cc5200;
+    }
+  }
 }
 
 .submit-button {
   width: 100%;
-  padding: 10px;
-  background-color: #ff6600;
-  color: #fff;
+  padding: 1rem;
+  background: #ff6600;
+  color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 10px;
-}
-
-.submit-button:hover {
-  background-color: #ff6600;
-}
-
-.separator {
-  text-align: center;
-  margin: 20px 0;
-  position: relative;
-}
-
-.separator span {
-  background-color: #fff;
-  padding: 0 10px;
-  color: #aaa;
-  font-size: 14px;
-}
-
-.separator:before,
-.separator:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 40%;
-  height: 1px;
-  background-color: #ddd;
-}
-
-.separator:before {
-  left: 0;
-}
-
-.separator:after {
-  right: 0;
-}
-
-.google-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #cc5200;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: #ff944d;
+  }
+}
+
+.separator {
+  position: relative;
+  margin: 2rem 0;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e5e7eb;
+    z-index: 1;
+  }
+
+  span {
+    position: relative;
+    padding: 0 1rem;
+    background: white;
+    z-index: 2;
+  }
+}
+
+.google-button {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #fff;
+  padding: 0.875rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
   cursor: pointer;
-}
+  transition: all 0.3s ease;
 
-.google-button img {
-  width: 20px;
-  margin-right: 10px;
-}
+  img {
+    width: 18px;
+    height: 18px;
+  }
 
-.google-button:hover {
-  background-color: #f8f8f8;
+  &:hover {
+    background: #fff8f2;
+    border-color: #ffd1b3;
+  }
 }
 
 .image-section {
   flex: 1;
-  background-color: #f9f9f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  position: relative;
+  background: linear-gradient(45deg, #ff6600, #ff944d);
 
-.image-section img {
-  max-width: 80%;
-  height: auto;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    p {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+  }
 }
 
 .error-message {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+
+  svg {
+    flex-shrink: 0;
+    path {
+      fill: #dc2626;
+    }
+  }
 }

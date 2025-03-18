@@ -1,0 +1,166 @@
+<!-- Navbar with enhanced styling -->
+<nav class="navbar">
+    <div class="logo">
+      <img src="assets/images/logoV2.jpg" alt="Logo">
+    </div>
+    
+    <div class="menu-toggle" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+    
+    <ul class="menu-items" [class.active]="isMenuOpen">
+      <li>
+        <a routerLink="/acceuilEquipe-marketing" routerLinkActive="active">
+          <i class="fas fa-home"></i> Accueil
+        </a>
+      </li>
+      <li>
+        <a routerLink="/mes-campagnes" routerLinkActive="active">
+          <i class="fas fa-bullhorn"></i> Événements à Promouvoir
+        </a>
+      </li>
+      <li>
+        <a routerLink="/evenements-promouvoir" routerLinkActive="active">
+          <i class="fas fa-calendar-check"></i> Mes Campagnes
+        </a>
+      </li>
+      <li>
+        <a routerLink="/automatisation" routerLinkActive="active">
+          <i class="fas fa-cogs"></i> Automatisation
+        </a>
+      </li>
+      <li>
+        <a routerLink="/rapports" routerLinkActive="active">
+          <i class="fas fa-chart-bar"></i> Rapports
+        </a>
+      </li>
+      <!-- User profile dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+          <i class="fas fa-user-circle"></i> {{ nomUtilisateur }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+          <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  
+  <!-- Planification component with improved UI -->
+  <div class="planification-container">
+    <h2> Programmé une Campagne</h2>
+    
+    <form [formGroup]="planificationForm" (ngSubmit)="planifierCampagne(planificationForm.get('campagneId')?.value)">
+      <mat-form-field appearance="outline">
+        <mat-label>Sélectionner une campagne</mat-label>
+        <mat-select formControlName="campagneId">
+          <mat-option 
+            *ngFor="let campagne of campagnesPlanifiees" 
+            [value]="campagne.id"
+            [disabled]="campagne.statut !== 'Planifier'">
+            {{ campagne.nom }} - {{ campagne.statut === 'Planifier' ? 'En attente' : campagne.statut }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="planificationForm.get('campagneId')?.hasError('required')">
+          Veuillez sélectionner une campagne
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Date de publication</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date"
+               title="Date de publication"
+               aria-label="Date de publication">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="planificationForm.get('date')?.hasError('required')">
+          Veuillez choisir une date
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Heure de publication</mat-label>
+        <input matInput 
+               [ngxTimepicker]="timePicker" 
+               [format]="24" 
+               formControlName="heure"
+               placeholder="HH:mm" 
+               readonly
+               title="Heure de publication"
+               aria-label="Heure de publication">
+        <mat-icon matSuffix (click)="timePicker.open()">schedule</mat-icon>
+        <ngx-material-timepicker #timePicker [format]="24"></ngx-material-timepicker>
+        <mat-error *ngIf="planificationForm.get('heure')?.hasError('required')">
+          Veuillez indiquer une heure
+        </mat-error>
+      </mat-form-field>
+      
+      <button mat-raised-button type="submit" [disabled]="!planificationForm.valid">
+        <i class="fas fa-calendar-plus"></i> Programmer
+      </button>
+    </form>
+    
+    <h3>
+      <i class="fas fa-calendar-alt"></i> Campagnes Programmés
+    </h3>
+    
+    <div class="campagnes-list">
+      <div *ngFor="let campagne of campagnesPlanifiees" class="campagne-item">
+        <div class="campagne-info">
+          <h4>{{ campagne.nom }}</h4>
+          <p>
+            <i class="fas fa-circle" [ngClass]="{
+              'text-warning': campagne.statut === 'Planifier', 
+              'text-primary': campagne.statut === 'Programmer', 
+              'text-success': campagne.statut === 'En_cours',
+              'text-info': campagne.statut === 'Terminee'
+            }"></i>
+            Statut: 
+            <span class="status-badge" [ngClass]="{
+              'waiting': campagne.statut === 'Planifier',
+              'scheduled': campagne.statut === 'Programmer', 
+              'in-progress': campagne.statut === 'En_cours', 
+              'completed': campagne.statut === 'Terminee'
+            }">
+              {{ 
+                campagne.statut === 'Planifier' ? 'En attente' : 
+                (campagne.statut === 'Programmer' ? 'Programmé' : 
+                (campagne.statut === 'En_cours' ? 'En cours' : 
+                (campagne.statut === 'Terminee' ? 'Terminé' : campagne.statut)))
+              }}
+            </span>
+          </p>
+          <p>
+            <i class="far fa-calendar-alt"></i>
+            Date programmée: {{ campagne.datePublicationPlanifiee | date:'dd/MM/yyyy à HH:mm' }}
+          </p>
+        </div>
+        
+        <div class="countdown">
+          <!-- Afficher le compte à rebours pour les campagnes programmées -->
+          <i *ngIf="campagne.statut === 'Programmer'" class="fas fa-clock"></i>
+          <countdown
+            *ngIf="campagne.statut === 'Programmer'"
+            [config]="{ leftTime: getTimeUntilPublication(campagne) }"
+            (event)="handleCountdownEvent($event, campagne)">
+          </countdown>
+          
+          <!-- Afficher un indicateur pour les campagnes en cours -->
+          <span *ngIf="campagne.statut === 'En_cours'">
+            <i class="fas fa-spinner fa-spin"></i> Publication en cours
+          </span>
+          
+          <!-- Afficher un message pour les campagnes en attente -->
+          <span *ngIf="campagne.statut === 'Planifier'">
+            <i class="fas fa-hourglass-half"></i> En attente de programmation
+          </span>
+          
+          <!-- Afficher un message pour les campagnes terminées -->
+          <span *ngIf="campagne.statut === 'Terminee'">
+            <i class="fas fa-check-circle"></i> Campagne terminée
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,87 @@
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <!-- Logo/Rôle -->
+            <a class="navbar-brand" routerLink="/participant">
+                <i class="fas fa-user"></i> Participant
+            </a>
+            
+            <!-- Bouton hamburger (Mobile) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Menu de navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu principal -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-tickets" routerLinkActive="active">
+                            <i class="fas fa-ticket-alt"></i> Mes tickets
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/mes-favoris" routerLinkActive="active">
+                            <i class="fas fa-heart"></i> Mes favoris
+                        </a>
+                    </li>
+
+                     <!-- Notifications -->
+                     <li class="nav-item">
+                      <a class="nav-link" routerLink="/sendNotification" routerLinkActive="active" >
+                          <i class="fas fa-bell"></i> 
+                          <span class="badge bg-danger">{{ notificationsCount }}</span>
+                      </a>
+                  </li>
+
+                    <!-- Profil utilisateur (Menu déroulant) -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
+                        {{ nomUtilisateur }} <i class="fas fa-user"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" routerLink="/profil"><i class="fas fa-cog"></i> Gérer profil</a></li>
+                        <li><a class="dropdown-item" href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    </ul>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="notification-container">
+        <div class="notification-header">
+          <h2>Notifications</h2>
+          <button class="btn btn-sm btn-outline-primary" (click)="markAllAsRead()" [disabled]="notifications.length === 0">
+            <fa-icon [icon]="faIcons.markAll"></fa-icon> Tout marquer comme lu
+          </button>
+        </div>
+      
+        <div class="notification-list">
+          <div *ngIf="notifications.length === 0" class="empty-state">
+            <fa-icon [icon]="faIcons.bell" size="3x"></fa-icon>
+            <p>Aucune notification pour le moment</p>
+          </div>
+      
+          <div *ngFor="let notification of notifications" 
+               class="notification-card" 
+               [class.unread]="!notification.read"
+               (click)="navigateToEvent(notification.evenement.id_evenement)">
+            <div class="notification-icon">
+              <fa-icon [icon]="notification.typeNotification === 'BILLET' ? faIcons.ticket : faIcons.heart"></fa-icon>
+              <fa-icon *ngIf="!notification.read" [icon]="faIcons.unread" class="unread-badge"></fa-icon>
+            </div>
+            
+            <div class="notification-content">
+              <h5 [innerHTML]="notification.message | highlight:notification.evenement.nom"></h5>
+              <div class="notification-meta">
+                <span class="event-category badge bg-secondary">
+                  {{ notification.evenement.categorie | lowercase }}
+                </span>
+                <span class="timestamp">
+                  {{ notification.dateEnvoi | timeAgo }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

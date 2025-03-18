@@ -8,94 +8,109 @@
 <body>
   <div class="signup-container">
     <div class="form-section">
-      <h1>Créer un compte</h1>
+      <div class="header">
+        <h1>Rejoindre ConnectEvent</h1>
+        <p>Créez votre compte en 2 minutes</p>
+      </div>
+      
       <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
-        <!-- Prénom -->
-        <div class="form-group">
-          <label for="prenom">Prénom <span>*</span></label>
-          <input type="text" id="prenom" formControlName="prenom" required>
-          <div *ngIf="inscriptionForm.get('prenom')?.invalid && inscriptionForm.get('prenom')?.touched" class="error-message">
-            Le prénom est obligatoire.
+        <div class="form-grid">
+          <!-- Prénom -->
+          <div class="form-group">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" formControlName="prenom" placeholder="Arona">
+            <div class="error-message" *ngIf="inscriptionForm.get('prenom')?.invalid && inscriptionForm.get('prenom')?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+              Champ obligatoire
+            </div>
           </div>
-        </div>
 
-        <!-- Nom -->
-        <div class="form-group">
-          <label for="nom">Nom <span>*</span></label>
-          <input type="text" id="nom" formControlName="nom" required>
-          <div *ngIf="inscriptionForm.get('nom')?.invalid && inscriptionForm.get('nom')?.touched" class="error-message">
-            Le nom est obligatoire.
+          <!-- Nom -->
+          <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" formControlName="nom" placeholder="Ndiaye">
+            <div class="error-message" *ngIf="inscriptionForm.get('nom')?.invalid && inscriptionForm.get('nom')?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+              Champ obligatoire
+            </div>
           </div>
         </div>
 
         <!-- Téléphone -->
         <div class="form-group">
-          <label for="telephone">Téléphone <span>*</span></label>
-          <input type="tel" id="telephone" formControlName="phoneNumber" required>
-          <div *ngIf="inscriptionForm.get('phoneNumber')?.invalid && inscriptionForm.get('phoneNumber')?.touched" class="error-message">
-            Le numero de telephone est obligatoire
+          <label for="telephone">Téléphone</label>
+          <input type="tel" id="telephone" formControlName="phoneNumber" placeholder="+221 785923513">
+          <div class="error-message" *ngIf="inscriptionForm.get('phoneNumber')?.invalid && inscriptionForm.get('phoneNumber')?.touched">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            Numéro invalide
           </div>
         </div>
 
         <!-- Email -->
         <div class="form-group">
-          <label for="email">Email <span>*</span></label>
-          <input type="email" id="email" formControlName="email" required>
-          <div *ngIf="inscriptionForm.get('email')?.invalid && inscriptionForm.get('email')?.touched" class="error-message">
-            Veuillez entrer une adresse email valide.
+          <label for="email">Adresse email</label>
+          <input type="email" id="email" formControlName="email" placeholder="arona10ndiaye@gmail.com">
+          <div class="error-message" *ngIf="inscriptionForm.get('email')?.invalid && inscriptionForm.get('email')?.touched">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            Email invalide
           </div>
         </div>
 
         <!-- Mot de passe -->
         <div class="form-group">
-          <label for="password">Mot de passe <span>*</span></label>
-          <input type="password" id="password" formControlName="motDePasse" required>
-          <div *ngIf="inscriptionForm.get('motDePasse')?.invalid && inscriptionForm.get('motDePasse')?.touched" class="error-message">
-            Le mot de passe doit contenir au moins 8 caractères.
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" formControlName="motDePasse" placeholder="••••••••">
+          <div class="error-message" *ngIf="inscriptionForm.get('motDePasse')?.invalid && inscriptionForm.get('motDePasse')?.touched">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            8 caractères minimum
           </div>
         </div>
 
         <!-- Type d'utilisateur -->
         <div class="form-group">
-          <label for="typeUtilisateur">Type d'utilisateur <span>*</span></label>
-          <select id="typeUtilisateur" formControlName="typeUtilisateur" required>
-            <option value="ORGANISATEUR">Organisateur</option>
-            <option value="PARTICIPANT">Participant</option>
-          </select>
-          <div *ngIf="inscriptionForm.get('typeUtilisateur')?.invalid && inscriptionForm.get('typeUtilisateur')?.touched" class="error-message">
-            Veuillez sélectionner un type d'utilisateur.
+          <label for="typeUtilisateur">Vous êtes</label>
+          <div class="custom-select">
+            <select id="typeUtilisateur" formControlName="typeUtilisateur">
+              <option value="" disabled selected>Choisir un profil</option>
+              <option value="ORGANISATEUR">Organisateur d'événements</option>
+              <option value="PARTICIPANT">Participant</option>
+            </select>
           </div>
         </div>
 
         <!-- Bouton de soumission -->
-        <button type="submit" class="submit-button" [disabled]="inscriptionForm.invalid">Créer mon compte</button>
+        <button type="submit" class="submit-button" [disabled]="inscriptionForm.invalid">
+          Créer mon compte
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M10 17l5-5-5-5v10z"/></svg>
+        </button>
 
         <!-- Message d'erreur global -->
-        <div *ngIf="errorMessage" class="error-message">
+        <div *ngIf="errorMessage" class="error-message global-error">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
           {{ errorMessage }}
         </div>
       </form>
 
-      <!-- Lien de connexion -->
       <p class="login-link">
-        Vous avez déjà un compte ? <a routerLink="/connexion">Se connecter</a>
+        Déjà membre ? <a routerLink="/connexion">Se connecter</a>
       </p>
 
-      <!-- Séparateur -->
       <div class="separator">
-        <span>ou</span>
+        <span>Ou continuer avec</span>
       </div>
 
-      <!-- Bouton Google -->
       <button class="google-button">
         <img src="assets/images/icons8google.png" alt="Google">
-        Se connecter avec Google
+        Compte Google
       </button>
     </div>
 
-    <!-- Section image -->
     <div class="image-section">
-      <img src="assets/images/creation2.jpg" alt="Créer un compte">
+      <img src="assets/images/creation2.jpg" alt="Création de compte">
+      <div class="image-overlay">
+        <h2>Votre aventure commence ici</h2>
+        <p>Rejoignez la plus grande communauté d'événements au Sénégal</p>
+      </div>
     </div>
   </div>
 </body>

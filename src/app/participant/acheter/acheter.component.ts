@@ -8,6 +8,8 @@ import { BilletDTO } from '../../core/model/BilletDTO';
 import { FormsModule } from '@angular/forms';
 import { FactureResponse } from '../../core/model/FactureResponse';
 import { BilletItemDTO, BilletSelectionDTO } from '../../core/model/billet-selection.model';
+import { Subscription } from 'rxjs';
+import { NotificationService } from '../../core/service/notification.service';
 
 @Component({
   selector: 'app-acheter',
@@ -18,7 +20,9 @@ import { BilletItemDTO, BilletSelectionDTO } from '../../core/model/billet-selec
 })
 export class AcheterComponent implements OnInit {
   nomUtilisateur: string | null = '';
+  private countSubscription!: Subscription;
   notificationsCount: number = 0;
+  notifications: { read: boolean }[] = [];
   event: EvenementDTO | null = null;
   billets: BilletDTO[] = [];
   total: number = 0;
@@ -32,7 +36,8 @@ export class AcheterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public eventService: EvenementService,
-    private billetService: BilletService
+    private billetService: BilletService,
+    private notificationService: NotificationService
   ) {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur');
   }
@@ -44,6 +49,27 @@ export class AcheterComponent implements OnInit {
     } else {
       this.handleError("ID d'événement manquant");
     }
+    this.loadNotifications();
+
+    this.countSubscription = this.notificationService.notificationCount$
+    .subscribe(count => {
+      // Mettre à jour le badge de la navbar
+      this.notificationsCount = count;
+    });
+  }
+  private loadNotifications(): void {
+    const userId = parseInt(localStorage.getItem('idUtilisateur') || '0', 10);
+    this.notificationService.getNotifications(userId).subscribe({
+      next: (data) => {
+        this.notifications = data;
+        this.updateUnreadCount();
+      },
+      error: (err) => console.error('Error loading notifications:', err)
+    });
+  }
+  private updateUnreadCount(): void {
+    const count = this.notifications.filter(n => !n.read).length;
+    this.notificationService.updateUnreadCount(count);
   }
 
   private loadEvent(eventId: number): void {
@@ -177,3 +203,4 @@ export class AcheterComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
+

@@ -12,6 +12,8 @@ import { PaginationComponent } from '../pagination/pagination.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { NotificationService } from '../../core/service/notification.service';
 
 @Component({
   selector: 'app-mes-favoris',
@@ -46,14 +48,17 @@ export class MesFavorisComponent implements OnInit {
   totalPages = 0;
   isLoading = true;
   isGridView = true;
-  notificationsCount = 1;
+  private countSubscription!: Subscription;
+  notificationsCount: number = 0;
+  notifications: { read: boolean }[] = [];
   nomUtilisateur: string | null = '';
 
   constructor(
     private eventService: EvenementService,
     private toastr: ToastrService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.nomUtilisateur = localStorage.getItem('nomUtilisateur') || 'Utilisateur';
   }
@@ -63,6 +68,14 @@ export class MesFavorisComponent implements OnInit {
     this.eventService.favoritesUpdated$.subscribe(() => {
       this.currentPage = 0;
       this.loadFavorites(true); // Forcer le rechargement
+    });
+
+    this.loadNotifications();
+
+    this.countSubscription = this.notificationService.notificationCount$
+    .subscribe(count => {
+      // Mettre à jour le badge de la navbar
+      this.notificationsCount = count;
     });
     
   }
@@ -148,6 +161,20 @@ export class MesFavorisComponent implements OnInit {
   toggleView() {
     this.isGridView = !this.isGridView;
     localStorage.setItem('favoritesViewMode', this.isGridView ? 'grid' : 'list');
+  }
+  private loadNotifications(): void {
+    const userId = parseInt(localStorage.getItem('idUtilisateur') || '0', 10);
+    this.notificationService.getNotifications(userId).subscribe({
+      next: (data) => {
+        this.notifications = data;
+        this.updateUnreadCount();
+      },
+      error: (err) => console.error('Error loading notifications:', err)
+    });
+  }
+  private updateUnreadCount(): void {
+    const count = this.notifications.filter(n => !n.read).length;
+    this.notificationService.updateUnreadCount(count);
   }
 
   logout() {

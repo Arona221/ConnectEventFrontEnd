@@ -38,9 +38,10 @@
 
                     <!-- Notifications -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#" title="Notifications">
-                            <i class="fas fa-bell"></i> <span class="badge bg-danger">{{ notificationsCount }}</span>
-                        </a>
+                      <a class="nav-link" routerLink="/sendNotification" routerLinkActive="active" >
+                          <i class="fas fa-bell"></i> 
+                          <span class="badge bg-danger">{{ notificationsCount }}</span>
+                      </a>
                     </li>
 
                      <!-- Profil utilisateur (Menu déroulant) -->
@@ -62,47 +63,84 @@
     
     <section class="trouver-evenement">
       <!-- Bannière Impressionnante avec Overlay -->
-      <div class="hero-banner" style="background-image: url('assets/images/hero.jpg');">
-          <div class="hero-overlay"></div>
-          <div class="hero-content">
-              <h1>Meilleurs événements à  Dakar</h1>
-              <p>Vous cherchez des activités à Dakar ? Nous avons des événements pour tous les goûts et tous les budgets,reservez vos billets de concert, de théâtre, de cinéma, de sport, de loisirs et bien plus encore.</p>
-              <div class="location-selector">
-                <i class="fas fa-map-marker-alt fa-2x" style="color: blue;"></i>
-                  <select>
 
-                      <option value="dakar">Dakar</option>
-                      <option value="thies">Thiès</option>
-                      <option value="saint-louis">Saint-Louis</option>
-                  </select>
-                  <a href="#" class="btn-explore">Explorer maintenant</a>
-              </div>
-          </div>
+          <div class="hero-banner" style="background-image: url('assets/images/hero.jpg');">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-headline">
+      <div class="hero-badge">
+        <i class="fas fa-star-half-alt"></i> Nouveau
       </div>
+      <h1>Événements populaires à <span class="highlight">Dakar</span></h1>
+      <p class="hero-subtitle">Découvrez les meilleurs événements culturels, sportifs et festifs à Dakar. Réservez facilement vos billets pour des concerts, spectacles, cinéma, événements sportifs et bien plus encore.</p>
+    </div>
+    
+    <div class="location-selector">
+      <div class="location-wrapper">
+        <div class="location-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <select class="location-dropdown">
+          <option selected>Dakar</option>
+          <option>Thiès</option>
+          <option>Saint-Louis</option>
+          <option>Mbour</option>
+          <option>Touba</option>
+        </select>
+      </div>
+      
+      <a href="#events" class="btn-explore">
+        Explorer maintenant
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
   
       <section class="events-section">
         <!-- Filtres de recherche -->
-        <div class="search-filters container mt-4">
-          <form [formGroup]="searchForm">
-            <div class="row g-3">
-              <div class="col-md-3">
-                <input type="text" class="form-control" placeholder="Rechercher..." formControlName="search">
-              </div>
-              <div class="col-md-2">
-                <select class="form-select" formControlName="categorie">
-                  <option value="">Toutes catégories</option>
-                  <option *ngFor="let cat of categories" [value]="cat">{{cat | titlecase}}</option>
-                </select>
-              </div>
-              <div class="col-md-2">
-                <input type="date" class="form-control" formControlName="date">
-              </div>
-              <div class="col-md-3">
-                <input type="text" class="form-control" placeholder="Lieu" formControlName="lieu">
-              </div>
-            </div>
-          </form>
+<div class="search-filters container ">
+  <form [formGroup]="searchForm">
+    <div class="search-filters-inner">
+      <div class="search-group">
+        <div class="search-icon">
+          <i class="fas fa-search"></i>
         </div>
+        <input type="text" class="form-control search-input" placeholder="Rechercher un événement..." formControlName="search">
+      </div>
+      
+      <div class="filters-wrapper">
+        <div class="filter-group">
+          <div class="filter-icon">
+            <i class="fas fa-tag"></i>
+          </div>
+          <select class="form-select filter-select" formControlName="categorie">
+            <option value="">Tous les Catégories</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{cat | titlecase}}</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <div class="filter-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <input type="date" class="form-control filter-input" formControlName="date">
+        </div>
+        
+        <div class="filter-group">
+          <div class="filter-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <input type="text" class="form-control filter-input" placeholder="Lieu" formControlName="lieu">
+        </div>
+        
+        <button type="button" class="btn-filter" (click)="loadEvents()">
+          <i class="fas fa-filter"></i> Filtrer
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
       <!-- Titre de la section -->
       <h2 class="section-title">Événements à proximité de Dakar</h2>
   
